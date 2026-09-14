@@ -21,8 +21,12 @@
 *.lastbuildstate
 
 # NuGet generated state
+packages/
 project.assets.json
 project.nuget.cache
 *.nuget.g.props
 *.nuget.g.targets
 *.nuget.dgspec.json
+
+# C++/WinRT generated sources
+root/windows/Generated Files/

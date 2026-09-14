@@ -6,8 +6,8 @@
     <ProjectConfiguration Include="Release|x64"><Configuration>Release</Configuration><Platform>x64</Platform></ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals"><ProjectGuid>{DBD12FEF-340B-487A-9B63-00A3D178D2EE}</ProjectGuid><Keyword>Win32Proj</Keyword></PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration"><ConfigurationType>Application</ConfigurationType><PlatformToolset>v145</PlatformToolset><UseDebugLibraries>true</UseDebugLibraries><LanguageStandard>stdcpp20</LanguageStandard></PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration"><ConfigurationType>Application</ConfigurationType><PlatformToolset>v145</PlatformToolset><UseDebugLibraries>false</UseDebugLibraries><LanguageStandard>stdcpp20</LanguageStandard></PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration"><ConfigurationType>Application</ConfigurationType><PlatformToolset>v145</PlatformToolset><PlatformToolset Condition="'$(VisualStudioVersion)'=='17.0'">v143</PlatformToolset><UseDebugLibraries>true</UseDebugLibraries><LanguageStandard>stdcpp20</LanguageStandard></PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration"><ConfigurationType>Application</ConfigurationType><PlatformToolset>v145</PlatformToolset><PlatformToolset Condition="'$(VisualStudioVersion)'=='17.0'">v143</PlatformToolset><UseDebugLibraries>false</UseDebugLibraries><LanguageStandard>stdcpp20</LanguageStandard></PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ItemDefinitionGroup><ClCompile><AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)..\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories><LanguageStandard>stdcpp20</LanguageStandard><WarningLevel>Level4</WarningLevel></ClCompile><Link><SubSystem>Console</SubSystem></Link></ItemDefinitionGroup>
   <ItemGroup><ClCompile Include="HarnessTests.cpp" /><ClCompile Include="NativeTest.cpp" /><ClInclude Include="NativeTest.h" /></ItemGroup>

@@ -11,7 +11,3 @@ private:
     Microsoft::UI::Xaml::Window window_{ nullptr };
 };
 }
-
-namespace winrt::WindowsAssetCreator::factory_implementation {
-struct App : AppT<App, implementation::App> {};
-}
