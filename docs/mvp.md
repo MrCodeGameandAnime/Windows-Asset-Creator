@@ -1,14 +1,45 @@
 # Windows Asset Creator MVP Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **Execution policy:** Implement this plan sequentially with one primary agent. Do not spawn subagents, reviewer agents, parallel workers, or delegated investigations unless the user explicitly requests a narrowly defined delegation. Complete one numbered task at a time, verify it with the strongest available build/test evidence, report briefly, and stop at the task gate for external review.
 
 **Goal:** Build a packaged WinUI 3/C++/WinRT Windows utility that turns one raster source image into a validated Microsoft Store/MSIX ZIP asset package.
 
 **Architecture:** A UI-independent C++20 static library in `root/src` owns the Store/MSIX asset plan, WIC image pipeline, staging session, validation, ICO creation, and ZIP writing. A packaged WinUI 3/C++/WinRT application in `root/windows` owns drag/drop, the scrollable asset board, Windows Save As, and Explorer reveal. The UI invokes the core asynchronously and never writes output itself.
 
-**Tech Stack:** C++20, Visual Studio WinUI Blank App (Packaged) template, Windows App SDK/WinUI 3, C++/WinRT, Windows Imaging Component, standard-library filesystem, Win32 Shell APIs, and a self-contained native C++ test executable.
+**Tech Stack:** C++20, MSBuild-based native C++ projects compatible with the WinUI 3 Blank App (Packaged) structure, Windows App SDK/WinUI 3, C++/WinRT, Windows Imaging Component, standard-library filesystem, Win32 Shell APIs, and a self-contained native C++ test executable. Visual Studio IDE is optional; the canonical build path is command-line MSBuild.
 
 **Spec:** `docs/design.md`
+
+## Agent Behavior
+
+This plan defines product work, not a multi-agent process. The primary agent owns implementation from start to finish.
+
+- Do not spawn subagents for environment discovery, dependency checks, implementation, review, re-review, or documentation unless the user explicitly asks for a narrowly scoped delegation.
+- Do not begin, inspect, plan, delegate, or prepare the next numbered task before the current task has been externally approved.
+- Do not create task briefs, execution reports, evidence ledgers, review reports, postmortems, or other process Markdown. Terminal/build/test output is sufficient evidence unless the product itself requires a file artifact.
+- Do not modify `.superpowers/` or create additional process scaffolding as part of implementation.
+- Do not automatically commit. The user controls commit timing unless they explicitly instruct otherwise.
+- Do not expand scope to tooling, repository hygiene, IDE configuration, documentation, or developer-experience work unless it is required by the current task.
+- If a required tool is missing, confirm that directly, report the blocker once, and stop if it prevents meaningful verification. Do not form a review/delegation chain around an environment prerequisite.
+- Prefer compiler, linker, test-runner, and runtime results over self-review claims.
+
+## Verification Policy
+
+Tests specify required behavior, but the plan does not require manufacturing artificial intermediate failures just to demonstrate red-green ceremony. A task should finish in a buildable, testable state whenever reasonably possible.
+
+For each numbered task:
+
+1. Implement only the current task.
+2. Build everything that is expected to build at that stage.
+3. Run every test that is expected to pass at that stage.
+4. Fix failures caused by the current task before reporting completion.
+5. If verification is blocked by a missing external prerequisite, report exactly what is unverified and why.
+6. Return a short completion summary containing files changed, build result, test result, and any real unresolved concern.
+7. **STOP and wait for external review.**
+
+Do not treat work intentionally deferred to a later numbered task as a current failure requiring investigation. Do not continue into the next task because the current task appears successful.
+
+---
 
 ## Global Constraints
 
@@ -21,6 +52,8 @@
 - Keep the Store/MSIX profile internal. Do not expose a profile selector.
 - Save As occurs only after a valid temporary generation session is ready. Never delete or overwrite a user-selected output folder.
 - Never retain a product-specific `HeadsUp` filename.
+- Keep the repository free of execution-only evidence/report files.
+- Keep Visual Studio IDE optional; project files may be Visual Studio-compatible because MSBuild consumes them, but implementation must not require using the IDE.
 
 ---
 
@@ -65,40 +98,23 @@ root/
 - Create: `root/WindowsAssetCreator.sln`
 - Create: `root/windows/WindowsAssetCreator.vcxproj`, `root/windows/App.xaml`, `root/windows/App.xaml.h`, `root/windows/App.xaml.cpp`, `root/windows/MainWindow.xaml`, `root/windows/MainWindow.xaml.h`, `root/windows/MainWindow.xaml.cpp`
 - Create: `root/src/AssetCore.vcxproj`, `root/src/AssetTypes.h`
-- Create: `root/tests/AssetCoreTests.vcxproj`, `root/tests/NativeTest.h`, `root/tests/NativeTest.cpp`, `root/tests/ProfileTests.cpp`
+- Create: `root/tests/AssetCoreTests.vcxproj`, `root/tests/NativeTest.h`, `root/tests/NativeTest.cpp`
 - Modify: `root/instructions.txt`, `root/windows/instructions.txt`, `root/src/instructions.txt`, `root/src/Output/instructions.txt`
 
 **Interfaces:**
 - Produces a packaged WinUI application project named `WindowsAssetCreator`, a static library project named `AssetCore`, and a native test executable named `AssetCoreTests`.
 - Produces the shared result vocabulary in `AssetTypes.h`, used by every later core and test task.
+- Produces a minimal native test harness that can prove the test executable itself works without depending on Task 2 types.
 
-- [ ] **Step 1: Create the failing profile-test shell in `root/tests/ProfileTests.cpp`**
+- [ ] **Step 1: Create the MSBuild solution and three project boundaries**
 
-```cpp
-#include "NativeTest.h"
-#include "StoreMsixProfile.h"
+Create the packaged WinUI 3/C++/WinRT application directly under `root/windows`, targeting C++20. The project structure must be compatible with the C++ “Blank App, Packaged (WinUI 3 in Desktop)” template, but do not require the Visual Studio IDE to edit or build it. Set a project reference from `WindowsAssetCreator.vcxproj` to `..\src\AssetCore.vcxproj`.
 
-TEST_CASE(Store_profile_has_expected_asset_count)
-{
-    const auto profile = wac::StoreMsixProfile::Create();
-    REQUIRE_EQ(profile.png_assets().size(), size_t{69});
-    REQUIRE_EQ(profile.ico_asset().relative_path, std::filesystem::path{L"AppIcon.ico"});
-}
-```
+Create the `AssetCore` static-library project under `root/src` and the `AssetCoreTests` native console test project under `root/tests`, with a project reference to `..\src\AssetCore.vcxproj`.
 
-- [ ] **Step 2: Run the test-project command and verify it fails before project scaffolding exists**
+The application project must be packaged (single-project MSIX) and use Windows App SDK/WinUI 3 dependencies. Do not add a C# or .NET project.
 
-Run: `msbuild root/tests/AssetCoreTests.vcxproj /t:Build /p:Configuration=Debug /p:Platform=x64`
-
-Expected: MSBuild reports that `AssetCoreTests.vcxproj` does not yet exist. Task 3 creates it; Task 6 then exposes the intended missing-profile compilation failure.
-
-- [ ] **Step 3: Create the solution using the C++ “Blank App, Packaged (WinUI 3 in Desktop)” template and add the native static-library and test projects**
-
-Create the WinUI project directly under `root/windows`, use C++/WinRT, target C++20, and set a project reference from `WindowsAssetCreator.vcxproj` to `..\\src\\AssetCore.vcxproj`. Create the `AssetCore` static-library project under `root/src` and the `AssetCoreTests` native console/unit-test project under `root/tests`, with a project reference to `..\\src\\AssetCore.vcxproj`.
-
-The application project must be packaged (single-project MSIX) and use the Windows App SDK NuGet package supplied by the WinUI template. Do not add a C# or .NET project.
-
-- [ ] **Step 4: Add the common core types in `root/src/AssetTypes.h`**
+- [ ] **Step 2: Add the common core types in `root/src/AssetTypes.h`**
 
 ```cpp
 #pragma once
@@ -125,7 +141,7 @@ struct GeneratedAsset { AssetSpec spec; std::filesystem::path staged_path; };
 }
 ```
 
-- [ ] **Step 5: Implement the smallest native test harness in `root/tests/NativeTest.*` and register `ProfileTests.cpp`**
+- [ ] **Step 3: Implement the smallest native test harness in `root/tests/NativeTest.*`**
 
 ```cpp
 // NativeTest.h
@@ -134,37 +150,57 @@ struct GeneratedAsset { AssetSpec spec; std::filesystem::path staged_path; };
 int main();
 ```
 
-The executable must run every registered test, print a pass/fail line for each, and return nonzero when any assertion fails. Keep all harness code under `root/tests`.
+The executable must run every registered test, print one pass/fail line per test, and return nonzero when any assertion fails. Keep all harness code under `root/tests`.
 
-- [ ] **Step 6: Build the empty solution and test executable**
+Add one trivial harness test that is expected to pass. Do **not** reference `StoreMsixProfile` in Task 1; that interface belongs to Task 2.
 
-Run: `msbuild root/WindowsAssetCreator.sln /t:Build /p:Configuration=Debug /p:Platform=x64`
-
-Expected: the WinUI app and `AssetCore.lib` build. `AssetCoreTests.exe` fails to compile because Task 2 has not supplied `StoreMsixProfile`; that failure is intentional and is resolved in Task 2.
-
-- [ ] **Step 7: Replace the four placeholder instruction files with short component-boundary notes**
+- [ ] **Step 4: Replace the four placeholder instruction files with short component-boundary notes**
 
 Write only the responsibilities established in the Planned File Structure. Do not add product documentation or implementation details outside their owning directory.
 
-- [ ] **Step 8: Commit the solution skeleton and test harness**
+- [ ] **Step 5: Build the complete Task 1 solution**
 
-```bash
-git add root/WindowsAssetCreator.sln root/windows root/src root/tests
-git commit -m "build: add native WinUI solution skeleton"
+Run:
+
+```powershell
+msbuild root/WindowsAssetCreator.sln /t:Build /p:Configuration=Debug /p:Platform=x64
 ```
+
+Expected:
+
+- `WindowsAssetCreator` builds.
+- `AssetCore.lib` builds.
+- `AssetCoreTests.exe` builds.
+- No intentional missing-interface compilation failure remains in Task 1.
+
+If `msbuild` or a required WinUI/Windows SDK workload is missing, report that prerequisite once and stop verification there. Do not substitute self-review for a compiler result.
+
+- [ ] **Step 6: Run the native harness**
+
+Run:
+
+```powershell
+root/tests/x64/Debug/AssetCoreTests.exe
+```
+
+Expected: the harness test passes and the process exits successfully.
+
+- [ ] **Task 1 gate: report and stop**
+
+Report only the files changed, build result, test result, and any genuine blocker. Do not create a task report file. Do not commit automatically. **Stop and wait for external review before Task 2.**
 
 ## Task 2: Implement the internal Store/MSIX asset profile
 
 **Files:**
-- Create: `root/src/StoreMsixProfile.h`, `root/src/StoreMsixProfile.cpp`
-- Modify: `root/src/AssetTypes.h`, `root/src/AssetCore.vcxproj`, `root/tests/ProfileTests.cpp`
+- Create: `root/src/StoreMsixProfile.h`, `root/src/StoreMsixProfile.cpp`, `root/tests/ProfileTests.cpp`
+- Modify: `root/src/AssetTypes.h`, `root/src/AssetCore.vcxproj`, `root/tests/AssetCoreTests.vcxproj`
 - Test: `root/tests/ProfileTests.cpp`
 
 **Interfaces:**
 - Consumes: `wac::AssetSpec`, `wac::PixelSize`, and `wac::AssetFormat` from `AssetTypes.h`.
 - Produces: `wac::StoreMsixProfile::Create()`, `png_assets()`, `ico_asset()`, and `all_relative_paths()`.
 
-- [ ] **Step 1: Add failing filename, path, and dimension tests**
+- [ ] **Step 1: Add filename, path, count, and dimension tests**
 
 ```cpp
 TEST_CASE(Store_profile_has_all_required_groups)
@@ -187,13 +223,8 @@ TEST_CASE(Store_profile_maps_scale_125_to_rounded_dimensions)
 }
 ```
 
-- [ ] **Step 2: Run the profile tests and verify the missing interface fails**
 
-Run: `root/tests/x64/Debug/AssetCoreTests.exe`
-
-Expected: profile tests fail to compile or report missing assets.
-
-- [ ] **Step 3: Define the profile API and implement the declarative asset table**
+- [ ] **Step 2: Define the profile API and implement the declarative asset table**
 
 ```cpp
 class StoreMsixProfile final {
@@ -211,7 +242,7 @@ private:
 
 Populate exactly these groups: 14 default AppList target sizes, 14 `_altform-unplated`, 14 `_altform-lightunplated`, Square44 base plus seven scales, Square150 base plus seven scales, StoreLogo base plus five scales, and five MedTile scales. Set every PNG path below `Assets/`; set the only ICO path to `AppIcon.ico`.
 
-- [ ] **Step 4: Add profile integrity checks that reject duplicate paths, zero dimensions, non-PNG planned PNG assets, and a count other than 69**
+- [ ] **Step 3: Add profile integrity checks that reject duplicate paths, zero dimensions, non-PNG planned PNG assets, and a count other than 69**
 
 ```cpp
 OperationResult ValidateProfile(StoreMsixProfile const& profile);
@@ -219,18 +250,15 @@ OperationResult ValidateProfile(StoreMsixProfile const& profile);
 
 Return a `validation_failure` diagnostic naming the first bad profile entry. Invoke this validation before every generation session begins.
 
-- [ ] **Step 5: Run the full profile test executable**
+- [ ] **Step 4: Run the full profile test executable**
 
 Run: `root/tests/x64/Debug/AssetCoreTests.exe`
 
 Expected: all profile tests pass and report 69 PNG assets plus `AppIcon.ico`.
 
-- [ ] **Step 6: Commit the profile implementation**
+- [ ] **Task 2 gate: report and stop**
 
-```bash
-git add root/src/AssetTypes.h root/src/StoreMsixProfile.* root/tests/ProfileTests.cpp
-git commit -m "feat: add Store MSIX asset profile"
-```
+Report only the files changed, build result, test result, and any genuine unresolved concern. Do not create a task report file. Do not commit automatically. **Stop and wait for external review before continuing.**
 
 ## Task 3: Decode, orient, normalize, and resize images with WIC
 
@@ -243,7 +271,7 @@ git commit -m "feat: add Store MSIX asset profile"
 - Consumes: a source `std::filesystem::path` and `PixelSize`.
 - Produces: `DecodedImage`, `NormalizeToSquare`, and `ResizeRgba` for Task 4's encoders.
 
-- [ ] **Step 1: Write failing WIC pipeline tests using deterministic PNG and JPEG fixture files below `root/tests/TestImages`**
+- [ ] **Step 1: Add WIC pipeline tests using deterministic PNG and JPEG fixture files below `root/tests/TestImages`**
 
 ```cpp
 TEST_CASE(Non_square_source_is_centered_without_crop)
@@ -264,13 +292,8 @@ TEST_CASE(Corrupt_source_returns_corrupt_image_diagnostic)
 }
 ```
 
-- [ ] **Step 2: Run the image-pipeline tests and verify they fail because the pipeline is absent**
 
-Run: `root/tests/x64/Debug/AssetCoreTests.exe`
-
-Expected: compilation failure for `LoadImage` and `NormalizeToSquare`.
-
-- [ ] **Step 3: Implement the WIC decode and RGBA conversion boundary**
+- [ ] **Step 2: Implement the WIC decode and RGBA conversion boundary**
 
 ```cpp
 class DecodedImage final {
@@ -284,7 +307,7 @@ GenerationResult<DecodedImage> LoadImage(std::filesystem::path const& source);
 
 Create the WIC imaging factory once per operation, decode from the source file, apply EXIF orientation through WIC, convert to `GUID_WICPixelFormat32bppPBGRA` or a documented 32-bit RGBA equivalent, and map decoder failures to `unsupported_image` or `corrupt_image` diagnostics. Accept WIC-supported PNG and JPEG input in the MVP.
 
-- [ ] **Step 4: Implement transparent-square normalization and high-quality resize**
+- [ ] **Step 3: Implement transparent-square normalization and high-quality resize**
 
 ```cpp
 DecodedImage NormalizeToSquare(DecodedImage const& source);
@@ -293,7 +316,7 @@ DecodedImage ResizeRgba(DecodedImage const& source, PixelSize target);
 
 Allocate a transparent 32-bit WIC bitmap with side `max(width, height)`, center the unscaled source on it, and copy pixels without cropping. Use `IWICBitmapScaler` with `WICBitmapInterpolationModeFant` for every output resize. Preserve alpha in the resulting bitmap.
 
-- [ ] **Step 5: Add square-input, JPEG, EXIF-orientation, alpha, and resize-dimension tests**
+- [ ] **Step 4: Add square-input, JPEG, EXIF-orientation, alpha, and resize-dimension tests**
 
 ```cpp
 TEST_CASE(Square_source_is_not_reframed);
@@ -304,18 +327,15 @@ TEST_CASE(Resize_returns_exact_target_dimensions);
 
 Generate fixtures through `TestImageFactory` so the test suite does not depend on external files or a Python runtime.
 
-- [ ] **Step 6: Run all image and profile tests**
+- [ ] **Step 5: Run all image and profile tests**
 
 Run: `root/tests/x64/Debug/AssetCoreTests.exe`
 
 Expected: all tests pass, including explicit transparent padding and no-crop assertions.
 
-- [ ] **Step 7: Commit the WIC image pipeline**
+- [ ] **Task 3 gate: report and stop**
 
-```bash
-git add root/src/ImagePipeline.* root/tests/TestImageFactory.* root/tests/ImagePipelineTests.cpp root/tests/TestImages
-git commit -m "feat: add WIC image normalization pipeline"
-```
+Report only the files changed, build result, test result, and any genuine unresolved concern. Do not create a task report file. Do not commit automatically. **Stop and wait for external review before continuing.**
 
 ## Task 4: Encode PNG assets, write ICO, and validate staged image files
 
@@ -330,7 +350,7 @@ git commit -m "feat: add WIC image normalization pipeline"
 - Consumes: `DecodedImage`, `AssetSpec`, and the Store profile from Tasks 2–3.
 - Produces: WIC-encoded PNGs, `AppIcon.ico`, and `ValidateStagedAssets` for Task 5.
 
-- [ ] **Step 1: Write failing output tests for a representative PNG and the ICO directory**
+- [ ] **Step 1: Add output tests for a representative PNG and the ICO directory**
 
 ```cpp
 TEST_CASE(Png_encoder_writes_exact_rgba_dimensions)
@@ -347,13 +367,8 @@ TEST_CASE(Ico_writer_contains_five_requested_sizes)
 }
 ```
 
-- [ ] **Step 2: Run the test executable and verify missing encoder/writer interfaces fail**
 
-Run: `root/tests/x64/Debug/AssetCoreTests.exe`
-
-Expected: compilation failure for `EncodePng` and `WriteAppIcon`.
-
-- [ ] **Step 3: Implement WIC PNG encoding**
+- [ ] **Step 2: Implement WIC PNG encoding**
 
 ```cpp
 OperationResult EncodePng(DecodedImage const& normalized_source,
@@ -363,7 +378,7 @@ OperationResult EncodePng(DecodedImage const& normalized_source,
 
 Resize through `ResizeRgba`, create an `IWICStream`, `IWICBitmapEncoder` with `GUID_ContainerFormatPng`, and one frame. Write the frame atomically to a staging path. Return `io_failure` or `wic_failure` diagnostics with the destination path when any WIC call fails.
 
-- [ ] **Step 4: Implement the small native ICO writer**
+- [ ] **Step 3: Implement the small native ICO writer**
 
 ```cpp
 OperationResult WriteAppIcon(DecodedImage const& normalized_source,
@@ -372,7 +387,7 @@ OperationResult WriteAppIcon(DecodedImage const& normalized_source,
 
 Encode five PNG payloads at 16, 24, 32, 48, and 256 pixels. Write an ICO header, five directory entries, and the payloads. Use `0` in the ICO directory width/height byte for the 256-pixel entry. Validate offsets, byte counts, and PNG signatures before closing the file.
 
-- [ ] **Step 5: Implement staged-file validation**
+- [ ] **Step 4: Implement staged-file validation**
 
 ```cpp
 OperationResult ValidateStagedAssets(StoreMsixProfile const& profile,
@@ -381,7 +396,7 @@ OperationResult ValidateStagedAssets(StoreMsixProfile const& profile,
 
 For each profile PNG, confirm the file exists, re-open it with WIC, verify exact dimensions, and verify the decoded pixel format is alpha-capable. Parse the ICO header/directory and require the five exact sizes. Reject an unexpected missing or duplicate package path.
 
-- [ ] **Step 6: Add all-profile validation and malformed-file tests**
+- [ ] **Step 5: Add all-profile validation and malformed-file tests**
 
 ```cpp
 TEST_CASE(Validator_accepts_complete_profile_output);
@@ -390,18 +405,15 @@ TEST_CASE(Validator_rejects_missing_asset);
 TEST_CASE(Validator_rejects_malformed_ico);
 ```
 
-- [ ] **Step 7: Run output, image, and profile tests**
+- [ ] **Step 6: Run output, image, and profile tests**
 
 Run: `root/tests/x64/Debug/AssetCoreTests.exe`
 
 Expected: every test passes and WIC can re-decode every test PNG.
 
-- [ ] **Step 8: Commit encoding and validation**
+- [ ] **Task 4 gate: report and stop**
 
-```bash
-git add root/src/Output root/tests/OutputTests.cpp
-git commit -m "feat: add PNG ICO and asset validation output"
-```
+Report only the files changed, build result, test result, and any genuine unresolved concern. Do not create a task report file. Do not commit automatically. **Stop and wait for external review before continuing.**
 
 ## Task 5: Create temporary generation sessions and the ZIP exporter
 
@@ -416,7 +428,7 @@ git commit -m "feat: add PNG ICO and asset validation output"
 - Consumes: the fixed profile, normalized image pipeline, encoders, and validator from Tasks 2–4.
 - Produces: `GenerationSession`, `AssetGenerator::Generate`, and `ExportZip` for the WinUI app.
 
-- [ ] **Step 1: Write failing generation and export tests**
+- [ ] **Step 1: Add generation and export tests**
 
 ```cpp
 TEST_CASE(Generation_creates_valid_69_png_and_ico_session)
@@ -439,13 +451,8 @@ TEST_CASE(Export_zip_contains_only_assets_and_appicon)
 }
 ```
 
-- [ ] **Step 2: Run the tests and verify generation/session types are missing**
 
-Run: `root/tests/x64/Debug/AssetCoreTests.exe`
-
-Expected: compilation failure for `AssetGenerator`, `GenerationSession`, and ZIP helpers.
-
-- [ ] **Step 3: Implement owned temporary staging sessions**
+- [ ] **Step 2: Implement owned temporary staging sessions**
 
 ```cpp
 class GenerationSession final {
@@ -466,7 +473,7 @@ public:
 };
 ```
 
-- [ ] **Step 4: Implement the ZIP writer with standard stored ZIP entries**
+- [ ] **Step 3: Implement the ZIP writer with standard stored ZIP entries**
 
 ```cpp
 OperationResult WriteZip(std::filesystem::path const& source_root,
@@ -476,7 +483,7 @@ OperationResult WriteZip(std::filesystem::path const& source_root,
 
 Use a small self-contained ZIP writer: calculate CRC-32, emit local headers, central-directory headers, and end-of-central-directory records. Store PNG/ICO entries without recompressing them because the payloads are already compressed. Write to `<destination>.tmp`, then replace the chosen destination only after the complete archive is closed and validated. The ZIP entry list must come from the profile, not directory enumeration.
 
-- [ ] **Step 5: Implement ZIP inspection helpers only inside `root/tests`**
+- [ ] **Step 4: Implement ZIP inspection helpers only inside `root/tests`**
 
 ```cpp
 std::vector<std::filesystem::path> ReadZipEntries(std::filesystem::path const& archive);
@@ -485,7 +492,7 @@ bool ZipContains(std::filesystem::path const& archive, std::filesystem::path con
 
 Use them to assert no master source image, no temporary files, and no product-specific `HeadsUp` name enter the archive.
 
-- [ ] **Step 6: Add error and cleanup tests**
+- [ ] **Step 5: Add error and cleanup tests**
 
 ```cpp
 TEST_CASE(Corrupt_source_does_not_create_ready_session);
@@ -494,18 +501,15 @@ TEST_CASE(Session_cleanup_removes_only_its_own_staging_directory);
 TEST_CASE(Zip_manifest_rejects_missing_planned_file);
 ```
 
-- [ ] **Step 7: Run the complete native test executable**
+- [ ] **Step 6: Run the complete native test executable**
 
 Run: `root/tests/x64/Debug/AssetCoreTests.exe`
 
 Expected: all generation, ZIP, image, profile, ICO, and validation tests pass.
 
-- [ ] **Step 8: Commit the core generation session and exporter**
+- [ ] **Task 5 gate: report and stop**
 
-```bash
-git add root/src/AssetGenerator.* root/src/Output/StagingSession.* root/src/Output/ZipWriter.* root/tests/GenerationSessionTests.cpp root/tests/NativeTest.*
-git commit -m "feat: generate validated Windows asset ZIPs"
-```
+Report only the files changed, build result, test result, and any genuine unresolved concern. Do not create a task report file. Do not commit automatically. **Stop and wait for external review before continuing.**
 
 ## Task 6: Build the approved WinUI asset-board shell
 
@@ -519,7 +523,7 @@ git commit -m "feat: generate validated Windows asset ZIPs"
 - Consumes: `wac::AssetGenerator`, `wac::GenerationSession`, `wac::Diagnostic`, and generated preview paths from Task 5.
 - Produces: a WinUI-facing `AssetBoardViewModel` with `Idle`, `Processing`, `Ready`, `Saving`, and `Error` states.
 
-- [ ] **Step 1: Add failing state-transition tests to the native test project**
+- [ ] **Step 1: Add state-transition tests to the native test project**
 
 ```cpp
 TEST_CASE(Board_state_is_ready_only_after_valid_generation)
@@ -540,13 +544,8 @@ TEST_CASE(Board_state_keeps_save_disabled_after_corrupt_source)
 }
 ```
 
-- [ ] **Step 2: Run the tests and verify `AssetBoardState` is absent**
 
-Run: `root/tests/x64/Debug/AssetCoreTests.exe`
-
-Expected: compilation failure for the board-state type.
-
-- [ ] **Step 3: Implement UI-independent board state and the WinUI view model**
+- [ ] **Step 2: Implement UI-independent board state and the WinUI view model**
 
 ```cpp
 enum class BoardPhase { idle, processing, ready, saving, error };
@@ -562,7 +561,7 @@ public:
 
 Keep `AssetBoardState` in `root/windows` but free of WinUI types so `root/tests` can compile its `.cpp` file directly and test it without a XAML host. `AssetBoardViewModel` adapts it to observable XAML properties: source name, source dimensions, source framing note, grouped generated assets, validation text, busy state, error text, and `CanSave`.
 
-- [ ] **Step 4: Implement the approved XAML board layout**
+- [ ] **Step 3: Implement the approved XAML board layout**
 
 Use a `Grid` with a compact source/drop panel at the top, a `ScrollViewer` containing grouped `ItemsRepeater`/`GridView` thumbnail sections, an `InfoBar` for diagnostics, and a bottom command area holding `Reset` and `Save As…`. Show the empty drop target only in `idle`; retain the source summary and validation result in `ready`.
 
@@ -581,24 +580,21 @@ Use a `Grid` with a compact source/drop panel at the top, a `ScrollViewer` conta
 </ScrollViewer>
 ```
 
-- [ ] **Step 5: Build and manually smoke-test the shell**
+- [ ] **Step 4: Build and manually smoke-test the shell**
 
 Run: `msbuild root/WindowsAssetCreator.sln /t:Build /p:Configuration=Debug /p:Platform=x64`
 
 Expected: the packaged app opens with an accessible empty drop target, disabled Save As button, and no generator work on the UI thread.
 
-- [ ] **Step 6: Run the native state and core tests**
+- [ ] **Step 5: Run the native state and core tests**
 
 Run: `root/tests/x64/Debug/AssetCoreTests.exe`
 
 Expected: board state tests and all core tests pass.
 
-- [ ] **Step 7: Commit the asset-board shell**
+- [ ] **Task 6 gate: report and stop**
 
-```bash
-git add root/windows root/tests/AssetCoreTests.vcxproj root/tests/GenerationSessionTests.cpp
-git commit -m "feat: add WinUI asset board"
-```
+Report only the files changed, build result, test result, and any genuine unresolved concern. Do not create a task report file. Do not commit automatically. **Stop and wait for external review before continuing.**
 
 ## Task 7: Connect image intake, Save As, and Explorer reveal
 
@@ -611,7 +607,7 @@ git commit -m "feat: add WinUI asset board"
 - Consumes: the board view model and `GenerationSession::ExportZip` from Tasks 5–6.
 - Produces: working drag/drop, browse, asynchronous generation, Save As, and Explorer-reveal behavior.
 
-- [ ] **Step 1: Add failing command-state tests for Save As cancellation and export failure**
+- [ ] **Step 1: Add command-state tests for Save As cancellation and export failure**
 
 ```cpp
 TEST_CASE(Cancelled_save_returns_board_to_ready_state)
@@ -633,17 +629,12 @@ TEST_CASE(Failed_export_exposes_diagnostic_and_preserves_ready_session)
 }
 ```
 
-- [ ] **Step 2: Run the tests and verify the save-state transitions are absent**
 
-Run: `root/tests/x64/Debug/AssetCoreTests.exe`
-
-Expected: compilation failure for `BeginSave`, `CompleteSaveCancelled`, and `CompleteSaveFailure`.
-
-- [ ] **Step 3: Implement browse and drag/drop intake**
+- [ ] **Step 2: Implement browse and drag/drop intake**
 
 Attach a `FileOpenPicker` to Browse, initialize it with the WinUI window HWND through `IInitializeWithWindow`, restrict its visible choices to `.png`, `.jpg`, and `.jpeg`, and accept exactly one file. Enable `AllowDrop` on the main drop surface, inspect `DataPackageView` for one storage file, and reject folders/multiple files with an `unsupported_image` diagnostic. Dispatch `AssetGenerator::Generate` on a background thread; update `AssetBoardViewModel` only through the UI dispatcher.
 
-- [ ] **Step 4: Extend the tested board state for save transitions**
+- [ ] **Step 3: Extend the tested board state for save transitions**
 
 ```cpp
 void AssetBoardState::BeginSave();
@@ -653,11 +644,11 @@ void AssetBoardState::CompleteSaveFailure(Diagnostic diagnostic);
 
 `BeginSave` changes `ready` to `saving`. `CompleteSaveCancelled` restores `ready` without adding an error. `CompleteSaveFailure` restores `ready`, retains the current `GenerationSession`, appends the diagnostic, and leaves `can_save()` true so the user can choose a different ZIP destination.
 
-- [ ] **Step 5: Implement Save As as the sole user-output choice**
+- [ ] **Step 4: Implement Save As as the sole user-output choice**
 
 Use a Windows `FileSavePicker` initialized with the WinUI window HWND through `IInitializeWithWindow`, configured for ZIP files, and suggest `Windows-Assets.zip`. Do nothing if the user cancels. On selection, call `GenerationSession::ExportZip` off the UI thread. Move the board to `saving` while exporting; on success return to `ready` with a saved confirmation, and on failure return to `ready` with the diagnostic while retaining the preview session so the user can retry Save As.
 
-- [ ] **Step 6: Implement Explorer reveal after successful export**
+- [ ] **Step 5: Implement Explorer reveal after successful export**
 
 ```cpp
 void RevealInExplorer(std::filesystem::path const& saved_zip)
@@ -669,7 +660,7 @@ void RevealInExplorer(std::filesystem::path const& saved_zip)
 
 Treat a failed `ShellExecuteW` result as a nonfatal warning: the ZIP is already saved, so keep the success state and show a “Saved, but Explorer could not be opened” message.
 
-- [ ] **Step 7: Run native tests and perform the complete WinUI smoke matrix**
+- [ ] **Step 6: Run native tests and perform the complete WinUI smoke matrix**
 
 Run: `root/tests/x64/Debug/AssetCoreTests.exe`
 
@@ -684,16 +675,13 @@ Manually verify in the packaged app:
 5. Save a ZIP; verify its contents, then verify Explorer opens with it selected.
 6. Generate a second source; verify the old staging session is removed and the new preview replaces it.
 
-- [ ] **Step 8: Update the README with build prerequisites and the three-step user workflow**
+- [ ] **Step 7: Update the README with build prerequisites and the three-step user workflow**
 
-Document Visual Studio with the WinUI/Windows App SDK workload, the Windows SDK, building the solution, running `AssetCoreTests`, and the drag/drop → review → Save As flow. Do not document telemetry, accounts, or a CLI because none exist.
+Document the command-line build prerequisites: Visual Studio Build Tools/MSBuild with the native C++ and WinUI application build workloads, the Windows SDK, and Windows App SDK dependencies required by the project. Visual Studio IDE may be mentioned as optional, not required. Document building the solution, running `AssetCoreTests`, and the drag/drop → review → Save As flow. Do not document telemetry, accounts, or a CLI because none exist.
 
-- [ ] **Step 9: Commit the completed MVP**
+- [ ] **Task 7 gate: report and stop**
 
-```bash
-git add root/windows root/tests docs/README.md
-git commit -m "feat: complete Windows Asset Creator MVP"
-```
+Report only the files changed, build result, test result, and any genuine unresolved concern. Do not create a task report file. Do not commit automatically. **Stop and wait for external review before continuing.**
 
 ## Plan Review Checklist
 
@@ -702,3 +690,7 @@ git commit -m "feat: complete Windows Asset Creator MVP"
 - [x] All later interfaces are introduced by an earlier task with named functions and types.
 - [x] The profile and ZIP are manifest-driven, preventing accidental product-specific or extra files.
 - [x] Placeholder review completed: no unresolved work markers or deferred implementation steps remain.
+- [x] Execution is single-agent by default; subagents require explicit user authorization.
+- [x] Each task ends at an external-review gate; later tasks may not begin early.
+- [x] No implementation-report/evidence Markdown or automatic commits are required.
+- [x] Expected intermediate compilation failures are not used as ceremonial gates; each task aims to finish buildable and testable.
