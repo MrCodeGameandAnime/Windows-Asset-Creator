@@ -6,29 +6,27 @@
     <ProjectConfiguration Include="Release|x64"><Configuration>Release</Configuration><Platform>x64</Platform></ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals"><ProjectGuid>{97B57ED5-735C-4923-9C8E-E6F01C4FE767}</ProjectGuid><Keyword>Win32Proj</Keyword><RootNamespace>WindowsAssetCreator</RootNamespace><WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion><WindowsTargetPlatformMinVersion>10.0.17763.0</WindowsTargetPlatformMinVersion><AppContainerApplication>false</AppContainerApplication><AppxPackage>true</AppxPackage><ApplicationType>Windows Store</ApplicationType><ApplicationTypeRevision>10.0</ApplicationTypeRevision><UseWinUI>true</UseWinUI><EnableMsixTooling>true</EnableMsixTooling></PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration"><ConfigurationType>Application</ConfigurationType><PlatformToolset>v145</PlatformToolset><UseDebugLibraries>true</UseDebugLibraries><LanguageStandard>stdcpp20</LanguageStandard><WindowsAppContainer>false</WindowsAppContainer><ApplicationType>Windows Store</ApplicationType><ApplicationTypeRevision>10.0</ApplicationTypeRevision></PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration"><ConfigurationType>Application</ConfigurationType><PlatformToolset>v145</PlatformToolset><UseDebugLibraries>false</UseDebugLibraries><LanguageStandard>stdcpp20</LanguageStandard><WindowsAppContainer>false</WindowsAppContainer><ApplicationType>Windows Store</ApplicationType><ApplicationTypeRevision>10.0</ApplicationTypeRevision></PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
-  <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsAppSDK\Microsoft.WindowsAppSDK.Cpp.props" Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\WindowsAppSDK\Microsoft.WindowsAppSDK.Cpp.props')" />
-  <Import Project="$(MSBuildExtensionsPath)\Microsoft\Windows SDK Build Tools\Microsoft.Windows.SDK.BuildTools.props" Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\Windows SDK Build Tools\Microsoft.Windows.SDK.BuildTools.props')" />
-  <Import Project="$(VCTargetsPath)\Microsoft.CppWinRT.props" Condition="Exists('$(VCTargetsPath)\Microsoft.CppWinRT.props')" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration"><ConfigurationType>Application</ConfigurationType><PlatformToolset>v143</PlatformToolset><UseDebugLibraries>true</UseDebugLibraries><LanguageStandard>stdcpp20</LanguageStandard><WindowsAppContainer>false</WindowsAppContainer><ApplicationType>Windows Store</ApplicationType><ApplicationTypeRevision>10.0</ApplicationTypeRevision></PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration"><ConfigurationType>Application</ConfigurationType><PlatformToolset>v143</PlatformToolset><UseDebugLibraries>false</UseDebugLibraries><LanguageStandard>stdcpp20</LanguageStandard><WindowsAppContainer>false</WindowsAppContainer><ApplicationType>Windows Store</ApplicationType><ApplicationTypeRevision>10.0</ApplicationTypeRevision></PropertyGroup>
   <PropertyGroup><EnableMsixTooling>true</EnableMsixTooling><WindowsPackageType>MSIX</WindowsPackageType><UseWinUI>true</UseWinUI></PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'"><ClCompile><LanguageStandard>stdcpp20</LanguageStandard><PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions></ClCompile></ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'"><ClCompile><LanguageStandard>stdcpp20</LanguageStandard><PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions></ClCompile></ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="App.xaml.cpp" />
-    <ClCompile Include="MainWindow.xaml.cpp" />
+    <ClCompile Include="App.xaml.cpp"><DependentUpon>App.xaml</DependentUpon></ClCompile>
+    <ClCompile Include="MainWindow.xaml.cpp"><DependentUpon>MainWindow.xaml</DependentUpon></ClCompile>
+    <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
     <ClInclude Include="App.xaml.h" />
     <ClInclude Include="MainWindow.xaml.h" />
     <ApplicationDefinition Include="App.xaml" />
-    <Page Include="MainWindow.xaml" />
+    <Page Include="MainWindow.xaml"><SubType>Designer</SubType></Page>
     <AppxManifest Include="Package.appxmanifest" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\src\AssetCore.vcxproj"><Project>{194566E0-B7D4-4723-85BF-D5BFF0A0A774}</Project></ProjectReference>
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.6.240829007" />
+    <PackageReference Include="Microsoft.Windows.CppWinRT" Version="2.0.221104.6" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1742" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <Import Project="$(VCTargetsPath)\Microsoft.CppWinRT.targets" Condition="Exists('$(VCTargetsPath)\Microsoft.CppWinRT.targets')" />
-  <Import Project="$(MSBuildExtensionsPath)\Microsoft\Windows SDK Build Tools\Microsoft.Windows.SDK.BuildTools.targets" Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\Windows SDK Build Tools\Microsoft.Windows.SDK.BuildTools.targets')" />
-  <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsAppSDK\Microsoft.WindowsAppSDK.Cpp.targets" Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\WindowsAppSDK\Microsoft.WindowsAppSDK.Cpp.targets')" />
 </Project>

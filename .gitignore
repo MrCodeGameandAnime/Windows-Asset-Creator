@@ -1,1 +1,28 @@
 .superpowers/
+
+# MSBuild / Visual C++ output
+**/x64/
+**/Debug/
+**/Release/
+**/obj/
+**/bin/
+
+# Build diagnostics
+*.log
+*.binlog
+
+# Visual C++ intermediates
+*.obj
+*.pdb
+*.idb
+*.ilk
+*.tlog
+*.recipe
+*.lastbuildstate
+
+# NuGet generated state
+project.assets.json
+project.nuget.cache
+*.nuget.g.props
+*.nuget.g.targets
+*.nuget.dgspec.json
