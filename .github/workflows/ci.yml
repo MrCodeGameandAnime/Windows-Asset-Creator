@@ -1,0 +1,44 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-test:
+    name: Build and test (Windows)
+    runs-on: windows-2022
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up MSBuild
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Restore and build
+        run: >
+          msbuild root\WindowsAssetCreator.sln /m /restore
+          /p:Configuration=Debug /p:Platform=x64
+
+      - name: Run native tests
+        shell: pwsh
+        run: |
+          $test = Get-ChildItem -Path root -Filter AssetCoreTests.exe -Recurse |
+            Select-Object -First 1
+
+          if ($null -eq $test) {
+            throw 'AssetCoreTests.exe was not produced by the build.'
+          }
+
+          & $test.FullName
+          if ($LASTEXITCODE -ne 0) {
+            throw "AssetCoreTests.exe failed with exit code $LASTEXITCODE."
+          }
