@@ -1,0 +1,36 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WindowsAssetCreator", "windows\WindowsAssetCreator.vcxproj", "{97B57ED5-735C-4923-9C8E-E6F01C4FE767}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AssetCore", "src\AssetCore.vcxproj", "{194566E0-B7D4-4723-85BF-D5BFF0A0A774}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AssetCoreTests", "tests\AssetCoreTests.vcxproj", "{DBD12FEF-340B-487A-9B63-00A3D178D2EE}"
+	ProjectSection(ProjectDependencies) = postProject
+		{194566E0-B7D4-4723-85BF-D5BFF0A0A774} = {194566E0-B7D4-4723-85BF-D5BFF0A0A774}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{97B57ED5-735C-4923-9C8E-E6F01C4FE767}.Debug|x64.ActiveCfg = Debug|x64
+		{97B57ED5-735C-4923-9C8E-E6F01C4FE767}.Debug|x64.Build.0 = Debug|x64
+		{97B57ED5-735C-4923-9C8E-E6F01C4FE767}.Release|x64.ActiveCfg = Release|x64
+		{97B57ED5-735C-4923-9C8E-E6F01C4FE767}.Release|x64.Build.0 = Release|x64
+		{194566E0-B7D4-4723-85BF-D5BFF0A0A774}.Debug|x64.ActiveCfg = Debug|x64
+		{194566E0-B7D4-4723-85BF-D5BFF0A0A774}.Debug|x64.Build.0 = Debug|x64
+		{194566E0-B7D4-4723-85BF-D5BFF0A0A774}.Release|x64.ActiveCfg = Release|x64
+		{194566E0-B7D4-4723-85BF-D5BFF0A0A774}.Release|x64.Build.0 = Release|x64
+		{DBD12FEF-340B-487A-9B63-00A3D178D2EE}.Debug|x64.ActiveCfg = Debug|x64
+		{DBD12FEF-340B-487A-9B63-00A3D178D2EE}.Debug|x64.Build.0 = Debug|x64
+		{DBD12FEF-340B-487A-9B63-00A3D178D2EE}.Release|x64.ActiveCfg = Release|x64
+		{DBD12FEF-340B-487A-9B63-00A3D178D2EE}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

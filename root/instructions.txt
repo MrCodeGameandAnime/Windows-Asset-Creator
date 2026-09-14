@@ -1,1 +1,1 @@
-main run file goes here
+Solution-level native application composition and build entry point.
