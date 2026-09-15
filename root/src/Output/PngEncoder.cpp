@@ -58,7 +58,8 @@ OperationResult EncodePng(DecodedImage const& normalized_source, std::filesystem
     } catch (std::filesystem::filesystem_error const&) {
         return Failure(DiagnosticCode::io_failure, destination);
     } catch (HResultError const& error) {
-        return Failure(DiagnosticCode::wic_failure, destination, std::to_wstring(static_cast<uint32_t>(error.result)));
+        return Failure(DiagnosticCode::wic_failure, destination,
+                       destination.wstring() + L" (WIC HRESULT " + std::to_wstring(static_cast<uint32_t>(error.result)) + L")");
     } catch (...) {
         return Failure(DiagnosticCode::wic_failure, destination);
     }

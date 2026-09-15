@@ -26,6 +26,29 @@ uint16_t ReadU16(std::istream& input) {
     return static_cast<uint16_t>(bytes[0] | (bytes[1] << 8));
 }
 
+void WriteU16(std::ostream& output, uint16_t value) {
+    output.put(static_cast<char>(value));
+    output.put(static_cast<char>(value >> 8));
+}
+
+void WriteU32(std::ostream& output, uint32_t value) {
+    for (const auto shift : {0, 8, 16, 24}) output.put(static_cast<char>(value >> shift));
+}
+
+void WriteIcoDirectory(std::filesystem::path const& path, uint32_t byte_count, uint32_t offset,
+                       std::vector<uint8_t> const& payload = {}) {
+    std::ofstream output(path, std::ios::binary | std::ios::trunc);
+    constexpr std::array<uint32_t, 5> sizes{16, 24, 32, 48, 256};
+    WriteU16(output, 0); WriteU16(output, 1); WriteU16(output, 5);
+    for (const auto size : sizes) {
+        output.put(static_cast<char>(size == 256 ? 0 : size));
+        output.put(static_cast<char>(size == 256 ? 0 : size));
+        output.put(0); output.put(0); WriteU16(output, 1); WriteU16(output, 32);
+        WriteU32(output, byte_count); WriteU32(output, offset);
+    }
+    output.write(reinterpret_cast<char const*>(payload.data()), payload.size());
+}
+
 std::vector<uint32_t> ReadIcoDirectory(std::filesystem::path const& path) {
     std::ifstream input(path, std::ios::binary);
     REQUIRE_EQ(input.good(), true);
@@ -123,4 +146,40 @@ TEST_CASE(Validator_rejects_unplanned_staged_file)
     unexpected << "unexpected";
     unexpected.close();
     REQUIRE_EQ(wac::ValidateStagedAssets(profile, root).succeeded(), false);
+}
+
+TEST_CASE(Validator_rejects_ico_directory_without_payload_data)
+{
+    const auto profile = wac::StoreMsixProfile::Create();
+    const auto root = TestRoot(L"ico-empty");
+    WriteCompleteProfile(profile, root);
+    WriteIcoDirectory(root / profile.ico_asset().relative_path, 8, 86);
+    REQUIRE_EQ(wac::ValidateStagedAssets(profile, root).succeeded(), false);
+}
+
+TEST_CASE(Validator_rejects_ico_payload_outside_file)
+{
+    const auto profile = wac::StoreMsixProfile::Create();
+    const auto root = TestRoot(L"ico-outside");
+    WriteCompleteProfile(profile, root);
+    WriteIcoDirectory(root / profile.ico_asset().relative_path, 8, 4096);
+    REQUIRE_EQ(wac::ValidateStagedAssets(profile, root).succeeded(), false);
+}
+
+TEST_CASE(Validator_rejects_ico_non_png_payload)
+{
+    const auto profile = wac::StoreMsixProfile::Create();
+    const auto root = TestRoot(L"ico-not-png");
+    WriteCompleteProfile(profile, root);
+    WriteIcoDirectory(root / profile.ico_asset().relative_path, 8, 86,
+                      {0, 1, 2, 3, 4, 5, 6, 7});
+    REQUIRE_EQ(wac::ValidateStagedAssets(profile, root).succeeded(), false);
+}
+
+TEST_CASE(Png_encoder_wic_failure_retains_destination_path)
+{
+    const auto destination = TestRoot(L"png-error") / L"bad.png";
+    const auto result = wac::EncodePng(Source(), destination, {0, 0});
+    REQUIRE_EQ(result.succeeded(), false);
+    REQUIRE_EQ(result.diagnostics.front().detail.find(destination.wstring()) != std::wstring::npos, true);
 }
