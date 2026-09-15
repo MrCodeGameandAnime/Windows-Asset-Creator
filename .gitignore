@@ -30,3 +30,6 @@ project.nuget.cache
 
 # C++/WinRT generated sources
 root/windows/Generated Files/
+
+# package output
+root/AppPackages/
