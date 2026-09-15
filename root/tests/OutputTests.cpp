@@ -10,6 +10,7 @@
 #include <chrono>
 #include <cstdint>
 #include <fstream>
+#include <thread>
 #include <vector>
 
 namespace {
@@ -182,4 +183,26 @@ TEST_CASE(Png_encoder_wic_failure_retains_destination_path)
     const auto result = wac::EncodePng(Source(), destination, {0, 0});
     REQUIRE_EQ(result.succeeded(), false);
     REQUIRE_EQ(result.diagnostics.front().detail.find(destination.wstring()) != std::wstring::npos, true);
+}
+
+TEST_CASE(Png_encoder_succeeds_from_sta_thread)
+{
+    const auto destination = TestRoot(L"sta") / L"sta.png";
+    bool encoded = false;
+    bool dimensions_match = false;
+    std::thread thread([&] {
+        const auto initialized = CoInitializeEx(nullptr, COINIT_APARTMENTTHREADED);
+        if (FAILED(initialized)) return;
+        const auto source = wac::LoadImage(TestImage(L"wide-red-blue.png"));
+        if (source.succeeded()) {
+            const auto result = wac::EncodePng(wac::NormalizeToSquare(*source.value), destination, {44, 44});
+            encoded = result.succeeded();
+            const auto output = wac::LoadImage(destination);
+            dimensions_match = output.succeeded() && output.value->size().width == 44 && output.value->size().height == 44;
+        }
+        CoUninitialize();
+    });
+    thread.join();
+    REQUIRE_EQ(encoded, true);
+    REQUIRE_EQ(dimensions_match, true);
 }

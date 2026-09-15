@@ -11,7 +11,18 @@
 namespace wac {
 namespace {
 using Microsoft::WRL::ComPtr;
-class Apartment { public: Apartment() : result_(CoInitializeEx(nullptr, COINIT_MULTITHREADED)) {} ~Apartment() { if (result_ == S_OK || result_ == S_FALSE) CoUninitialize(); } HRESULT result_; };
+class Apartment {
+public:
+    Apartment() : result_(CoInitializeEx(nullptr, COINIT_MULTITHREADED)) {}
+    ~Apartment() {
+        if (result_ == S_OK || result_ == S_FALSE) CoUninitialize();
+    }
+    bool available() const noexcept {
+        return SUCCEEDED(result_) || result_ == RPC_E_CHANGED_MODE;
+    }
+private:
+    HRESULT result_;
+};
 class HResultError final : public std::runtime_error {
 public:
     explicit HResultError(HRESULT result) : std::runtime_error("WIC failure"), result(result) {}
@@ -27,7 +38,7 @@ OperationResult EncodePng(DecodedImage const& normalized_source, std::filesystem
                           PixelSize target_size) {
     try {
         Apartment apartment;
-        Check(apartment.result_);
+        if (!apartment.available()) return Failure(DiagnosticCode::wic_failure, destination);
         std::filesystem::create_directories(destination.parent_path());
         const auto image = ResizeRgba(normalized_source, target_size);
         ComPtr<IWICImagingFactory> factory;
