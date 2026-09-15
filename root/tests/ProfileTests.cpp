@@ -142,3 +142,58 @@ TEST_CASE(Store_profile_validation_rejects_an_incomplete_png_inventory)
     REQUIRE_EQ(result.succeeded(), false);
     REQUIRE_EQ(result.diagnostics.front().code, wac::DiagnosticCode::validation_failure);
 }
+
+TEST_CASE(Store_profile_validation_rejects_an_excess_png_inventory)
+{
+    const auto profile = wac::StoreMsixProfile::Create();
+    auto assets = std::vector<AssetSpec>{profile.png_assets().begin(), profile.png_assets().end()};
+    assets.push_back({L"Test", L"Assets/Extra.png", {1, 1}, AssetFormat::png});
+    const auto result = wac::ValidateProfile(wac::StoreMsixProfileTestAccess::Create(std::move(assets)));
+    REQUIRE_EQ(result.succeeded(), false);
+    REQUIRE_EQ(result.diagnostics.front().code, wac::DiagnosticCode::validation_failure);
+}
+
+TEST_CASE(Store_profile_validation_rejects_ico_with_zero_width)
+{
+    const auto profile = wac::StoreMsixProfile::Create();
+    auto ico = profile.ico_asset();
+    ico.size.width = 0;
+    RequireValidationFailure(wac::ValidateProfile(wac::StoreMsixProfileTestAccess::Create(
+        std::vector<AssetSpec>{profile.png_assets().begin(), profile.png_assets().end()}, std::move(ico))), L"AppIcon.ico");
+}
+
+TEST_CASE(Store_profile_validation_rejects_ico_with_zero_height)
+{
+    const auto profile = wac::StoreMsixProfile::Create();
+    auto ico = profile.ico_asset();
+    ico.size.height = 0;
+    RequireValidationFailure(wac::ValidateProfile(wac::StoreMsixProfileTestAccess::Create(
+        std::vector<AssetSpec>{profile.png_assets().begin(), profile.png_assets().end()}, std::move(ico))), L"AppIcon.ico");
+}
+
+TEST_CASE(Store_profile_validation_rejects_ico_with_png_format)
+{
+    const auto profile = wac::StoreMsixProfile::Create();
+    auto ico = profile.ico_asset();
+    ico.format = AssetFormat::png;
+    RequireValidationFailure(wac::ValidateProfile(wac::StoreMsixProfileTestAccess::Create(
+        std::vector<AssetSpec>{profile.png_assets().begin(), profile.png_assets().end()}, std::move(ico))), L"AppIcon.ico");
+}
+
+TEST_CASE(Store_profile_validation_rejects_ico_with_wrong_relative_path)
+{
+    const auto profile = wac::StoreMsixProfile::Create();
+    auto ico = profile.ico_asset();
+    ico.relative_path = L"OtherIcon.ico";
+    RequireValidationFailure(wac::ValidateProfile(wac::StoreMsixProfileTestAccess::Create(
+        std::vector<AssetSpec>{profile.png_assets().begin(), profile.png_assets().end()}, std::move(ico))), L"OtherIcon.ico");
+}
+
+TEST_CASE(Store_profile_validation_rejects_ico_path_that_collides_with_png)
+{
+    const auto profile = wac::StoreMsixProfile::Create();
+    auto ico = profile.ico_asset();
+    ico.relative_path = profile.png_assets().front().relative_path;
+    RequireValidationFailure(wac::ValidateProfile(wac::StoreMsixProfileTestAccess::Create(
+        std::vector<AssetSpec>{profile.png_assets().begin(), profile.png_assets().end()}, std::move(ico))), L"Assets/AppList.targetsize-16.png");
+}

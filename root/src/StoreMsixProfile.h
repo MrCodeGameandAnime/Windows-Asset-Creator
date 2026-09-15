@@ -36,6 +36,10 @@ public:
         return StoreMsixProfile{std::move(png_assets),
                                 {L"AppIcon", L"AppIcon.ico", {256, 256}, AssetFormat::ico}};
     }
+
+    static StoreMsixProfile Create(std::vector<AssetSpec> png_assets, AssetSpec ico_asset) {
+        return StoreMsixProfile{std::move(png_assets), std::move(ico_asset)};
+    }
 };
 #endif
 }

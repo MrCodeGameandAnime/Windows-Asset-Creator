@@ -95,6 +95,13 @@ OperationResult ValidateProfile(StoreMsixProfile const& profile) {
     if (profile.png_assets().size() != 69) {
         return ValidationFailure(L"Expected 69 PNG assets but found " + std::to_wstring(profile.png_assets().size()) + L".");
     }
+
+    const auto& ico = profile.ico_asset();
+    if (!paths.insert(ico.relative_path.generic_wstring()).second) return ValidationFailure(ico.relative_path.wstring());
+    if (ico.size.width == 0 || ico.size.height == 0) return ValidationFailure(ico.relative_path.wstring());
+    if (ico.format != AssetFormat::ico) return ValidationFailure(ico.relative_path.wstring());
+    if (ico.relative_path != std::filesystem::path{L"AppIcon.ico"}) return ValidationFailure(ico.relative_path.wstring());
+
     return {};
 }
 }
