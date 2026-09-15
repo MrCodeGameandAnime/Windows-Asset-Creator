@@ -1,0 +1,104 @@
+#include "AssetGenerator.h"
+#include "NativeTest.h"
+#include "Output/Validator.h"
+#include "TestImageFactory.h"
+
+#include <array>
+#include <chrono>
+#include <fstream>
+
+namespace {
+std::filesystem::path TempPath(std::wstring const& name) {
+    const auto path = std::filesystem::temp_directory_path() / L"WindowsAssetCreator-GenerationTests" /
+                      (name + L"-" + std::to_wstring(std::chrono::steady_clock::now().time_since_epoch().count()));
+    std::filesystem::create_directories(path.parent_path());
+    return path;
+}
+
+uint16_t Read16(std::istream& input) { uint8_t a = input.get(), b = input.get(); return static_cast<uint16_t>(a | (b << 8)); }
+uint32_t Read32(std::istream& input) { uint32_t value = 0; for (auto shift : {0, 8, 16, 24}) value |= static_cast<uint32_t>(static_cast<uint8_t>(input.get())) << shift; return value; }
+std::vector<std::filesystem::path> ReadZipEntries(std::filesystem::path const& archive) {
+    std::ifstream input(archive, std::ios::binary);
+    std::vector<std::filesystem::path> entries;
+    while (input && Read32(input) == 0x04034b50) {
+        input.ignore(14);
+        const auto data_size = Read32(input);
+        input.ignore(4);
+        const auto name_size = Read16(input);
+        const auto extra_size = Read16(input);
+        std::string name(name_size, '\0');
+        input.read(name.data(), name.size());
+        input.ignore(extra_size + data_size);
+        entries.emplace_back(std::filesystem::path{name});
+    }
+    return entries;
+}
+
+bool Contains(std::vector<std::filesystem::path> const& entries, std::filesystem::path const& target) {
+    for (const auto& entry : entries) if (entry.generic_wstring() == target.generic_wstring()) return true;
+    return false;
+}
+
+wac::GenerationSession ReadySession() {
+    auto result = wac::AssetGenerator{}.Generate(TestImage(L"wide-red-blue.png"));
+    REQUIRE_EQ(result.succeeded(), true);
+    return std::move(*result.value);
+}
+}
+
+TEST_CASE(Generation_creates_valid_69_png_and_ico_session)
+{
+    auto session = ReadySession();
+    REQUIRE_EQ(session.preview_assets().size(), size_t{70});
+    REQUIRE_EQ(wac::ValidateStagedAssets(session.profile(), session.staging_root()).succeeded(), true);
+}
+
+TEST_CASE(Export_zip_contains_only_assets_and_appicon)
+{
+    auto session = ReadySession();
+    const auto zip = TempPath(L"Windows-Assets.zip");
+    REQUIRE_EQ(session.ExportZip(zip).succeeded(), true);
+    const auto entries = ReadZipEntries(zip);
+    REQUIRE_EQ(entries.size(), size_t{70});
+    REQUIRE_EQ(Contains(entries, L"Assets/AppList.targetsize-16.png"), true);
+    REQUIRE_EQ(Contains(entries, L"AppIcon.ico"), true);
+    REQUIRE_EQ(Contains(entries, TestImage(L"wide-red-blue.png")), false);
+}
+
+TEST_CASE(Corrupt_source_does_not_create_ready_session)
+{
+    const auto result = wac::AssetGenerator{}.Generate(TestImage(L"corrupt.png"));
+    REQUIRE_EQ(result.succeeded(), false);
+}
+
+TEST_CASE(Export_failure_keeps_existing_user_zip_unchanged)
+{
+    auto session = ReadySession();
+    const auto zip = TempPath(L"existing.zip");
+    { std::ofstream existing(zip, std::ios::binary); existing << "keep"; }
+    REQUIRE_EQ(session.ExportZip(zip / L"child.zip").succeeded(), false);
+    std::ifstream check(zip, std::ios::binary);
+    std::string contents((std::istreambuf_iterator<char>(check)), {});
+    REQUIRE_EQ(contents, std::string("keep"));
+}
+
+TEST_CASE(Session_cleanup_removes_only_its_own_staging_directory)
+{
+    const auto sibling = TempPath(L"sibling");
+    std::filesystem::create_directories(sibling);
+    std::filesystem::path staging;
+    {
+        auto session = ReadySession();
+        staging = session.staging_root();
+        REQUIRE_EQ(std::filesystem::exists(staging), true);
+    }
+    REQUIRE_EQ(std::filesystem::exists(staging), false);
+    REQUIRE_EQ(std::filesystem::exists(sibling), true);
+}
+
+TEST_CASE(Zip_manifest_rejects_missing_planned_file)
+{
+    auto session = ReadySession();
+    std::filesystem::remove(session.staging_root() / session.profile().png_assets().front().relative_path);
+    REQUIRE_EQ(session.ExportZip(TempPath(L"missing.zip")).succeeded(), false);
+}
