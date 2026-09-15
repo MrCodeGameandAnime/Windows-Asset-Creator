@@ -6,6 +6,7 @@
 #include <array>
 #include <chrono>
 #include <fstream>
+#include <windows.h>
 
 namespace {
 std::filesystem::path TempPath(std::wstring const& name) {
@@ -37,6 +38,11 @@ std::vector<std::filesystem::path> ReadZipEntries(std::filesystem::path const& a
 bool Contains(std::vector<std::filesystem::path> const& entries, std::filesystem::path const& target) {
     for (const auto& entry : entries) if (entry.generic_wstring() == target.generic_wstring()) return true;
     return false;
+}
+
+std::string ReadBytes(std::filesystem::path const& path) {
+    std::ifstream input(path, std::ios::binary);
+    return {std::istreambuf_iterator<char>(input), {}};
 }
 
 wac::GenerationSession ReadySession() {
@@ -77,9 +83,7 @@ TEST_CASE(Export_failure_keeps_existing_user_zip_unchanged)
     const auto zip = TempPath(L"existing.zip");
     { std::ofstream existing(zip, std::ios::binary); existing << "keep"; }
     REQUIRE_EQ(session.ExportZip(zip / L"child.zip").succeeded(), false);
-    std::ifstream check(zip, std::ios::binary);
-    std::string contents((std::istreambuf_iterator<char>(check)), {});
-    REQUIRE_EQ(contents, std::string("keep"));
+    REQUIRE_EQ(ReadBytes(zip), std::string("keep"));
 }
 
 TEST_CASE(Session_cleanup_removes_only_its_own_staging_directory)
@@ -101,4 +105,76 @@ TEST_CASE(Zip_manifest_rejects_missing_planned_file)
     auto session = ReadySession();
     std::filesystem::remove(session.staging_root() / session.profile().png_assets().front().relative_path);
     REQUIRE_EQ(session.ExportZip(TempPath(L"missing.zip")).succeeded(), false);
+}
+
+TEST_CASE(Move_constructed_session_retains_transferred_staging_directory)
+{
+    std::filesystem::path staging;
+    std::optional<wac::GenerationSession> owner;
+    {
+        auto source = ReadySession();
+        staging = source.staging_root();
+        owner.emplace(std::move(source));
+        REQUIRE_EQ(source.staging_root().empty(), true);
+        REQUIRE_EQ(std::filesystem::exists(staging), true);
+    }
+    REQUIRE_EQ(std::filesystem::exists(staging), true);
+    owner.reset();
+    REQUIRE_EQ(std::filesystem::exists(staging), false);
+}
+
+TEST_CASE(Move_assignment_cleans_previous_owned_staging_directory)
+{
+    auto destination = ReadySession();
+    const auto previous_staging = destination.staging_root();
+    std::filesystem::path transferred_staging;
+    {
+        auto source = ReadySession();
+        transferred_staging = source.staging_root();
+        destination = std::move(source);
+        REQUIRE_EQ(source.staging_root().empty(), true);
+        REQUIRE_EQ(std::filesystem::exists(previous_staging), false);
+        REQUIRE_EQ(std::filesystem::exists(transferred_staging), true);
+    }
+    REQUIRE_EQ(std::filesystem::exists(transferred_staging), true);
+}
+
+TEST_CASE(Live_generation_sessions_use_distinct_staging_roots)
+{
+    auto first = ReadySession();
+    auto second = ReadySession();
+    auto third = ReadySession();
+    REQUIRE_EQ(first.staging_root() == second.staging_root(), false);
+    REQUIRE_EQ(first.staging_root() == third.staging_root(), false);
+    REQUIRE_EQ(second.staging_root() == third.staging_root(), false);
+    REQUIRE_EQ(std::filesystem::exists(first.staging_root()), true);
+    REQUIRE_EQ(std::filesystem::exists(second.staging_root()), true);
+    REQUIRE_EQ(std::filesystem::exists(third.staging_root()), true);
+}
+
+TEST_CASE(Export_successfully_replaces_existing_user_zip)
+{
+    auto session = ReadySession();
+    const auto zip = TempPath(L"replacement.zip");
+    { std::ofstream existing(zip, std::ios::binary); existing << "sentinel"; }
+
+    REQUIRE_EQ(session.ExportZip(zip).succeeded(), true);
+    const auto entries = ReadZipEntries(zip);
+    REQUIRE_EQ(entries.size(), size_t{70});
+    REQUIRE_EQ(ReadBytes(zip).find("sentinel") == std::string::npos, true);
+    REQUIRE_EQ(std::filesystem::exists(zip.wstring() + L".tmp"), false);
+}
+
+TEST_CASE(Export_replacement_failure_cleans_temporary_file)
+{
+    auto session = ReadySession();
+    const auto zip = TempPath(L"replacement-failure.zip");
+    { std::ofstream existing(zip, std::ios::binary); existing << "keep"; }
+    REQUIRE_EQ(SetFileAttributesW(zip.c_str(), FILE_ATTRIBUTE_READONLY) != 0, true);
+
+    const auto result = session.ExportZip(zip);
+    REQUIRE_EQ(SetFileAttributesW(zip.c_str(), FILE_ATTRIBUTE_NORMAL) != 0, true);
+    REQUIRE_EQ(result.succeeded(), false);
+    REQUIRE_EQ(ReadBytes(zip), std::string("keep"));
+    REQUIRE_EQ(std::filesystem::exists(zip.wstring() + L".tmp"), false);
 }

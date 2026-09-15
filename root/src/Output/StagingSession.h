@@ -6,8 +6,8 @@ namespace wac {
 class GenerationSession final {
 public:
     GenerationSession(std::filesystem::path staging_root, StoreMsixProfile profile, std::vector<GeneratedAsset> assets);
-    GenerationSession(GenerationSession&&) noexcept = default;
-    GenerationSession& operator=(GenerationSession&&) noexcept = default;
+    GenerationSession(GenerationSession&& other) noexcept;
+    GenerationSession& operator=(GenerationSession&& other) noexcept;
     ~GenerationSession();
     std::filesystem::path const& staging_root() const noexcept;
     StoreMsixProfile const& profile() const noexcept;
