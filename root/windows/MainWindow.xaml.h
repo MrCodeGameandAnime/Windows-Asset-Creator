@@ -8,10 +8,10 @@ namespace winrt::WindowsAssetCreator::implementation
     struct MainWindow : MainWindowT<MainWindow>
     {
         MainWindow();
-        AssetBoardViewModel& ViewModel() noexcept;
+        winrt::WindowsAssetCreator::AssetBoardViewModel ViewModel() const;
 
     private:
-        winrt::com_ptr<AssetBoardViewModel> view_model_;
+        winrt::WindowsAssetCreator::AssetBoardViewModel view_model_{nullptr};
     };
 }
 

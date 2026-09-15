@@ -196,6 +196,23 @@ TEST_CASE(Board_state_is_ready_only_after_valid_generation)
     REQUIRE_EQ(state.session().has_value(), true);
 }
 
+TEST_CASE(Board_state_groups_every_generated_preview)
+{
+    wac::AssetBoardState state;
+    state.CompleteGeneration(ReadySession());
+
+    size_t asset_count = 0;
+    for (const auto& group : state.groups()) {
+        REQUIRE_EQ(group.title.empty(), false);
+        asset_count += group.assets.size();
+    }
+
+    REQUIRE_EQ(state.groups().size(), size_t{8});
+    REQUIRE_EQ(asset_count, size_t{70});
+    REQUIRE_EQ(state.groups().front().title, std::wstring{L"AppList default"});
+    REQUIRE_EQ(state.groups().back().title, std::wstring{L"AppIcon"});
+}
+
 TEST_CASE(Board_state_keeps_save_disabled_after_corrupt_source)
 {
     wac::AssetBoardState state;

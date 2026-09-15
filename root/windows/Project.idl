@@ -1,8 +1,43 @@
 namespace WindowsAssetCreator
 {
     [default_interface]
+    runtimeclass AssetBoardItemViewModel
+    {
+        AssetBoardItemViewModel();
+        String Label{ get; };
+        String Dimensions{ get; };
+        String PreviewPath{ get; };
+    }
+
+    [default_interface]
+    runtimeclass AssetBoardGroupViewModel
+    {
+        AssetBoardGroupViewModel();
+        String Title{ get; };
+        Windows.Foundation.Collections.IVectorView<AssetBoardItemViewModel> Assets{ get; };
+    }
+
+    [default_interface]
+    runtimeclass AssetBoardViewModel : Microsoft.UI.Xaml.Data.INotifyPropertyChanged
+    {
+        AssetBoardViewModel();
+        String SourceName{ get; };
+        String SourceDimensions{ get; };
+        String SourceFramingNote{ get; };
+        String ValidationText{ get; };
+        String ErrorText{ get; };
+        Boolean IsIdle{ get; };
+        Boolean IsBusy{ get; };
+        Boolean HasError{ get; };
+        Boolean CanSave{ get; };
+        Microsoft.UI.Xaml.Visibility EmptyDropTargetVisibility{ get; };
+        Windows.Foundation.Collections.IVectorView<AssetBoardGroupViewModel> Groups{ get; };
+    }
+
+    [default_interface]
     runtimeclass MainWindow : Microsoft.UI.Xaml.Window
     {
         MainWindow();
+        AssetBoardViewModel ViewModel{ get; };
     }
 }

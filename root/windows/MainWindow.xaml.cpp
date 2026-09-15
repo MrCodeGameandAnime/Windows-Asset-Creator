@@ -5,9 +5,8 @@
 #endif
 
 namespace winrt::WindowsAssetCreator::implementation {
-MainWindow::MainWindow() : view_model_(winrt::make_self<AssetBoardViewModel>()) {
+MainWindow::MainWindow() : view_model_(winrt::make<AssetBoardViewModel>()) {
     InitializeComponent();
-    Root().DataContext(view_model_.as<winrt::Windows::Foundation::IInspectable>());
 }
-AssetBoardViewModel& MainWindow::ViewModel() noexcept { return *view_model_; }
+winrt::WindowsAssetCreator::AssetBoardViewModel MainWindow::ViewModel() const { return view_model_; }
 }

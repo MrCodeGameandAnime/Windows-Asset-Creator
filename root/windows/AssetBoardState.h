@@ -5,6 +5,17 @@
 namespace wac {
 enum class BoardPhase { idle, processing, ready, saving, error };
 
+struct BoardPreviewAsset {
+    std::wstring label;
+    PixelSize size;
+    std::filesystem::path staged_path;
+};
+
+struct BoardPreviewGroup {
+    std::wstring title;
+    std::vector<BoardPreviewAsset> assets;
+};
+
 class AssetBoardState final {
 public:
     void BeginGeneration();
@@ -15,10 +26,12 @@ public:
     bool can_save() const noexcept;
     std::optional<GenerationSession> const& session() const noexcept;
     std::span<Diagnostic const> diagnostics() const noexcept;
+    std::span<BoardPreviewGroup const> groups() const noexcept;
 
 private:
     BoardPhase phase_{BoardPhase::idle};
     std::optional<GenerationSession> session_;
     std::vector<Diagnostic> diagnostics_;
+    std::vector<BoardPreviewGroup> groups_;
 };
 }
