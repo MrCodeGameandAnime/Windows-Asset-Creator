@@ -1,0 +1,126 @@
+#include "ImagePipeline.h"
+#include "NativeTest.h"
+#include "Output/IcoWriter.h"
+#include "Output/PngEncoder.h"
+#include "Output/Validator.h"
+#include "StoreMsixProfile.h"
+#include "TestImageFactory.h"
+
+#include <array>
+#include <chrono>
+#include <cstdint>
+#include <fstream>
+#include <vector>
+
+namespace {
+std::filesystem::path TestRoot(std::wstring const& name) {
+    const auto root = std::filesystem::temp_directory_path() / L"WindowsAssetCreator-OutputTests" /
+                      (name + L"-" + std::to_wstring(std::chrono::steady_clock::now().time_since_epoch().count()));
+    std::filesystem::create_directories(root);
+    return root;
+}
+
+uint16_t ReadU16(std::istream& input) {
+    std::array<uint8_t, 2> bytes{};
+    input.read(reinterpret_cast<char*>(bytes.data()), bytes.size());
+    return static_cast<uint16_t>(bytes[0] | (bytes[1] << 8));
+}
+
+std::vector<uint32_t> ReadIcoDirectory(std::filesystem::path const& path) {
+    std::ifstream input(path, std::ios::binary);
+    REQUIRE_EQ(input.good(), true);
+    REQUIRE_EQ(ReadU16(input), uint16_t{0});
+    REQUIRE_EQ(ReadU16(input), uint16_t{1});
+    const auto count = ReadU16(input);
+    std::vector<uint32_t> sizes;
+    for (uint16_t index = 0; index < count; ++index) {
+        const auto width = static_cast<uint8_t>(input.get());
+        const auto height = static_cast<uint8_t>(input.get());
+        input.ignore(6);
+        sizes.push_back(width == 0 && height == 0 ? 256U : width);
+        input.ignore(8);
+    }
+    return sizes;
+}
+
+wac::DecodedImage Source() {
+    const auto source = wac::LoadImage(TestImage(L"wide-red-blue.png"));
+    REQUIRE_EQ(source.succeeded(), true);
+    return wac::NormalizeToSquare(*source.value);
+}
+
+void WriteCompleteProfile(wac::StoreMsixProfile const& profile, std::filesystem::path const& root) {
+    const auto source = Source();
+    for (const auto& asset : profile.png_assets()) {
+        REQUIRE_EQ(wac::EncodePng(source, root / asset.relative_path, asset.size).succeeded(), true);
+    }
+    REQUIRE_EQ(wac::WriteAppIcon(source, root / profile.ico_asset().relative_path).succeeded(), true);
+}
+}
+
+TEST_CASE(Png_encoder_writes_exact_rgba_dimensions)
+{
+    const auto destination = TestRoot(L"png") / L"square44.png";
+    REQUIRE_EQ(wac::EncodePng(Source(), destination, {44, 44}).succeeded(), true);
+    const auto output = wac::LoadImage(destination);
+    REQUIRE_EQ(output.succeeded(), true);
+    REQUIRE_EQ(output.value->size().width, uint32_t{44});
+    REQUIRE_EQ(output.value->size().height, uint32_t{44});
+    REQUIRE_EQ(output.value->pixel_at(0, 0).a, uint8_t{0});
+}
+
+TEST_CASE(Ico_writer_contains_five_requested_sizes)
+{
+    const auto destination = TestRoot(L"ico") / L"AppIcon.ico";
+    REQUIRE_EQ(wac::WriteAppIcon(Source(), destination).succeeded(), true);
+    const auto sizes = ReadIcoDirectory(destination);
+    REQUIRE_EQ(sizes, std::vector<uint32_t>({16, 24, 32, 48, 256}));
+}
+
+TEST_CASE(Validator_accepts_complete_profile_output)
+{
+    const auto profile = wac::StoreMsixProfile::Create();
+    const auto root = TestRoot(L"complete");
+    WriteCompleteProfile(profile, root);
+    REQUIRE_EQ(wac::ValidateStagedAssets(profile, root).succeeded(), true);
+}
+
+TEST_CASE(Validator_rejects_wrong_png_dimensions)
+{
+    const auto profile = wac::StoreMsixProfile::Create();
+    const auto root = TestRoot(L"wrong-size");
+    WriteCompleteProfile(profile, root);
+    REQUIRE_EQ(wac::EncodePng(Source(), root / profile.png_assets().front().relative_path, {1, 1}).succeeded(), true);
+    REQUIRE_EQ(wac::ValidateStagedAssets(profile, root).succeeded(), false);
+}
+
+TEST_CASE(Validator_rejects_missing_asset)
+{
+    const auto profile = wac::StoreMsixProfile::Create();
+    const auto root = TestRoot(L"missing");
+    WriteCompleteProfile(profile, root);
+    std::filesystem::remove(root / profile.png_assets().front().relative_path);
+    REQUIRE_EQ(wac::ValidateStagedAssets(profile, root).succeeded(), false);
+}
+
+TEST_CASE(Validator_rejects_malformed_ico)
+{
+    const auto profile = wac::StoreMsixProfile::Create();
+    const auto root = TestRoot(L"malformed-ico");
+    WriteCompleteProfile(profile, root);
+    std::ofstream corrupt(root / profile.ico_asset().relative_path, std::ios::binary | std::ios::trunc);
+    corrupt << "not an ico";
+    corrupt.close();
+    REQUIRE_EQ(wac::ValidateStagedAssets(profile, root).succeeded(), false);
+}
+
+TEST_CASE(Validator_rejects_unplanned_staged_file)
+{
+    const auto profile = wac::StoreMsixProfile::Create();
+    const auto root = TestRoot(L"unexpected");
+    WriteCompleteProfile(profile, root);
+    std::ofstream unexpected(root / L"unexpected.png", std::ios::binary | std::ios::trunc);
+    unexpected << "unexpected";
+    unexpected.close();
+    REQUIRE_EQ(wac::ValidateStagedAssets(profile, root).succeeded(), false);
+}
