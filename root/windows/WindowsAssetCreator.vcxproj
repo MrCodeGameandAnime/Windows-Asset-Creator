@@ -70,6 +70,8 @@
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Release'"><ClCompile><PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions></ClCompile></ItemDefinitionGroup>
 
   <ItemGroup>
+    <ClInclude Include="AssetBoardState.h" />
+    <ClInclude Include="AssetBoardViewModel.h" />
     <ClInclude Include="App.xaml.h"><DependentUpon>App.xaml</DependentUpon></ClInclude>
     <ClInclude Include="MainWindow.xaml.h"><DependentUpon>MainWindow.xaml</DependentUpon></ClInclude>
     <ClInclude Include="pch.h" />
@@ -84,6 +86,8 @@
     </Midl>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AssetBoardState.cpp" />
+    <ClCompile Include="AssetBoardViewModel.cpp" />
     <ClCompile Include="App.xaml.cpp"><DependentUpon>App.xaml</DependentUpon></ClCompile>
     <ClCompile Include="MainWindow.xaml.cpp"><DependentUpon>MainWindow.xaml</DependentUpon></ClCompile>
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />

@@ -2,7 +2,52 @@
     x:Class="WindowsAssetCreator.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <Grid>
-        <TextBlock Text="Windows Asset Creator" HorizontalAlignment="Center" VerticalAlignment="Center" />
+    <Grid x:Name="Root" Padding="24" RowSpacing="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Spacing="12">
+            <TextBlock Text="Windows Asset Creator" Style="{ThemeResource TitleTextBlockStyle}" />
+            <TextBlock Text="{Binding SourceFramingNote}" TextWrapping="Wrap" />
+            <Border Padding="24" BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}" BorderThickness="1"
+                    CornerRadius="8" Visibility="{Binding EmptyDropTargetVisibility}"
+                    AutomationProperties.Name="Choose or drop a source image">
+                <StackPanel HorizontalAlignment="Center" Spacing="8">
+                    <TextBlock Text="Drop a PNG or JPEG here" HorizontalAlignment="Center" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                    <TextBlock Text="or choose an image from Explorer" HorizontalAlignment="Center" Opacity="0.7" />
+                </StackPanel>
+            </Border>
+            <InfoBar IsOpen="{Binding HasError}" Severity="Error"
+                     Message="{Binding ErrorText}" />
+        </StackPanel>
+
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <StackPanel Spacing="12">
+                <TextBlock Text="Generated assets" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                <TextBlock Text="{Binding ValidationText}" Opacity="0.7" />
+                <ItemsRepeater ItemsSource="{Binding Groups}">
+                    <ItemsRepeater.ItemTemplate>
+                        <DataTemplate>
+                            <GridView />
+                        </DataTemplate>
+                    </ItemsRepeater.ItemTemplate>
+                </ItemsRepeater>
+            </StackPanel>
+        </ScrollViewer>
+
+        <Grid Grid.Row="2" ColumnSpacing="12">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="{Binding SourceName}" VerticalAlignment="Center" />
+            <Button Grid.Column="1" Content="Reset" IsEnabled="False" />
+            <Button Grid.Column="2" Content="Save As…" IsEnabled="{Binding CanSave}"
+                    AutomationProperties.Name="Save generated asset ZIP as" />
+        </Grid>
     </Grid>
 </Window>

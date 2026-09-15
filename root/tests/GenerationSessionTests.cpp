@@ -1,4 +1,5 @@
 #include "AssetGenerator.h"
+#include "AssetBoardState.h"
 #include "NativeTest.h"
 #include "Output/Validator.h"
 #include "TestImageFactory.h"
@@ -177,4 +178,32 @@ TEST_CASE(Export_replacement_failure_cleans_temporary_file)
     REQUIRE_EQ(result.succeeded(), false);
     REQUIRE_EQ(ReadBytes(zip), std::string("keep"));
     REQUIRE_EQ(std::filesystem::exists(zip.wstring() + L".tmp"), false);
+}
+
+TEST_CASE(Board_state_is_ready_only_after_valid_generation)
+{
+    wac::AssetBoardState state;
+    REQUIRE_EQ(state.phase(), wac::BoardPhase::idle);
+    REQUIRE_EQ(state.can_save(), false);
+
+    state.BeginGeneration();
+    REQUIRE_EQ(state.phase(), wac::BoardPhase::processing);
+    REQUIRE_EQ(state.can_save(), false);
+
+    state.CompleteGeneration(ReadySession());
+    REQUIRE_EQ(state.phase(), wac::BoardPhase::ready);
+    REQUIRE_EQ(state.can_save(), true);
+    REQUIRE_EQ(state.session().has_value(), true);
+}
+
+TEST_CASE(Board_state_keeps_save_disabled_after_corrupt_source)
+{
+    wac::AssetBoardState state;
+    state.CompleteFailure({{wac::Severity::error, wac::DiagnosticCode::corrupt_image,
+                           L"The source image is corrupt.", L"corrupt.png"}});
+
+    REQUIRE_EQ(state.phase(), wac::BoardPhase::error);
+    REQUIRE_EQ(state.can_save(), false);
+    REQUIRE_EQ(state.session().has_value(), false);
+    REQUIRE_EQ(state.diagnostics().front().code, wac::DiagnosticCode::corrupt_image);
 }
