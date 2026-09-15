@@ -44,6 +44,18 @@ TEST_CASE(Exif_rotated_source_has_correct_display_orientation)
     REQUIRE_EQ(loaded.succeeded(), true);
     REQUIRE_EQ(loaded.value->size().width, uint32_t{1});
     REQUIRE_EQ(loaded.value->size().height, uint32_t{2});
+
+    const auto top = loaded.value->pixel_at(0, 0);
+    const auto bottom = loaded.value->pixel_at(0, 1);
+    REQUIRE_EQ(top.r > 160, true);
+    REQUIRE_EQ(top.g < 100, true);
+    REQUIRE_EQ(top.b < 100, true);
+    REQUIRE_EQ(top.a, uint8_t{255});
+
+    REQUIRE_EQ(bottom.r < 100, true);
+    REQUIRE_EQ(bottom.g < 100, true);
+    REQUIRE_EQ(bottom.b > 160, true);
+    REQUIRE_EQ(bottom.a, uint8_t{255});
 }
 
 TEST_CASE(Resize_returns_exact_target_dimensions)

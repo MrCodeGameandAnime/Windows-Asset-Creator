@@ -80,6 +80,20 @@ void WriteJpeg(std::filesystem::path const& path, uint32_t width, uint32_t heigh
     Check(factory->CreateEncoder(GUID_ContainerFormatJpeg, nullptr, encoder.GetAddressOf()));
     Check(encoder->Initialize(stream.Get(), WICBitmapEncoderNoCache));
     Check(encoder->CreateNewFrame(frame.GetAddressOf(), options.GetAddressOf()));
+
+    PROPBAG2 quality_option{};
+    quality_option.pstrName = const_cast<LPOLESTR>(L"ImageQuality");
+    VARIANT quality{};
+    quality.vt = VT_R4;
+    quality.fltVal = 1.0F;
+    Check(options->Write(1, &quality_option, &quality));
+
+    PROPBAG2 subsampling_option{};
+    subsampling_option.pstrName = const_cast<LPOLESTR>(L"JpegYCrCbSubsampling");
+    VARIANT subsampling{};
+    subsampling.vt = VT_UI1;
+    subsampling.bVal = WICJpegYCrCbSubsampling444;
+    Check(options->Write(1, &subsampling_option, &subsampling));
     Check(frame->Initialize(options.Get()));
     Check(frame->SetSize(width, height));
     GUID format = GUID_WICPixelFormat24bppBGR;
