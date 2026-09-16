@@ -30,18 +30,44 @@ void TraceProperty(std::wstring_view name, std::wstring_view value, void const* 
 namespace winrt::WindowsAssetCreator::implementation {
 AssetBoardItemViewModel::AssetBoardItemViewModel(winrt::hstring label, winrt::hstring dimensions,
                                                  winrt::hstring preview_path)
-    : label_(std::move(label)), dimensions_(std::move(dimensions)), preview_path_(std::move(preview_path)) {}
-winrt::hstring AssetBoardItemViewModel::Label() const { return label_; }
-winrt::hstring AssetBoardItemViewModel::Dimensions() const { return dimensions_; }
-winrt::hstring AssetBoardItemViewModel::PreviewPath() const { return preview_path_; }
+    : label_(std::move(label)), dimensions_(std::move(dimensions)), preview_path_(std::move(preview_path)) {
+    wac::trace_sink::Emit(L"BOARD", std::wstring{L"AssetBoardItemViewModel ctor this="} + PointerText(this) +
+                                  L" label=" + std::wstring{label_.c_str()} +
+                                  L" dimensions=" + std::wstring{dimensions_.c_str()});
+}
+winrt::hstring AssetBoardItemViewModel::Label() const {
+    TraceProperty(L"AssetBoardItem.Label", label_.c_str(), this);
+    return label_;
+}
+winrt::hstring AssetBoardItemViewModel::Dimensions() const {
+    TraceProperty(L"AssetBoardItem.Dimensions", dimensions_.c_str(), this);
+    return dimensions_;
+}
+winrt::hstring AssetBoardItemViewModel::PreviewPath() const {
+    TraceProperty(L"AssetBoardItem.PreviewPath", preview_path_.c_str(), this);
+    return preview_path_;
+}
 
 AssetBoardGroupViewModel::AssetBoardGroupViewModel(
     winrt::hstring title,
     winrt::Windows::Foundation::Collections::IVectorView<winrt::WindowsAssetCreator::AssetBoardItemViewModel> assets)
-    : title_(std::move(title)), assets_(std::move(assets)) {}
-winrt::hstring AssetBoardGroupViewModel::Title() const { return title_; }
+    : title_(std::move(title)), assets_(std::move(assets)) {
+    wac::trace_sink::Emit(L"BOARD", std::wstring{L"AssetBoardGroupViewModel ctor this="} + PointerText(this) +
+                                  L" title=" + std::wstring{title_.c_str()} +
+                                  L" assets_abi=" + PointerText(winrt::get_abi(assets_)) +
+                                  L" asset_count=" + std::to_wstring(assets_ ? assets_.Size() : 0));
+}
+winrt::hstring AssetBoardGroupViewModel::Title() const {
+    TraceProperty(L"AssetBoardGroup.Title", title_.c_str(), this);
+    return title_;
+}
 winrt::Windows::Foundation::Collections::IVectorView<winrt::WindowsAssetCreator::AssetBoardItemViewModel>
-AssetBoardGroupViewModel::Assets() const { return assets_; }
+AssetBoardGroupViewModel::Assets() const {
+    wac::trace_sink::Emit(L"BOARD", std::wstring{L"AssetBoardGroup.Assets this="} + PointerText(this) +
+                                  L" assets_abi=" + PointerText(winrt::get_abi(assets_)) +
+                                  L" asset_count=" + std::to_wstring(assets_ ? assets_.Size() : 0));
+    return assets_;
+}
 
 AssetBoardViewModel::AssetBoardViewModel()
     : groups_(winrt::single_threaded_observable_vector<winrt::WindowsAssetCreator::AssetBoardGroupViewModel>()) {
@@ -104,7 +130,9 @@ winrt::Microsoft::UI::Xaml::Visibility AssetBoardViewModel::EmptyDropTargetVisib
 winrt::Windows::Foundation::Collections::IVectorView<winrt::WindowsAssetCreator::AssetBoardGroupViewModel>
 AssetBoardViewModel::Groups() const {
     const auto value = groups_.GetView();
-    TraceProperty(L"Groups", L"count=" + std::to_wstring(value.Size()), this);
+    wac::trace_sink::Emit(L"BOARD", std::wstring{L"AssetBoardViewModel.Groups this="} + PointerText(this) +
+                                  L" groups_abi=" + PointerText(winrt::get_abi(value)) +
+                                  L" group_count=" + std::to_wstring(value.Size()));
     return value;
 }
 
@@ -175,11 +203,20 @@ void AssetBoardViewModel::RefreshGroups() {
         auto assets = winrt::single_threaded_vector<winrt::WindowsAssetCreator::AssetBoardItemViewModel>();
         for (const auto& asset : group.assets) {
             const auto dimensions = std::format(L"{} × {} px", asset.size.width, asset.size.height);
-            assets.Append(winrt::make<AssetBoardItemViewModel>(winrt::hstring{asset.label},
-                                                                winrt::hstring{dimensions},
-                                                                winrt::hstring{asset.staged_path.wstring()}));
+            const auto item = winrt::make<AssetBoardItemViewModel>(winrt::hstring{asset.label},
+                                                                    winrt::hstring{dimensions},
+                                                                    winrt::hstring{asset.staged_path.wstring()});
+            wac::trace_sink::Emit(L"BOARD", std::wstring{L"RefreshGroups item projected_abi="} +
+                                          PointerText(winrt::get_abi(item)) + L" label=" + asset.label);
+            assets.Append(item);
         }
-        groups_.Append(winrt::make<AssetBoardGroupViewModel>(winrt::hstring{group.title}, assets.GetView()));
+        const auto assets_view = assets.GetView();
+        const auto group_projection = winrt::make<AssetBoardGroupViewModel>(winrt::hstring{group.title}, assets_view);
+        wac::trace_sink::Emit(L"BOARD", std::wstring{L"RefreshGroups group projected_abi="} +
+                                      PointerText(winrt::get_abi(group_projection)) + L" title=" + group.title +
+                                      L" assets_abi=" + PointerText(winrt::get_abi(assets_view)) +
+                                      L" asset_count=" + std::to_wstring(assets_view.Size()));
+        groups_.Append(group_projection);
     }
 }
 winrt::event_token AssetBoardViewModel::PropertyChanged(

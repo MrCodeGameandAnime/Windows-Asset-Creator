@@ -40,8 +40,8 @@
                         <DataTemplate x:DataType="local:AssetBoardGroupViewModel">
                             <StackPanel Spacing="8">
                                 <TextBlock Text="{x:Bind Title}" Style="{ThemeResource SubtitleTextBlockStyle}" />
-                                <ItemsRepeater ItemsSource="{x:Bind Assets}">
-                                    <ItemsRepeater.ItemTemplate>
+                                <ItemsControl ItemsSource="{x:Bind Assets}">
+                                    <ItemsControl.ItemTemplate>
                                         <DataTemplate x:DataType="local:AssetBoardItemViewModel">
                                             <StackPanel Spacing="2" Margin="0,0,0,8">
                                                 <TextBlock Text="{x:Bind Label}" />
@@ -49,8 +49,8 @@
                                                 <TextBlock Text="{x:Bind PreviewPath}" Opacity="0.55" TextTrimming="CharacterEllipsis" />
                                             </StackPanel>
                                         </DataTemplate>
-                                    </ItemsRepeater.ItemTemplate>
-                                </ItemsRepeater>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
                             </StackPanel>
                         </DataTemplate>
                     </ItemsRepeater.ItemTemplate>
