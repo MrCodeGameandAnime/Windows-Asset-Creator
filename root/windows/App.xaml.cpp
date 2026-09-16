@@ -23,7 +23,9 @@ void App::OnLaunched(LaunchActivatedEventArgs const&) {
     wac::trace::Write(L"WINDOW", L"Window::Activate BEGIN");
     window_.Activate();
     wac::trace::Write(L"WINDOW", L"Window::Activate END");
-    get_self<MainWindow>(main_window)->RefreshBindings();
+    const auto main_window_impl = get_self<MainWindow>(main_window);
+    main_window_impl->InitializeBindings();
+    main_window_impl->RefreshBindings();
     wac::trace::Write(L"APP", L"App::OnLaunched EXIT");
 }
 }

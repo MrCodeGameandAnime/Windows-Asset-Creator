@@ -11,7 +11,21 @@
 #include "AssetBoardViewModel.g.cpp"
 #endif
 
+#include <cstdint>
 #include <format>
+
+namespace {
+std::wstring PointerText(void const* value) {
+    return std::to_wstring(reinterpret_cast<uintptr_t>(value));
+}
+
+void TraceProperty(std::wstring_view name, std::wstring_view value, void const* object) noexcept {
+    try {
+        wac::trace_sink::Emit(L"VM", std::wstring{name} + L" this=" + PointerText(object) + L" value=" + std::wstring{value});
+    } catch (...) {
+    }
+}
+}
 
 namespace winrt::WindowsAssetCreator::implementation {
 AssetBoardItemViewModel::AssetBoardItemViewModel(winrt::hstring label, winrt::hstring dimensions,
@@ -30,29 +44,72 @@ winrt::Windows::Foundation::Collections::IVectorView<winrt::WindowsAssetCreator:
 AssetBoardGroupViewModel::Assets() const { return assets_; }
 
 AssetBoardViewModel::AssetBoardViewModel()
-    : groups_(winrt::single_threaded_observable_vector<winrt::WindowsAssetCreator::AssetBoardGroupViewModel>()) {}
-winrt::hstring AssetBoardViewModel::SourceName() const { return L"No source selected"; }
-winrt::hstring AssetBoardViewModel::SourceDimensions() const { return L"Choose a PNG or JPEG to begin."; }
-winrt::hstring AssetBoardViewModel::SourceFramingNote() const { return L"Artwork is centered on a transparent square and never cropped."; }
+    : groups_(winrt::single_threaded_observable_vector<winrt::WindowsAssetCreator::AssetBoardGroupViewModel>()) {
+    wac::trace_sink::Emit(L"VM", L"AssetBoardViewModel ctor this=" + PointerText(this));
+}
+winrt::hstring AssetBoardViewModel::SourceName() const {
+    const auto value = winrt::hstring{L"No source selected"};
+    TraceProperty(L"SourceName", value.c_str(), this);
+    return value;
+}
+winrt::hstring AssetBoardViewModel::SourceDimensions() const {
+    const auto value = winrt::hstring{L"Choose a PNG or JPEG to begin."};
+    TraceProperty(L"SourceDimensions", value.c_str(), this);
+    return value;
+}
+winrt::hstring AssetBoardViewModel::SourceFramingNote() const {
+    const auto value = winrt::hstring{L"Artwork is centered on a transparent square and never cropped."};
+    TraceProperty(L"SourceFramingNote", value.c_str(), this);
+    return value;
+}
 winrt::hstring AssetBoardViewModel::ValidationText() const {
-    if (!save_status_.empty()) return save_status_;
-    return state_.phase() == wac::BoardPhase::ready ? L"69 PNG + 1 ICO ready" : L"No generated assets yet.";
+    const auto value = !save_status_.empty()
+        ? save_status_
+        : winrt::hstring{state_.phase() == wac::BoardPhase::ready ? L"69 PNG + 1 ICO ready" : L"No generated assets yet."};
+    TraceProperty(L"ValidationText", value.c_str(), this);
+    return value;
 }
 winrt::hstring AssetBoardViewModel::ErrorText() const {
-    if (state_.diagnostics().empty()) return {};
-    return winrt::hstring{state_.diagnostics().front().message};
+    const auto value = state_.diagnostics().empty() ? winrt::hstring{} : winrt::hstring{state_.diagnostics().front().message};
+    TraceProperty(L"ErrorText", value.c_str(), this);
+    return value;
 }
-bool AssetBoardViewModel::IsIdle() const noexcept { return state_.phase() == wac::BoardPhase::idle; }
-bool AssetBoardViewModel::IsBusy() const noexcept { return state_.phase() == wac::BoardPhase::processing || state_.phase() == wac::BoardPhase::saving; }
-bool AssetBoardViewModel::HasError() const noexcept { return state_.phase() == wac::BoardPhase::error; }
-bool AssetBoardViewModel::CanSave() const noexcept { return state_.can_save(); }
+bool AssetBoardViewModel::IsIdle() const noexcept {
+    const auto value = state_.phase() == wac::BoardPhase::idle;
+    TraceProperty(L"IsIdle", value ? L"true" : L"false", this);
+    return value;
+}
+bool AssetBoardViewModel::IsBusy() const noexcept {
+    const auto value = state_.phase() == wac::BoardPhase::processing || state_.phase() == wac::BoardPhase::saving;
+    TraceProperty(L"IsBusy", value ? L"true" : L"false", this);
+    return value;
+}
+bool AssetBoardViewModel::HasError() const noexcept {
+    const auto value = state_.phase() == wac::BoardPhase::error;
+    TraceProperty(L"HasError", value ? L"true" : L"false", this);
+    return value;
+}
+bool AssetBoardViewModel::CanSave() const noexcept {
+    const auto value = state_.can_save();
+    TraceProperty(L"CanSave", value ? L"true" : L"false", this);
+    return value;
+}
 winrt::Microsoft::UI::Xaml::Visibility AssetBoardViewModel::EmptyDropTargetVisibility() const noexcept {
-    return IsIdle() ? winrt::Microsoft::UI::Xaml::Visibility::Visible : winrt::Microsoft::UI::Xaml::Visibility::Collapsed;
+    const auto value = state_.phase() == wac::BoardPhase::idle
+        ? winrt::Microsoft::UI::Xaml::Visibility::Visible
+        : winrt::Microsoft::UI::Xaml::Visibility::Collapsed;
+    TraceProperty(L"EmptyDropTargetVisibility", value == winrt::Microsoft::UI::Xaml::Visibility::Visible ? L"Visible" : L"Collapsed", this);
+    return value;
 }
 winrt::Windows::Foundation::Collections::IVectorView<winrt::WindowsAssetCreator::AssetBoardGroupViewModel>
-AssetBoardViewModel::Groups() const { return groups_.GetView(); }
+AssetBoardViewModel::Groups() const {
+    const auto value = groups_.GetView();
+    TraceProperty(L"Groups", L"count=" + std::to_wstring(value.Size()), this);
+    return value;
+}
 
 void AssetBoardViewModel::BeginGeneration() {
+    wac::trace_sink::Emit(L"VM", L"BeginGeneration this=" + PointerText(this));
     save_status_.clear();
     state_.BeginGeneration();
     RefreshGroups();
@@ -60,6 +117,7 @@ void AssetBoardViewModel::BeginGeneration() {
     NotifyChanged();
 }
 void AssetBoardViewModel::CompleteGeneration(wac::GenerationSession session) {
+    wac::trace_sink::Emit(L"VM", L"CompleteGeneration this=" + PointerText(this));
     state_.CompleteGeneration(std::move(session));
     RefreshGroups();
     wac::trace_sink::Emit(L"STATE", L"diagnostics=" + std::to_wstring(state_.diagnostics().size()) +
@@ -69,6 +127,7 @@ void AssetBoardViewModel::CompleteGeneration(wac::GenerationSession session) {
     NotifyChanged();
 }
 void AssetBoardViewModel::CompleteFailure(std::vector<wac::Diagnostic> diagnostics) {
+    wac::trace_sink::Emit(L"VM", L"CompleteFailure this=" + PointerText(this));
     save_status_.clear();
     state_.CompleteFailure(std::move(diagnostics));
     RefreshGroups();

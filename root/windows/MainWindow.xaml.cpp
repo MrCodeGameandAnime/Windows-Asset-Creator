@@ -7,6 +7,7 @@
 #include <shobjidl_core.h>
 
 #include <cwchar>
+#include <cstdint>
 #include <exception>
 #include <memory>
 #include <string>
@@ -22,6 +23,10 @@
 namespace {
 std::wstring OperationTag(std::wstring_view prefix, uint64_t id) {
     return std::wstring{prefix} + L"#" + std::to_wstring(id);
+}
+
+std::wstring PointerText(void const* value) {
+    return std::to_wstring(reinterpret_cast<uintptr_t>(value));
 }
 
 std::wstring NarrowException(std::string_view value) {
@@ -44,19 +49,37 @@ void TraceStdException(std::wstring_view area, std::wstring_view operation,
 }
 
 namespace winrt::WindowsAssetCreator::implementation {
-MainWindow::MainWindow() : view_model_impl_(winrt::make_self<AssetBoardViewModel>()),
-                           view_model_(view_model_impl_.as<winrt::WindowsAssetCreator::AssetBoardViewModel>()) {
-    wac::trace::Write(L"WINDOW", L"MainWindow ctor ENTER");
+MainWindow::MainWindow()
+    : view_model_(winrt::make<winrt::WindowsAssetCreator::implementation::AssetBoardViewModel>()) {
+    view_model_impl_.copy_from(
+        winrt::get_self<winrt::WindowsAssetCreator::implementation::AssetBoardViewModel>(view_model_));
+    wac::trace::Write(L"WINDOW", std::wstring{L"MainWindow ctor ENTER this="} + PointerText(this) +
+                                  L" view_model_impl=" + PointerText(view_model_impl_.get()));
     wac::trace::Write(L"XAML", L"InitializeComponent BEGIN");
     InitializeComponent();
     wac::trace::Write(L"XAML", L"InitializeComponent END");
     wac::trace::Write(L"WINDOW", L"MainWindow ctor EXIT");
 }
-winrt::WindowsAssetCreator::AssetBoardViewModel MainWindow::ViewModel() const { return view_model_; }
+winrt::WindowsAssetCreator::AssetBoardViewModel MainWindow::ViewModel() const {
+    wac::trace::Write(L"XAML", std::wstring{L"MainWindow::ViewModel getter root="} + PointerText(this) +
+                              L" view_model_impl=" + PointerText(view_model_impl_.get()) +
+                              L" returned_view_model=" + PointerText(winrt::get_abi(view_model_)) +
+                              L" present=" + (view_model_ ? L"true" : L"false"));
+    return view_model_;
+}
+void MainWindow::InitializeBindings() {
+    wac::trace::Write(L"XAML", std::wstring{L"Bindings->Initialize BEGIN ptr="} + PointerText(Bindings.get()) +
+                              L" present=" + (Bindings ? L"true" : L"false"));
+    if (Bindings) Bindings->Initialize();
+    wac::trace::Write(L"XAML", std::wstring{L"Bindings->Initialize END ptr="} + PointerText(Bindings.get()) +
+                              L" present=" + (Bindings ? L"true" : L"false"));
+}
 void MainWindow::RefreshBindings() {
-    wac::trace_sink::Emit(L"XAML", L"Bindings->Update BEGIN");
+    wac::trace::Write(L"XAML", std::wstring{L"Bindings->Update BEGIN ptr="} + PointerText(Bindings.get()) +
+                              L" present=" + (Bindings ? L"true" : L"false"));
     if (Bindings) Bindings->Update();
-    wac::trace_sink::Emit(L"XAML", L"Bindings->Update END");
+    wac::trace::Write(L"XAML", std::wstring{L"Bindings->Update END ptr="} + PointerText(Bindings.get()) +
+                              L" present=" + (Bindings ? L"true" : L"false"));
 }
 
 winrt::fire_and_forget MainWindow::Browse_Click(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::RoutedEventArgs const&) {
