@@ -21,6 +21,10 @@ public:
     void BeginGeneration();
     void CompleteGeneration(GenerationSession session);
     void CompleteFailure(std::vector<Diagnostic> diagnostics);
+    void BeginSave();
+    void CompleteSaveCancelled();
+    void CompleteSaveSuccess();
+    void CompleteSaveFailure(Diagnostic diagnostic);
 
     BoardPhase phase() const noexcept;
     bool can_save() const noexcept;

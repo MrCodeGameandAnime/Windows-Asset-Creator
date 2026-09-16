@@ -32,6 +32,25 @@ void AssetBoardState::CompleteFailure(std::vector<Diagnostic> diagnostics) {
     phase_ = BoardPhase::error;
 }
 
+void AssetBoardState::BeginSave() {
+    if (phase_ == BoardPhase::ready && session_) phase_ = BoardPhase::saving;
+}
+
+void AssetBoardState::CompleteSaveCancelled() {
+    if (phase_ == BoardPhase::saving && session_) phase_ = BoardPhase::ready;
+}
+
+void AssetBoardState::CompleteSaveSuccess() {
+    if (phase_ == BoardPhase::saving && session_) phase_ = BoardPhase::ready;
+}
+
+void AssetBoardState::CompleteSaveFailure(Diagnostic diagnostic) {
+    if (phase_ == BoardPhase::saving && session_) {
+        diagnostics_.push_back(std::move(diagnostic));
+        phase_ = BoardPhase::ready;
+    }
+}
+
 BoardPhase AssetBoardState::phase() const noexcept { return phase_; }
 bool AssetBoardState::can_save() const noexcept { return phase_ == BoardPhase::ready && session_.has_value(); }
 std::optional<GenerationSession> const& AssetBoardState::session() const noexcept { return session_; }

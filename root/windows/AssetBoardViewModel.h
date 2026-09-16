@@ -52,6 +52,11 @@ struct AssetBoardViewModel : AssetBoardViewModelT<AssetBoardViewModel> {
     void BeginGeneration();
     void CompleteGeneration(wac::GenerationSession session);
     void CompleteFailure(std::vector<wac::Diagnostic> diagnostics);
+    bool BeginSave();
+    wac::OperationResult ExportZip(std::filesystem::path const& destination) const;
+    void CompleteSaveCancelled();
+    void CompleteSaveSuccess(std::filesystem::path const& destination, bool explorer_opened);
+    void CompleteSaveFailure(wac::Diagnostic diagnostic);
     winrt::event_token PropertyChanged(winrt::Microsoft::UI::Xaml::Data::PropertyChangedEventHandler const& handler);
     void PropertyChanged(winrt::event_token const& token) noexcept;
 
@@ -60,6 +65,7 @@ private:
     void NotifyChanged();
 
     wac::AssetBoardState state_;
+    winrt::hstring save_status_;
     winrt::Windows::Foundation::Collections::IObservableVector<winrt::WindowsAssetCreator::AssetBoardGroupViewModel> groups_;
     winrt::event<winrt::Microsoft::UI::Xaml::Data::PropertyChangedEventHandler> property_changed_;
 };

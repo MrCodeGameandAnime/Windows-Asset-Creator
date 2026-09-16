@@ -34,6 +34,7 @@ winrt::hstring AssetBoardViewModel::SourceName() const { return L"No source sele
 winrt::hstring AssetBoardViewModel::SourceDimensions() const { return L"Choose a PNG or JPEG to begin."; }
 winrt::hstring AssetBoardViewModel::SourceFramingNote() const { return L"Artwork is centered on a transparent square and never cropped."; }
 winrt::hstring AssetBoardViewModel::ValidationText() const {
+    if (!save_status_.empty()) return save_status_;
     return state_.phase() == wac::BoardPhase::ready ? L"69 PNG + 1 ICO ready" : L"No generated assets yet.";
 }
 winrt::hstring AssetBoardViewModel::ErrorText() const {
@@ -50,15 +51,44 @@ winrt::Microsoft::UI::Xaml::Visibility AssetBoardViewModel::EmptyDropTargetVisib
 winrt::Windows::Foundation::Collections::IVectorView<winrt::WindowsAssetCreator::AssetBoardGroupViewModel>
 AssetBoardViewModel::Groups() const { return groups_.GetView(); }
 
-void AssetBoardViewModel::BeginGeneration() { state_.BeginGeneration(); RefreshGroups(); NotifyChanged(); }
+void AssetBoardViewModel::BeginGeneration() { save_status_.clear(); state_.BeginGeneration(); RefreshGroups(); NotifyChanged(); }
 void AssetBoardViewModel::CompleteGeneration(wac::GenerationSession session) {
     state_.CompleteGeneration(std::move(session));
     RefreshGroups();
     NotifyChanged();
 }
 void AssetBoardViewModel::CompleteFailure(std::vector<wac::Diagnostic> diagnostics) {
+    save_status_.clear();
     state_.CompleteFailure(std::move(diagnostics));
     RefreshGroups();
+    NotifyChanged();
+}
+bool AssetBoardViewModel::BeginSave() {
+    if (!state_.can_save()) return false;
+    save_status_.clear();
+    state_.BeginSave();
+    NotifyChanged();
+    return true;
+}
+wac::OperationResult AssetBoardViewModel::ExportZip(std::filesystem::path const& destination) const {
+    const auto& session = state_.session();
+    if (session) return session->ExportZip(destination);
+    return {{{wac::Severity::error, wac::DiagnosticCode::zip_failure,
+              L"No generated assets are available to save.", destination.wstring()}}};
+}
+void AssetBoardViewModel::CompleteSaveCancelled() {
+    state_.CompleteSaveCancelled();
+    NotifyChanged();
+}
+void AssetBoardViewModel::CompleteSaveSuccess(std::filesystem::path const& destination, bool explorer_opened) {
+    state_.CompleteSaveSuccess();
+    save_status_ = explorer_opened
+        ? winrt::hstring{L"Saved " + destination.filename().wstring() + L"."}
+        : winrt::hstring{L"Saved, but Explorer could not be opened."};
+    NotifyChanged();
+}
+void AssetBoardViewModel::CompleteSaveFailure(wac::Diagnostic diagnostic) {
+    state_.CompleteSaveFailure(std::move(diagnostic));
     NotifyChanged();
 }
 

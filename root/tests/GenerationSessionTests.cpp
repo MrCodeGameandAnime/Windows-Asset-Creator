@@ -224,3 +224,37 @@ TEST_CASE(Board_state_keeps_save_disabled_after_corrupt_source)
     REQUIRE_EQ(state.session().has_value(), false);
     REQUIRE_EQ(state.diagnostics().front().code, wac::DiagnosticCode::corrupt_image);
 }
+
+TEST_CASE(Cancelled_save_returns_board_to_ready_state)
+{
+    wac::AssetBoardState state;
+    state.CompleteGeneration(ReadySession());
+    state.BeginSave();
+    state.CompleteSaveCancelled();
+    REQUIRE_EQ(state.phase(), wac::BoardPhase::ready);
+    REQUIRE_EQ(state.can_save(), true);
+}
+
+TEST_CASE(Successful_save_returns_board_to_ready_state)
+{
+    wac::AssetBoardState state;
+    state.CompleteGeneration(ReadySession());
+    state.BeginSave();
+    state.CompleteSaveSuccess();
+    REQUIRE_EQ(state.phase(), wac::BoardPhase::ready);
+    REQUIRE_EQ(state.can_save(), true);
+    REQUIRE_EQ(state.session().has_value(), true);
+}
+
+TEST_CASE(Failed_export_preserves_the_ready_session)
+{
+    wac::AssetBoardState state;
+    state.CompleteGeneration(ReadySession());
+    state.BeginSave();
+    state.CompleteSaveFailure({wac::Severity::error, wac::DiagnosticCode::zip_failure,
+                               L"The ZIP could not be saved.", L"output.zip"});
+    REQUIRE_EQ(state.phase(), wac::BoardPhase::ready);
+    REQUIRE_EQ(state.can_save(), true);
+    REQUIRE_EQ(state.session().has_value(), true);
+    REQUIRE_EQ(state.diagnostics().front().code, wac::DiagnosticCode::zip_failure);
+}
