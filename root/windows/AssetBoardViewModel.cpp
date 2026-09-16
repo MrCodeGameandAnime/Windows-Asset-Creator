@@ -50,7 +50,7 @@ winrt::hstring AssetBoardItemViewModel::PreviewPath() const {
 
 AssetBoardGroupViewModel::AssetBoardGroupViewModel(
     winrt::hstring title,
-    winrt::Windows::Foundation::Collections::IVectorView<winrt::WindowsAssetCreator::AssetBoardItemViewModel> assets)
+    winrt::Windows::Foundation::Collections::IObservableVector<winrt::WindowsAssetCreator::AssetBoardItemViewModel> assets)
     : title_(std::move(title)), assets_(std::move(assets)) {
     wac::trace_sink::Emit(L"BOARD", std::wstring{L"AssetBoardGroupViewModel ctor this="} + PointerText(this) +
                                   L" title=" + std::wstring{title_.c_str()} +
@@ -61,7 +61,7 @@ winrt::hstring AssetBoardGroupViewModel::Title() const {
     TraceProperty(L"AssetBoardGroup.Title", title_.c_str(), this);
     return title_;
 }
-winrt::Windows::Foundation::Collections::IVectorView<winrt::WindowsAssetCreator::AssetBoardItemViewModel>
+winrt::Windows::Foundation::Collections::IObservableVector<winrt::WindowsAssetCreator::AssetBoardItemViewModel>
 AssetBoardGroupViewModel::Assets() const {
     wac::trace_sink::Emit(L"BOARD", std::wstring{L"AssetBoardGroup.Assets this="} + PointerText(this) +
                                   L" assets_abi=" + PointerText(winrt::get_abi(assets_)) +
@@ -200,7 +200,7 @@ void AssetBoardViewModel::CompleteSaveFailure(wac::Diagnostic diagnostic) {
 void AssetBoardViewModel::RefreshGroups() {
     groups_.Clear();
     for (const auto& group : state_.groups()) {
-        auto assets = winrt::single_threaded_vector<winrt::WindowsAssetCreator::AssetBoardItemViewModel>();
+        auto assets = winrt::single_threaded_observable_vector<winrt::WindowsAssetCreator::AssetBoardItemViewModel>();
         for (const auto& asset : group.assets) {
             const auto dimensions = std::format(L"{} × {} px", asset.size.width, asset.size.height);
             const auto item = winrt::make<AssetBoardItemViewModel>(winrt::hstring{asset.label},
@@ -210,12 +210,11 @@ void AssetBoardViewModel::RefreshGroups() {
                                           PointerText(winrt::get_abi(item)) + L" label=" + asset.label);
             assets.Append(item);
         }
-        const auto assets_view = assets.GetView();
-        const auto group_projection = winrt::make<AssetBoardGroupViewModel>(winrt::hstring{group.title}, assets_view);
+        const auto group_projection = winrt::make<AssetBoardGroupViewModel>(winrt::hstring{group.title}, assets);
         wac::trace_sink::Emit(L"BOARD", std::wstring{L"RefreshGroups group projected_abi="} +
                                       PointerText(winrt::get_abi(group_projection)) + L" title=" + group.title +
-                                      L" assets_abi=" + PointerText(winrt::get_abi(assets_view)) +
-                                      L" asset_count=" + std::to_wstring(assets_view.Size()));
+                                      L" assets_abi=" + PointerText(winrt::get_abi(assets)) +
+                                      L" asset_count=" + std::to_wstring(assets.Size()));
         groups_.Append(group_projection);
     }
 }

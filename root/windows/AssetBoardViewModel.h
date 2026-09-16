@@ -24,14 +24,14 @@ private:
 struct AssetBoardGroupViewModel : AssetBoardGroupViewModelT<AssetBoardGroupViewModel> {
     AssetBoardGroupViewModel() = default;
     AssetBoardGroupViewModel(winrt::hstring title,
-                             winrt::Windows::Foundation::Collections::IVectorView<winrt::WindowsAssetCreator::AssetBoardItemViewModel> assets);
+                             winrt::Windows::Foundation::Collections::IObservableVector<winrt::WindowsAssetCreator::AssetBoardItemViewModel> assets);
 
     winrt::hstring Title() const;
-    winrt::Windows::Foundation::Collections::IVectorView<winrt::WindowsAssetCreator::AssetBoardItemViewModel> Assets() const;
+    winrt::Windows::Foundation::Collections::IObservableVector<winrt::WindowsAssetCreator::AssetBoardItemViewModel> Assets() const;
 
 private:
     winrt::hstring title_;
-    winrt::Windows::Foundation::Collections::IVectorView<winrt::WindowsAssetCreator::AssetBoardItemViewModel> assets_{nullptr};
+    winrt::Windows::Foundation::Collections::IObservableVector<winrt::WindowsAssetCreator::AssetBoardItemViewModel> assets_{nullptr};
 };
 
 struct AssetBoardViewModel : AssetBoardViewModelT<AssetBoardViewModel> {

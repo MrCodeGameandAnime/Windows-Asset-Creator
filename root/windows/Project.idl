@@ -14,7 +14,7 @@ namespace WindowsAssetCreator
     {
         AssetBoardGroupViewModel();
         String Title{ get; };
-        Windows.Foundation.Collections.IVectorView<AssetBoardItemViewModel> Assets{ get; };
+        Windows.Foundation.Collections.IObservableVector<AssetBoardItemViewModel> Assets{ get; };
     }
 
     [default_interface]
