@@ -1,5 +1,6 @@
 #include "Validator.h"
 #include "../ImagePipeline.h"
+#include "../Diagnostics/TraceSink.h"
 
 #include <windows.h>
 #include <wincodec.h>
@@ -14,6 +15,7 @@ namespace wac {
 namespace {
 using Microsoft::WRL::ComPtr;
 OperationResult Failure(std::filesystem::path const& path) {
+    trace_sink::Emit(L"VALIDATE", L"validation_failure path=" + path.wstring());
     return {{{Severity::error, DiagnosticCode::validation_failure, L"Staged asset validation failed.", path.wstring()}}};
 }
 uint16_t ReadU16(std::istream& input) { uint8_t a = input.get(), b = input.get(); return static_cast<uint16_t>(a | (b << 8)); }
@@ -41,6 +43,7 @@ bool IsAlphaCapablePng(std::filesystem::path const& path) {
 }
 
 OperationResult ValidateStagedAssets(StoreMsixProfile const& profile, std::filesystem::path const& staging_root) {
+    trace_sink::Emit(L"VALIDATE", L"ValidateStagedAssets BEGIN root=" + staging_root.wstring());
     if (!ValidateProfile(profile).succeeded()) return Failure(staging_root);
     std::unordered_set<std::wstring> paths;
     for (const auto& asset : profile.png_assets()) {
@@ -87,6 +90,8 @@ OperationResult ValidateStagedAssets(StoreMsixProfile const& profile, std::files
         const auto relative = std::filesystem::relative(entry.path(), staging_root).generic_wstring();
         if (!paths.contains(relative)) return Failure(entry.path());
     }
+    trace_sink::Emit(L"VALIDATE", L"ValidateStagedAssets END success png_count=" + std::to_wstring(profile.png_assets().size()) +
+                              L" ico=1");
     return {};
 }
 }

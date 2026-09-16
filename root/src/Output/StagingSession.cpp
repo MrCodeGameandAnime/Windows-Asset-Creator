@@ -1,4 +1,5 @@
 #include "StagingSession.h"
+#include "../Diagnostics/TraceSink.h"
 #include "ZipWriter.h"
 
 namespace wac {
@@ -33,9 +34,17 @@ std::filesystem::path const& GenerationSession::staging_root() const noexcept { 
 StoreMsixProfile const& GenerationSession::profile() const noexcept { return profile_; }
 std::span<GeneratedAsset const> GenerationSession::preview_assets() const noexcept { return assets_; }
 OperationResult GenerationSession::ExportZip(std::filesystem::path const& destination) const {
+    trace_sink::Emit(L"EXPORT", L"ExportZip ENTER destination=" + destination.wstring());
     std::vector<std::filesystem::path> entries;
     for (const auto& asset : profile_.png_assets()) entries.push_back(asset.relative_path);
     entries.push_back(profile_.ico_asset().relative_path);
-    return WriteZip(staging_root_, entries, destination);
+    auto result = WriteZip(staging_root_, entries, destination);
+    if (result.succeeded()) {
+        trace_sink::Emit(L"EXPORT", L"ExportZip result=success entries=70");
+    } else {
+        trace_sink::Emit(L"EXPORT", L"ExportZip result=failure diagnostics=" +
+                                  std::to_wstring(result.diagnostics.size()));
+    }
+    return result;
 }
 }

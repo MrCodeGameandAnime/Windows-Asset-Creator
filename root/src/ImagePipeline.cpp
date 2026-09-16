@@ -1,4 +1,5 @@
 #include "ImagePipeline.h"
+#include "Diagnostics/TraceSink.h"
 
 #include <algorithm>
 #include <array>
@@ -27,6 +28,7 @@ void Check(HRESULT result) {
 class Apartment final {
 public:
     Apartment() : result_(CoInitializeEx(nullptr, COINIT_MULTITHREADED)) {
+        if (FAILED(result_)) trace_sink::EmitHr(L"WIC", L"ImagePipeline CoInitializeEx", static_cast<long>(result_));
         if (FAILED(result_) && result_ != RPC_E_CHANGED_MODE) Check(result_);
     }
     ~Apartment() {
@@ -42,8 +44,10 @@ void EnsureApartment() {
 
 ComPtr<IWICImagingFactory> CreateFactory() {
     ComPtr<IWICImagingFactory> factory;
-    Check(CoCreateInstance(CLSID_WICImagingFactory, nullptr, CLSCTX_INPROC_SERVER,
-                           IID_PPV_ARGS(factory.GetAddressOf())));
+    const auto result = CoCreateInstance(CLSID_WICImagingFactory, nullptr, CLSCTX_INPROC_SERVER,
+                                         IID_PPV_ARGS(factory.GetAddressOf()));
+    if (FAILED(result)) trace_sink::EmitHr(L"WIC", L"CoCreateInstance(CLSID_WICImagingFactory)", static_cast<long>(result));
+    Check(result);
     return factory;
 }
 
@@ -119,11 +123,15 @@ GenerationResult<DecodedImage> LoadImage(std::filesystem::path const& source) {
         EnsureApartment();
         const auto factory = CreateFactory();
         ComPtr<IWICBitmapDecoder> decoder;
-        Check(factory->CreateDecoderFromFilename(source.c_str(), nullptr, GENERIC_READ,
-                                                 WICDecodeMetadataCacheOnLoad, decoder.GetAddressOf()));
+        const auto decoder_result = factory->CreateDecoderFromFilename(source.c_str(), nullptr, GENERIC_READ,
+                                                                         WICDecodeMetadataCacheOnLoad, decoder.GetAddressOf());
+        if (FAILED(decoder_result)) trace_sink::EmitHr(L"WIC", L"CreateDecoderFromFilename", static_cast<long>(decoder_result));
+        Check(decoder_result);
 
         ComPtr<IWICBitmapFrameDecode> frame;
-        Check(decoder->GetFrame(0, frame.GetAddressOf()));
+        const auto frame_result = decoder->GetFrame(0, frame.GetAddressOf());
+        if (FAILED(frame_result)) trace_sink::EmitHr(L"WIC", L"IWICBitmapDecoder::GetFrame", static_cast<long>(frame_result));
+        Check(frame_result);
 
         ComPtr<IWICBitmapSource> oriented;
         const auto transform = OrientationTransform(frame.Get());
@@ -131,27 +139,45 @@ GenerationResult<DecodedImage> LoadImage(std::filesystem::path const& source) {
             Check(frame.As(&oriented));
         } else {
             ComPtr<IWICBitmapFlipRotator> rotator;
-            Check(factory->CreateBitmapFlipRotator(rotator.GetAddressOf()));
-            Check(rotator->Initialize(frame.Get(), transform));
+            const auto rotator_result = factory->CreateBitmapFlipRotator(rotator.GetAddressOf());
+            if (FAILED(rotator_result)) trace_sink::EmitHr(L"WIC", L"CreateBitmapFlipRotator", static_cast<long>(rotator_result));
+            Check(rotator_result);
+            const auto transform_result = rotator->Initialize(frame.Get(), transform);
+            if (FAILED(transform_result)) trace_sink::EmitHr(L"WIC", L"IWICBitmapFlipRotator::Initialize", static_cast<long>(transform_result));
+            Check(transform_result);
             Check(rotator.As(&oriented));
         }
 
         ComPtr<IWICFormatConverter> converter;
-        Check(factory->CreateFormatConverter(converter.GetAddressOf()));
-        Check(converter->Initialize(oriented.Get(), GUID_WICPixelFormat32bppRGBA,
-                                    WICBitmapDitherTypeNone, nullptr, 0.0,
-                                    WICBitmapPaletteTypeCustom));
+        const auto converter_result = factory->CreateFormatConverter(converter.GetAddressOf());
+        if (FAILED(converter_result)) trace_sink::EmitHr(L"WIC", L"CreateFormatConverter", static_cast<long>(converter_result));
+        Check(converter_result);
+        const auto convert_result = converter->Initialize(oriented.Get(), GUID_WICPixelFormat32bppRGBA,
+                                                          WICBitmapDitherTypeNone, nullptr, 0.0,
+                                                          WICBitmapPaletteTypeCustom);
+        if (FAILED(convert_result)) trace_sink::EmitHr(L"WIC", L"IWICFormatConverter::Initialize", static_cast<long>(convert_result));
+        Check(convert_result);
 
         ComPtr<IWICBitmap> bitmap;
-        Check(factory->CreateBitmapFromSource(converter.Get(), WICBitmapCacheOnLoad, bitmap.GetAddressOf()));
-        return {DecodedImage::FromBitmap(std::move(bitmap)), {}};
+        const auto bitmap_result = factory->CreateBitmapFromSource(converter.Get(), WICBitmapCacheOnLoad, bitmap.GetAddressOf());
+        if (FAILED(bitmap_result)) trace_sink::EmitHr(L"WIC", L"CreateBitmapFromSource", static_cast<long>(bitmap_result));
+        Check(bitmap_result);
+        auto result = DecodedImage::FromBitmap(std::move(bitmap));
+        return {std::move(result), {}};
     } catch (HResultError const& error) {
+        trace_sink::EmitHr(L"WIC", L"LoadImage failure", static_cast<long>(error.result()));
+        trace_sink::Emit(L"WIC", L"LoadImage EXIT failure");
         return {std::nullopt, {DecodeDiagnostic(error.result(), source)}};
     }
 }
 
 DecodedImage NormalizeToSquare(DecodedImage const& source) {
-    if (source.size_.width == source.size_.height) return source;
+    trace_sink::Emit(L"WIC", L"NormalizeToSquare BEGIN dimensions=" + std::to_wstring(source.size_.width) +
+                              L"x" + std::to_wstring(source.size_.height));
+    if (source.size_.width == source.size_.height) {
+        trace_sink::Emit(L"WIC", L"NormalizeToSquare passthrough");
+        return source;
+    }
 
     EnsureApartment();
     const auto factory = CreateFactory();
@@ -178,7 +204,10 @@ DecodedImage NormalizeToSquare(DecodedImage const& source) {
         std::memcpy(destination + static_cast<size_t>(row + y_offset) * destination_stride + x_offset * 4,
                     pixels.data() + static_cast<size_t>(row) * source_stride, source_stride);
     }
-    return DecodedImage::FromBitmap(std::move(normalized));
+    auto result = DecodedImage::FromBitmap(std::move(normalized));
+    trace_sink::Emit(L"WIC", L"NormalizeToSquare END dimensions=" + std::to_wstring(result.size().width) +
+                              L"x" + std::to_wstring(result.size().height));
+    return result;
 }
 
 DecodedImage ResizeRgba(DecodedImage const& source, PixelSize target) {

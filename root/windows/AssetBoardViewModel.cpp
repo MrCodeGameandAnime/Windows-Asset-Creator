@@ -1,4 +1,5 @@
 #include "AssetBoardViewModel.h"
+#include "../src/Diagnostics/TraceSink.h"
 
 #if __has_include("AssetBoardItemViewModel.g.cpp")
 #include "AssetBoardItemViewModel.g.cpp"
@@ -51,22 +52,35 @@ winrt::Microsoft::UI::Xaml::Visibility AssetBoardViewModel::EmptyDropTargetVisib
 winrt::Windows::Foundation::Collections::IVectorView<winrt::WindowsAssetCreator::AssetBoardGroupViewModel>
 AssetBoardViewModel::Groups() const { return groups_.GetView(); }
 
-void AssetBoardViewModel::BeginGeneration() { save_status_.clear(); state_.BeginGeneration(); RefreshGroups(); NotifyChanged(); }
+void AssetBoardViewModel::BeginGeneration() {
+    save_status_.clear();
+    state_.BeginGeneration();
+    RefreshGroups();
+    wac::trace_sink::Emit(L"STATE", L"diagnostics=0 groups=0 generated_assets=0 CanSave=false");
+    NotifyChanged();
+}
 void AssetBoardViewModel::CompleteGeneration(wac::GenerationSession session) {
     state_.CompleteGeneration(std::move(session));
     RefreshGroups();
+    wac::trace_sink::Emit(L"STATE", L"diagnostics=" + std::to_wstring(state_.diagnostics().size()) +
+                                  L" groups=" + std::to_wstring(state_.groups().size()) +
+                                  L" generated_assets=" + std::to_wstring(state_.session()->preview_assets().size()) +
+                                  L" CanSave=" + std::wstring{CanSave() ? L"true" : L"false"});
     NotifyChanged();
 }
 void AssetBoardViewModel::CompleteFailure(std::vector<wac::Diagnostic> diagnostics) {
     save_status_.clear();
     state_.CompleteFailure(std::move(diagnostics));
     RefreshGroups();
+    wac::trace_sink::Emit(L"STATE", L"diagnostics=" + std::to_wstring(state_.diagnostics().size()) +
+                                  L" groups=0 generated_assets=0 CanSave=false");
     NotifyChanged();
 }
 bool AssetBoardViewModel::BeginSave() {
     if (!state_.can_save()) return false;
     save_status_.clear();
     state_.BeginSave();
+    wac::trace_sink::Emit(L"STATE", L"save status=Saving CanSave=" + std::wstring{CanSave() ? L"true" : L"false"});
     NotifyChanged();
     return true;
 }
@@ -78,6 +92,7 @@ wac::OperationResult AssetBoardViewModel::ExportZip(std::filesystem::path const&
 }
 void AssetBoardViewModel::CompleteSaveCancelled() {
     state_.CompleteSaveCancelled();
+    wac::trace_sink::Emit(L"STATE", L"save status=Cancelled CanSave=" + std::wstring{CanSave() ? L"true" : L"false"});
     NotifyChanged();
 }
 void AssetBoardViewModel::CompleteSaveSuccess(std::filesystem::path const& destination, bool explorer_opened) {
@@ -85,10 +100,13 @@ void AssetBoardViewModel::CompleteSaveSuccess(std::filesystem::path const& desti
     save_status_ = explorer_opened
         ? winrt::hstring{L"Saved " + destination.filename().wstring() + L"."}
         : winrt::hstring{L"Saved, but Explorer could not be opened."};
+    wac::trace_sink::Emit(L"STATE", L"save status=Success CanSave=" + std::wstring{CanSave() ? L"true" : L"false"});
     NotifyChanged();
 }
 void AssetBoardViewModel::CompleteSaveFailure(wac::Diagnostic diagnostic) {
     state_.CompleteSaveFailure(std::move(diagnostic));
+    wac::trace_sink::Emit(L"STATE", L"save status=Failure diagnostics=" + std::to_wstring(state_.diagnostics().size()) +
+                                  L" CanSave=" + std::wstring{CanSave() ? L"true" : L"false"});
     NotifyChanged();
 }
 

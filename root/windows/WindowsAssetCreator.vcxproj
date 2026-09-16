@@ -73,6 +73,7 @@
     <ClInclude Include="AssetBoardState.h" />
     <ClInclude Include="AssetBoardViewModel.h" />
     <ClInclude Include="ExplorerReveal.h" />
+    <ClInclude Include="Diagnostics\Trace.h" />
     <ClInclude Include="App.xaml.h"><DependentUpon>App.xaml</DependentUpon></ClInclude>
     <ClInclude Include="MainWindow.xaml.h"><DependentUpon>MainWindow.xaml</DependentUpon></ClInclude>
     <ClInclude Include="pch.h" />
@@ -90,6 +91,7 @@
     <ClCompile Include="AssetBoardState.cpp" />
     <ClCompile Include="AssetBoardViewModel.cpp" />
     <ClCompile Include="ExplorerReveal.cpp" />
+    <ClCompile Include="Diagnostics\Trace.cpp" />
     <ClCompile Include="App.xaml.cpp"><DependentUpon>App.xaml</DependentUpon></ClCompile>
     <ClCompile Include="MainWindow.xaml.cpp"><DependentUpon>MainWindow.xaml</DependentUpon></ClCompile>
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />

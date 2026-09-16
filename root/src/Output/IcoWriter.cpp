@@ -1,5 +1,6 @@
 #include "IcoWriter.h"
 #include "PngEncoder.h"
+#include "../Diagnostics/TraceSink.h"
 
 #include <array>
 #include <cstdint>
@@ -22,16 +23,23 @@ OperationResult Failure(std::filesystem::path const& path) {
 
 OperationResult WriteAppIcon(DecodedImage const& normalized_source, std::filesystem::path const& destination) {
     try {
+        trace_sink::Emit(L"ICO", L"WriteAppIcon BEGIN destination=" + destination.wstring());
         constexpr std::array<uint32_t, 5> sizes{16, 24, 32, 48, 256};
         std::filesystem::create_directories(destination.parent_path());
         std::vector<std::vector<uint8_t>> payloads;
         for (const auto size : sizes) {
             const auto png = destination.wstring() + L"." + std::to_wstring(size) + L".png";
             const auto result = EncodePng(normalized_source, png, {size, size});
-            if (!result.succeeded()) return result;
+            if (!result.succeeded()) {
+                trace_sink::Emit(L"ICO", L"WriteAppIcon PNG payload failed size=" + std::to_wstring(size));
+                return result;
+            }
             auto payload = ReadBytes(png);
             std::filesystem::remove(png);
-            if (payload.size() < 8 || payload[0] != 0x89 || payload[1] != 0x50 || payload[2] != 0x4e || payload[3] != 0x47) return Failure(destination);
+            if (payload.size() < 8 || payload[0] != 0x89 || payload[1] != 0x50 || payload[2] != 0x4e || payload[3] != 0x47) {
+                trace_sink::Emit(L"ICO", L"WriteAppIcon invalid PNG payload size=" + std::to_wstring(size));
+                return Failure(destination);
+            }
             payloads.push_back(std::move(payload));
         }
         const auto temporary = destination.wstring() + L".tmp";
@@ -48,9 +56,16 @@ OperationResult WriteAppIcon(DecodedImage const& normalized_source, std::filesys
         }
         for (const auto& payload : payloads) output.write(reinterpret_cast<char const*>(payload.data()), payload.size());
         output.close();
-        if (!output) return Failure(destination);
+        if (!output) {
+            trace_sink::Emit(L"ICO", L"WriteAppIcon output close failure");
+            return Failure(destination);
+        }
         std::filesystem::rename(temporary, destination);
+        trace_sink::Emit(L"ICO", L"WriteAppIcon END success entries=5");
         return {};
-    } catch (...) { return Failure(destination); }
+    } catch (...) {
+        trace_sink::Emit(L"ICO", L"WriteAppIcon END failure");
+        return Failure(destination);
+    }
 }
 }
