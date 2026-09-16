@@ -16,7 +16,7 @@ namespace winrt::WindowsAssetCreator::implementation
         winrt::fire_and_forget DropSurface_Drop(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::DragEventArgs const&);
 
     private:
-        winrt::fire_and_forget GenerateFromSource(std::filesystem::path source);
+        winrt::fire_and_forget GenerateFromStorageFile(winrt::Windows::Storage::StorageFile source);
         void ShowUnsupportedInput();
         winrt::WindowsAssetCreator::AssetBoardViewModel view_model_{nullptr};
         winrt::com_ptr<AssetBoardViewModel> view_model_impl_;

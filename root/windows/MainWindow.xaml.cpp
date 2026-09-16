@@ -88,7 +88,7 @@ winrt::fire_and_forget MainWindow::Browse_Click(winrt::Windows::Foundation::IIns
         wac::trace::Write(L"PICKER", std::wstring{L"selected path="} + file.Path().c_str());
         wac::trace::Write(L"PICKER", L"detected extension=" + std::filesystem::path{file.Path().c_str()}.extension().wstring());
         wac::trace::Write(L"PICKER", L"handoff into generation");
-        GenerateFromSource(file.Path().c_str());
+        GenerateFromStorageFile(file);
     } catch (winrt::hresult_error const& error) {
         TraceHResultException(L"PICKER", L"Browse_Click exception", error);
         throw;
@@ -208,7 +208,7 @@ winrt::fire_and_forget MainWindow::DropSurface_Drop(winrt::Windows::Foundation::
         if (const auto file = items.GetAt(0).try_as<winrt::Windows::Storage::StorageFile>()) {
             wac::trace::Write(L"DROP", std::wstring{L"selected file name="} + file.Name().c_str());
             wac::trace::Write(L"DROP", std::wstring{L"selected file path="} + file.Path().c_str());
-            GenerateFromSource(file.Path().c_str());
+            GenerateFromStorageFile(file);
         } else {
             wac::trace::Write(L"DROP", L"rejected: selected storage item is a folder");
             ShowUnsupportedInput();
@@ -221,12 +221,17 @@ winrt::fire_and_forget MainWindow::DropSurface_Drop(winrt::Windows::Foundation::
         throw;
     }
 }
-winrt::fire_and_forget MainWindow::GenerateFromSource(std::filesystem::path source) {
+winrt::fire_and_forget MainWindow::GenerateFromStorageFile(winrt::Windows::Storage::StorageFile source) {
     const auto operation_id = wac::trace::NextOperationId();
     const auto tag = OperationTag(L"GEN", operation_id);
     try {
-        wac::trace::Write(L"GENERATE", tag + L" GenerateFromSource ENTER path=" + source.wstring());
-        const auto extension = source.extension().wstring();
+        const auto original_name = std::wstring{source.Name().c_str()};
+        const auto original_path = std::wstring{source.Path().c_str()};
+        const std::filesystem::path source_path{original_path};
+        wac::trace::Write(L"PICKER", tag + L" original StorageFile name=" + original_name);
+        wac::trace::Write(L"PICKER", tag + L" original path=" + original_path);
+        wac::trace::Write(L"GENERATE", tag + L" GenerateFromStorageFile ENTER path=" + original_path);
+        const auto extension = source_path.extension().wstring();
         wac::trace::Write(L"GENERATE", tag + L" detected extension=" + extension);
         if (_wcsicmp(extension.c_str(), L".png") != 0 && _wcsicmp(extension.c_str(), L".jpg") != 0 &&
             _wcsicmp(extension.c_str(), L".jpeg") != 0) {
@@ -247,6 +252,47 @@ winrt::fire_and_forget MainWindow::GenerateFromSource(std::filesystem::path sour
         const auto dispatcher_queue = DispatcherQueue();
         wac::trace::Write(L"DISPATCH", tag + L" DispatcherQueue captured");
         const auto view_model = view_model_impl_;
+
+        winrt::Windows::Storage::StorageFile temp_source{nullptr};
+        std::filesystem::path temp_path;
+        const auto temp_folder = winrt::Windows::Storage::ApplicationData::Current().TemporaryFolder();
+        const auto temp_folder_path = std::wstring{temp_folder.Path().c_str()};
+        const auto temp_name = std::wstring{L"source-"} + std::to_wstring(operation_id) + extension;
+        wac::trace::Write(L"STORAGE", tag + L" TemporaryFolder path=" + temp_folder_path);
+        wac::trace::Write(L"STORAGE", tag + L" brokered source copy BEGIN destination=" + temp_name);
+        try {
+            temp_source = co_await source.CopyAsync(
+                temp_folder, temp_name,
+                winrt::Windows::Storage::NameCollisionOption::GenerateUniqueName);
+            temp_path = std::filesystem::path{temp_source.Path().c_str()};
+            wac::trace::Write(L"STORAGE", tag + L" brokered source copy SUCCESS path=" + temp_path.wstring());
+        } catch (winrt::hresult_error const& error) {
+            wac::trace::WriteHr(L"STORAGE", tag + L" brokered source copy FAILURE", error.code());
+            wac::trace::Write(L"STORAGE", tag + L" brokered source copy message=" + std::wstring{error.message().c_str()});
+            wac::trace::Write(L"STORAGE", tag + L" original path=" + original_path);
+            wac::trace::Write(L"STORAGE", tag + L" intended temp destination=" + temp_folder_path + L"\\" + temp_name);
+            wac::trace_sink::SetOperationTag(tag);
+            view_model_impl_->CompleteFailure({{wac::Severity::error, wac::DiagnosticCode::io_failure,
+                                                L"The selected image could not be accessed or read.",
+                                                L"The app could not copy the selected image into its temporary workspace."}});
+            wac::trace_sink::Emit(L"STATE", L"brokered source copy failure applied");
+            window->RefreshBindings();
+            wac::trace_sink::ClearOperationTag();
+            co_return;
+        } catch (std::exception const& error) {
+            wac::trace::Write(L"STORAGE", tag + L" brokered source copy std::exception=" + NarrowException(error.what()));
+            wac::trace::Write(L"STORAGE", tag + L" original path=" + original_path);
+            wac::trace::Write(L"STORAGE", tag + L" intended temp destination=" + temp_folder_path + L"\\" + temp_name);
+            wac::trace_sink::SetOperationTag(tag);
+            view_model_impl_->CompleteFailure({{wac::Severity::error, wac::DiagnosticCode::io_failure,
+                                                L"The selected image could not be accessed or read.",
+                                                L"The app could not copy the selected image into its temporary workspace."}});
+            wac::trace_sink::Emit(L"STATE", L"brokered source copy failure applied");
+            window->RefreshBindings();
+            wac::trace_sink::ClearOperationTag();
+            co_return;
+        }
+
         co_await winrt::resume_background();
         wac::trace::Write(L"DISPATCH", tag + L" background switch complete");
         std::shared_ptr<wac::GenerationResult<wac::GenerationSession>> result;
@@ -254,8 +300,18 @@ winrt::fire_and_forget MainWindow::GenerateFromSource(std::filesystem::path sour
             wac::trace_sink::OperationTagScope trace_scope(tag);
             wac::trace_sink::Emit(L"GENERATE", L"background ENTER");
             result = std::make_shared<wac::GenerationResult<wac::GenerationSession>>(
-                wac::AssetGenerator{}.Generate(source));
+                wac::AssetGenerator{}.Generate(temp_path));
             wac::trace_sink::Emit(L"GENERATE", result->succeeded() ? L"background result ready success" : L"background result ready failure");
+        }
+
+        try {
+            co_await temp_source.DeleteAsync();
+            wac::trace::Write(L"STORAGE", tag + L" temporary source cleanup SUCCESS path=" + temp_path.wstring());
+        } catch (winrt::hresult_error const& error) {
+            wac::trace::WriteHr(L"STORAGE", tag + L" temporary source cleanup FAILURE", error.code());
+            wac::trace::Write(L"STORAGE", tag + L" temporary source cleanup message=" + std::wstring{error.message().c_str()});
+        } catch (std::exception const& error) {
+            wac::trace::Write(L"STORAGE", tag + L" temporary source cleanup std::exception=" + NarrowException(error.what()));
         }
 
         const auto enqueued = dispatcher_queue.TryEnqueue([window, view_model, result, tag] {
