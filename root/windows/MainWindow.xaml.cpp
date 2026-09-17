@@ -149,9 +149,15 @@ winrt::fire_and_forget MainWindow::SaveAs_Click(winrt::Windows::Foundation::IIns
 
         const auto operation_id = wac::trace::NextOperationId();
         const auto tag = OperationTag(L"SAVE", operation_id);
+        const auto destination_file = file;
         const std::filesystem::path destination{file.Path().c_str()};
         wac::trace::Write(L"PICKER", tag + L" selected destination name=" + std::wstring{file.Name().c_str()});
         wac::trace::Write(L"PICKER", tag + L" selected destination path=" + destination.wstring());
+        const auto temp_folder = winrt::Windows::Storage::ApplicationData::Current().TemporaryFolder();
+        const std::filesystem::path temp_folder_path{temp_folder.Path().c_str()};
+        const auto temp_export_path = temp_folder_path / (L"export-" + std::to_wstring(operation_id) + L".zip");
+        wac::trace::Write(L"STORAGE", tag + L" TemporaryFolder path=" + temp_folder_path.wstring());
+        wac::trace::Write(L"STORAGE", tag + L" temp export path=" + temp_export_path.wstring());
         wac::trace_sink::SetOperationTag(tag);
         const auto began = view_model_impl_->BeginSave();
         wac::trace_sink::Emit(L"STATE", began ? L"BeginSave result=true" : L"BeginSave result=false");
@@ -167,10 +173,45 @@ winrt::fire_and_forget MainWindow::SaveAs_Click(winrt::Windows::Foundation::IIns
         {
             wac::trace_sink::OperationTagScope trace_scope(tag);
             wac::trace_sink::Emit(L"GENERATE", L"background export ENTER");
-            auto result = std::make_shared<wac::OperationResult>(view_model->ExportZip(destination));
+            wac::trace_sink::Emit(L"GENERATE", L"native ExportZip ENTER temp=" + temp_export_path.wstring());
+            auto result = std::make_shared<wac::OperationResult>(view_model->ExportZip(temp_export_path));
             wac::trace_sink::Emit(result->succeeded() ? L"GENERATE" : L"GENERATE",
-                                  result->succeeded() ? L"ExportZip result=success" : L"ExportZip result=failure");
-            const auto enqueued = dispatcher_queue.TryEnqueue([window_impl, view_model, result, destination, tag] {
+                                  result->succeeded() ? L"native ExportZip result=success" : L"native ExportZip result=failure");
+
+            auto cleanup_temp_export = [&] {
+                std::error_code cleanup_error;
+                const auto removed = std::filesystem::remove(temp_export_path, cleanup_error);
+                if (cleanup_error) {
+                    wac::trace_sink::Emit(L"STORAGE", L"temporary export cleanup FAILURE path=" +
+                                                       temp_export_path.wstring() + L" code=" +
+                                                       std::to_wstring(cleanup_error.value()) + L" message=" +
+                                                       std::wstring{cleanup_error.message().begin(), cleanup_error.message().end()});
+                } else {
+                    wac::trace_sink::Emit(L"STORAGE", L"temporary export cleanup SUCCESS path=" +
+                                                       temp_export_path.wstring() + L" removed=" +
+                                                       std::wstring{removed ? L"true" : L"false"});
+                }
+            };
+
+            if (result->succeeded()) {
+                try {
+                    wac::trace_sink::Emit(L"STORAGE", L"broker CopyAndReplaceAsync BEGIN destination=" + destination.wstring());
+                    const auto temp_file = co_await winrt::Windows::Storage::StorageFile::GetFileFromPathAsync(
+                        temp_export_path.wstring());
+                    co_await temp_file.CopyAndReplaceAsync(destination_file);
+                    wac::trace_sink::Emit(L"STORAGE", L"broker CopyAndReplaceAsync SUCCESS destination=" + destination.wstring());
+                } catch (winrt::hresult_error const& error) {
+                    TraceHResultException(L"STORAGE", L"broker CopyAndReplaceAsync FAILURE", error);
+                    result->diagnostics = {{wac::Severity::error, wac::DiagnosticCode::zip_failure,
+                                            L"The ZIP could not be saved.",
+                                            L"Brokered copy failed for " + destination.wstring() + L": " +
+                                                std::wstring{error.message().c_str()}}};
+                }
+            }
+            cleanup_temp_export();
+
+            auto complete_on_ui = [window_impl, view_model, result, destination, destination_file, hwnd, tag]()
+                -> winrt::fire_and_forget {
                 try {
                     wac::trace_sink::SetOperationTag(tag);
                     wac::trace_sink::Emit(L"UI", L"completion callback ENTER");
@@ -181,7 +222,8 @@ winrt::fire_and_forget MainWindow::SaveAs_Click(winrt::Windows::Foundation::IIns
                             : std::move(result->diagnostics.front());
                         view_model->CompleteSaveFailure(std::move(diagnostic));
                     } else {
-                        view_model->CompleteSaveSuccess(destination, wac::RevealInExplorer(destination));
+                        const auto explorer_opened = co_await wac::RevealInExplorerAsync(destination_file, hwnd);
+                        view_model->CompleteSaveSuccess(destination, explorer_opened);
                     }
                     window_impl->RefreshBindings();
                     wac::trace_sink::ClearOperationTag();
@@ -194,7 +236,8 @@ winrt::fire_and_forget MainWindow::SaveAs_Click(winrt::Windows::Foundation::IIns
                     wac::trace_sink::ClearOperationTag();
                     throw;
                 }
-            });
+            };
+            const auto enqueued = dispatcher_queue.TryEnqueue([complete_on_ui] { complete_on_ui(); });
             wac::trace_sink::Emit(enqueued ? L"DISPATCH" : L"DISPATCH",
                                   enqueued ? L"TryEnqueue result=true" : L"TryEnqueue result=false");
         }
