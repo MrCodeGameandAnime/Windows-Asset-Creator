@@ -1,5 +1,3 @@
-.superpowers/
-
 # MSBuild / Visual C++ output
 **/x64/
 **/Debug/
@@ -33,3 +31,4 @@ root/windows/Generated Files/
 
 # package output
 root/AppPackages/
+root/windows/AppPackages/
