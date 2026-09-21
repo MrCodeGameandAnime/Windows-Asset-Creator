@@ -30,6 +30,7 @@ namespace WindowsAssetCreator
         Boolean IsBusy{ get; };
         Boolean HasError{ get; };
         Boolean CanSave{ get; };
+        Boolean CanReset{ get; };
         Microsoft.UI.Xaml.Visibility EmptyDropTargetVisibility{ get; };
         Windows.Foundation.Collections.IVectorView<AssetBoardGroupViewModel> Groups{ get; };
     }

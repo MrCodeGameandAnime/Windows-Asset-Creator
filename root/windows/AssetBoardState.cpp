@@ -19,6 +19,15 @@ void TraceTransition(BoardPhase previous, BoardPhase next) noexcept {
 }
 }
 
+void AssetBoardState::Reset() {
+    const auto previous = phase_;
+    session_.reset();
+    diagnostics_.clear();
+    groups_.clear();
+    phase_ = BoardPhase::idle;
+    TraceTransition(previous, phase_);
+}
+
 void AssetBoardState::BeginGeneration() {
     const auto previous = phase_;
     session_.reset();
@@ -91,6 +100,9 @@ void AssetBoardState::CompleteSaveFailure(Diagnostic diagnostic) {
 
 BoardPhase AssetBoardState::phase() const noexcept { return phase_; }
 bool AssetBoardState::can_save() const noexcept { return phase_ == BoardPhase::ready && session_.has_value(); }
+bool AssetBoardState::can_reset() const noexcept {
+    return phase_ == BoardPhase::ready || phase_ == BoardPhase::error;
+}
 std::optional<GenerationSession> const& AssetBoardState::session() const noexcept { return session_; }
 std::span<Diagnostic const> AssetBoardState::diagnostics() const noexcept { return diagnostics_; }
 std::span<BoardPreviewGroup const> AssetBoardState::groups() const noexcept { return groups_; }

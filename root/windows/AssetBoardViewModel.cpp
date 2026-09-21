@@ -120,6 +120,11 @@ bool AssetBoardViewModel::CanSave() const noexcept {
     TraceProperty(L"CanSave", value ? L"true" : L"false", this);
     return value;
 }
+bool AssetBoardViewModel::CanReset() const noexcept {
+    const auto value = state_.can_reset();
+    TraceProperty(L"CanReset", value ? L"true" : L"false", this);
+    return value;
+}
 winrt::Microsoft::UI::Xaml::Visibility AssetBoardViewModel::EmptyDropTargetVisibility() const noexcept {
     const auto value = state_.phase() == wac::BoardPhase::idle
         ? winrt::Microsoft::UI::Xaml::Visibility::Visible
@@ -134,6 +139,18 @@ AssetBoardViewModel::Groups() const {
                                   L" groups_abi=" + PointerText(winrt::get_abi(value)) +
                                   L" group_count=" + std::to_wstring(value.Size()));
     return value;
+}
+
+void AssetBoardViewModel::Reset() {
+    wac::trace_sink::Emit(L"VM", L"Reset this=" + PointerText(this));
+    save_status_.clear();
+    state_.Reset();
+    RefreshGroups();
+    wac::trace_sink::Emit(L"STATE", L"reset complete diagnostics=" + std::to_wstring(state_.diagnostics().size()) +
+                                  L" groups=" + std::to_wstring(state_.groups().size()) +
+                                  L" session=" + std::wstring{state_.session() ? L"present" : L"empty"} +
+                                  L" CanSave=" + std::wstring{CanSave() ? L"true" : L"false"});
+    NotifyChanged();
 }
 
 void AssetBoardViewModel::BeginGeneration() {

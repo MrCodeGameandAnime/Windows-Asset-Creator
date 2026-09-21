@@ -46,9 +46,11 @@ struct AssetBoardViewModel : AssetBoardViewModelT<AssetBoardViewModel> {
     bool IsBusy() const noexcept;
     bool HasError() const noexcept;
     bool CanSave() const noexcept;
+    bool CanReset() const noexcept;
     winrt::Microsoft::UI::Xaml::Visibility EmptyDropTargetVisibility() const noexcept;
     winrt::Windows::Foundation::Collections::IVectorView<winrt::WindowsAssetCreator::AssetBoardGroupViewModel> Groups() const;
 
+    void Reset();
     void BeginGeneration();
     void CompleteGeneration(wac::GenerationSession session);
     void CompleteFailure(std::vector<wac::Diagnostic> diagnostics);

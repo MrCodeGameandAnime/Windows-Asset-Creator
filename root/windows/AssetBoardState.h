@@ -18,6 +18,7 @@ struct BoardPreviewGroup {
 
 class AssetBoardState final {
 public:
+    void Reset();
     void BeginGeneration();
     void CompleteGeneration(GenerationSession session);
     void CompleteFailure(std::vector<Diagnostic> diagnostics);
@@ -31,6 +32,7 @@ public:
     std::optional<GenerationSession> const& session() const noexcept;
     std::span<Diagnostic const> diagnostics() const noexcept;
     std::span<BoardPreviewGroup const> groups() const noexcept;
+    bool can_reset() const noexcept;
 
 private:
     BoardPhase phase_{BoardPhase::idle};

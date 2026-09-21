@@ -213,6 +213,56 @@ TEST_CASE(Board_state_groups_every_generated_preview)
     REQUIRE_EQ(state.groups().back().title, std::wstring{L"AppIcon"});
 }
 
+TEST_CASE(Reset_from_ready_returns_to_idle)
+{
+    wac::AssetBoardState state;
+    state.CompleteGeneration(ReadySession());
+    const auto staging_root = state.session()->staging_root();
+    REQUIRE_EQ(std::filesystem::exists(staging_root), true);
+
+    state.Reset();
+
+    REQUIRE_EQ(state.phase(), wac::BoardPhase::idle);
+    REQUIRE_EQ(state.can_save(), false);
+    REQUIRE_EQ(state.session().has_value(), false);
+    REQUIRE_EQ(state.groups().empty(), true);
+    REQUIRE_EQ(state.diagnostics().empty(), true);
+    REQUIRE_EQ(std::filesystem::exists(staging_root), false);
+}
+
+TEST_CASE(Reset_from_error_returns_to_idle)
+{
+    wac::AssetBoardState state;
+    state.CompleteFailure({{wac::Severity::error, wac::DiagnosticCode::corrupt_image,
+                           L"The source image is corrupt.", L"corrupt.png"}});
+
+    state.Reset();
+
+    REQUIRE_EQ(state.phase(), wac::BoardPhase::idle);
+    REQUIRE_EQ(state.can_save(), false);
+    REQUIRE_EQ(state.session().has_value(), false);
+    REQUIRE_EQ(state.diagnostics().empty(), true);
+}
+
+TEST_CASE(Board_state_allows_reset_only_when_not_busy)
+{
+    wac::AssetBoardState state;
+    REQUIRE_EQ(state.can_reset(), false);
+    state.BeginGeneration();
+    REQUIRE_EQ(state.can_reset(), false);
+    state.CompleteFailure({{wac::Severity::error, wac::DiagnosticCode::unsupported_image,
+                           L"Choose one PNG or JPEG image.", L"notes.txt"}});
+    REQUIRE_EQ(state.can_reset(), true);
+    state.Reset();
+    state.BeginGeneration();
+    state.CompleteGeneration(ReadySession());
+    REQUIRE_EQ(state.can_reset(), true);
+    state.BeginSave();
+    REQUIRE_EQ(state.can_reset(), false);
+    state.CompleteSaveCancelled();
+    REQUIRE_EQ(state.can_reset(), true);
+}
+
 TEST_CASE(Board_state_keeps_save_disabled_after_corrupt_source)
 {
     wac::AssetBoardState state;

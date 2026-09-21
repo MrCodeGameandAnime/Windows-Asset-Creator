@@ -46,6 +46,42 @@ void TraceStdException(std::wstring_view area, std::wstring_view operation,
                        std::exception const& error) noexcept {
     wac::trace::Write(area, std::wstring{operation} + L" std::exception=" + NarrowException(error.what()));
 }
+
+winrt::fire_and_forget CompleteSaveOnUiAsync(
+    winrt::com_ptr<winrt::WindowsAssetCreator::implementation::MainWindow> window,
+    winrt::com_ptr<winrt::WindowsAssetCreator::implementation::AssetBoardViewModel> view_model,
+    std::shared_ptr<wac::OperationResult> result,
+    std::filesystem::path destination,
+    winrt::Windows::Storage::StorageFile destination_file,
+    HWND hwnd,
+    std::wstring tag) {
+    try {
+        wac::trace_sink::SetOperationTag(tag);
+        wac::trace_sink::Emit(L"UI", L"save completion coroutine ENTER");
+        if (!result->succeeded()) {
+            auto diagnostic = result->diagnostics.empty()
+                ? wac::Diagnostic{wac::Severity::error, wac::DiagnosticCode::zip_failure,
+                                  L"The ZIP could not be saved.", destination.wstring()}
+                : std::move(result->diagnostics.front());
+            view_model->CompleteSaveFailure(std::move(diagnostic));
+        } else {
+            const auto explorer_opened = co_await wac::RevealInExplorerAsync(destination_file, hwnd);
+            wac::trace_sink::Emit(L"UI", L"save completion resumed after Explorer reveal");
+            view_model->CompleteSaveSuccess(destination, explorer_opened);
+        }
+        window->RefreshBindings();
+        wac::trace_sink::Emit(L"UI", L"save completion state refreshed");
+        wac::trace_sink::ClearOperationTag();
+    } catch (winrt::hresult_error const& error) {
+        TraceHResultException(L"UI", L"Save completion callback exception", error);
+        wac::trace_sink::ClearOperationTag();
+        throw;
+    } catch (std::exception const& error) {
+        TraceStdException(L"UI", L"Save completion callback exception", error);
+        wac::trace_sink::ClearOperationTag();
+        throw;
+    }
+}
 }
 
 namespace winrt::WindowsAssetCreator::implementation {
@@ -80,6 +116,13 @@ void MainWindow::RefreshBindings() {
     if (Bindings) Bindings->Update();
     wac::trace::Write(L"XAML", std::wstring{L"Bindings->Update END ptr="} + PointerText(Bindings.get()) +
                               L" present=" + (Bindings ? L"true" : L"false"));
+}
+
+void MainWindow::Reset_Click(winrt::Windows::Foundation::IInspectable const&,
+                             winrt::Microsoft::UI::Xaml::RoutedEventArgs const&) {
+    wac::trace::Write(L"RESET", L"Reset_Click ENTER");
+    view_model_impl_->Reset();
+    RefreshBindings();
 }
 
 winrt::fire_and_forget MainWindow::Browse_Click(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::RoutedEventArgs const&) {
@@ -210,34 +253,11 @@ winrt::fire_and_forget MainWindow::SaveAs_Click(winrt::Windows::Foundation::IIns
             }
             cleanup_temp_export();
 
-            auto complete_on_ui = [window_impl, view_model, result, destination, destination_file, hwnd, tag]()
-                -> winrt::fire_and_forget {
-                try {
-                    wac::trace_sink::SetOperationTag(tag);
-                    wac::trace_sink::Emit(L"UI", L"completion callback ENTER");
-                    if (!result->succeeded()) {
-                        auto diagnostic = result->diagnostics.empty()
-                            ? wac::Diagnostic{wac::Severity::error, wac::DiagnosticCode::zip_failure,
-                                              L"The ZIP could not be saved.", destination.wstring()}
-                            : std::move(result->diagnostics.front());
-                        view_model->CompleteSaveFailure(std::move(diagnostic));
-                    } else {
-                        const auto explorer_opened = co_await wac::RevealInExplorerAsync(destination_file, hwnd);
-                        view_model->CompleteSaveSuccess(destination, explorer_opened);
-                    }
-                    window_impl->RefreshBindings();
-                    wac::trace_sink::ClearOperationTag();
-                } catch (winrt::hresult_error const& error) {
-                    TraceHResultException(L"UI", L"Save completion callback exception", error);
-                    wac::trace_sink::ClearOperationTag();
-                    throw;
-                } catch (std::exception const& error) {
-                    TraceStdException(L"UI", L"Save completion callback exception", error);
-                    wac::trace_sink::ClearOperationTag();
-                    throw;
-                }
-            };
-            const auto enqueued = dispatcher_queue.TryEnqueue([complete_on_ui] { complete_on_ui(); });
+            const auto enqueued = dispatcher_queue.TryEnqueue(
+                [window_impl, view_model, result, destination, destination_file, hwnd, tag] {
+                    CompleteSaveOnUiAsync(window_impl, view_model, result, destination,
+                                          destination_file, hwnd, tag);
+                });
             wac::trace_sink::Emit(enqueued ? L"DISPATCH" : L"DISPATCH",
                                   enqueued ? L"TryEnqueue result=true" : L"TryEnqueue result=false");
         }

@@ -19,7 +19,7 @@
             <TextBlock Text="{x:Bind ViewModel.SourceFramingNote, Mode=OneWay}" TextWrapping="Wrap" />
             <Border x:Name="DropSurface" Padding="24" BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}" BorderThickness="1"
                     CornerRadius="8" Visibility="{x:Bind ViewModel.EmptyDropTargetVisibility, Mode=OneWay}"
-                    AutomationProperties.Name="Choose or drop a source image" AllowDrop="True"
+                    AutomationProperties.Name="Choose or drop a source image" AllowDrop="True" Background="Transparent"
                     DragOver="DropSurface_DragOver" Drop="DropSurface_Drop">
                 <StackPanel HorizontalAlignment="Center" Spacing="8">
                     <TextBlock Text="Drop a PNG or JPEG here" HorizontalAlignment="Center" Style="{ThemeResource SubtitleTextBlockStyle}" />
@@ -65,7 +65,7 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <TextBlock Text="{x:Bind ViewModel.SourceName, Mode=OneWay}" VerticalAlignment="Center" />
-            <Button Grid.Column="1" Content="Reset" IsEnabled="False" />
+            <Button Grid.Column="1" Content="Reset" IsEnabled="{x:Bind ViewModel.CanReset, Mode=OneWay}" Click="Reset_Click" />
             <Button Grid.Column="2" Content="Save As…" IsEnabled="{x:Bind ViewModel.CanSave, Mode=OneWay}"
                     AutomationProperties.Name="Save generated asset ZIP as" Click="SaveAs_Click" />
         </Grid>

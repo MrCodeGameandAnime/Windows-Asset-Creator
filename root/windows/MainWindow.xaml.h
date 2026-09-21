@@ -11,6 +11,7 @@ namespace winrt::WindowsAssetCreator::implementation
         winrt::WindowsAssetCreator::AssetBoardViewModel ViewModel() const;
         void InitializeBindings();
         void RefreshBindings();
+        void Reset_Click(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::RoutedEventArgs const&);
         winrt::fire_and_forget Browse_Click(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::RoutedEventArgs const&);
         winrt::fire_and_forget SaveAs_Click(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::RoutedEventArgs const&);
         void DropSurface_DragOver(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::DragEventArgs const&);
