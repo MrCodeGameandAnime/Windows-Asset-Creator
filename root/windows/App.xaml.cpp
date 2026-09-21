@@ -2,6 +2,10 @@
 #include "Diagnostics/Trace.h"
 #include "MainWindow.xaml.h"
 
+#ifdef _DEBUG
+#include <microsoft.ui.xaml.window.h>
+#endif
+
 using namespace winrt;
 using namespace Microsoft::UI::Xaml;
 
@@ -26,6 +30,12 @@ void App::OnLaunched(LaunchActivatedEventArgs const&) {
     const auto main_window_impl = get_self<MainWindow>(main_window);
     main_window_impl->InitializeBindings();
     main_window_impl->RefreshBindings();
+#ifdef _DEBUG
+    HWND owner = nullptr;
+    const auto owner_result = window_.as<::IWindowNative>()->get_WindowHandle(&owner);
+    wac::trace::WriteHr(L"TRACE", L"IWindowNative::get_WindowHandle for development log picker", owner_result);
+    if (SUCCEEDED(owner_result)) wac::trace::ConfigureDevelopmentOutput(owner);
+#endif
     wac::trace::Write(L"APP", L"App::OnLaunched EXIT");
 }
 }
