@@ -7,13 +7,23 @@
 namespace wac::trace_sink {
 namespace {
 std::atomic<Sink> sink{nullptr};
+std::atomic_bool diagnostics_enabled{false};
 std::atomic_uint64_t operation_ids{0};
 thread_local std::wstring operation_tag;
+}
+
+void SetDiagnosticsEnabled(bool enabled) noexcept {
+    diagnostics_enabled.store(enabled, std::memory_order_release);
+}
+
+bool DiagnosticsEnabled() noexcept {
+    return diagnostics_enabled.load(std::memory_order_acquire);
 }
 
 void SetSink(Sink value) noexcept { sink.store(value, std::memory_order_release); }
 
 void Emit(std::wstring_view area, std::wstring_view message) noexcept {
+    if (!DiagnosticsEnabled()) return;
     const auto callback = sink.load(std::memory_order_acquire);
     if (!callback) return;
     try {
@@ -31,6 +41,7 @@ void Emit(std::wstring_view area, std::wstring_view message) noexcept {
 }
 
 void EmitHr(std::wstring_view area, std::wstring_view operation, long result) noexcept {
+    if (!DiagnosticsEnabled()) return;
     try {
         std::wostringstream message;
         message << operation << L" hr=0x" << std::uppercase << std::hex << std::setfill(L'0')

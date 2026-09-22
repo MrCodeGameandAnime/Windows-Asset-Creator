@@ -6,6 +6,8 @@
 #include <string_view>
 
 namespace wac::trace {
+void EnableDiagnostics() noexcept;
+bool DiagnosticsEnabled() noexcept;
 void Initialize() noexcept;
 
 #ifdef _DEBUG

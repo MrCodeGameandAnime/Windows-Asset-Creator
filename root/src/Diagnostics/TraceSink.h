@@ -7,6 +7,8 @@
 namespace wac::trace_sink {
 using Sink = void (*)(std::wstring_view area, std::wstring_view message) noexcept;
 
+void SetDiagnosticsEnabled(bool enabled) noexcept;
+bool DiagnosticsEnabled() noexcept;
 void SetSink(Sink sink) noexcept;
 void Emit(std::wstring_view area, std::wstring_view message) noexcept;
 void EmitHr(std::wstring_view area, std::wstring_view operation, long result) noexcept;

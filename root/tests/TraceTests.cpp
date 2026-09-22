@@ -5,6 +5,38 @@
 #include <string>
 #include <vector>
 
+namespace {
+unsigned int trace_sink_calls = 0;
+
+void CountTraceSinkCalls(std::wstring_view, std::wstring_view) noexcept {
+    ++trace_sink_calls;
+}
+}
+
+TEST_CASE(Trace_sink_is_dormant_by_default)
+{
+    trace_sink_calls = 0;
+    wac::trace_sink::SetSink(&CountTraceSinkCalls);
+    wac::trace_sink::Emit(L"TEST", L"ordinary execution");
+    wac::trace_sink::SetSink(nullptr);
+
+    REQUIRE_EQ(trace_sink_calls, 0u);
+}
+
+TEST_CASE(Trace_sink_emits_when_diagnostics_are_explicitly_enabled)
+{
+    trace_sink_calls = 0;
+    wac::trace_sink::SetSink(&CountTraceSinkCalls);
+    wac::trace_sink::SetDiagnosticsEnabled(true);
+    wac::trace_sink::Emit(L"TEST", L"diagnostic mode");
+    wac::trace_sink::EmitHr(L"TEST", L"HRESULT", 0);
+    wac::trace_sink::SetDiagnosticsEnabled(false);
+    wac::trace_sink::Emit(L"TEST", L"diagnostic mode disabled");
+    wac::trace_sink::SetSink(nullptr);
+
+    REQUIRE_EQ(trace_sink_calls, 2u);
+}
+
 TEST_CASE(Trace_operation_ids_are_monotonic)
 {
     const auto first = wac::trace_sink::NextOperationId();

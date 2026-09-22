@@ -198,7 +198,17 @@ winrt::fire_and_forget ConfigureDevelopmentOutputAsync(HWND owner) {
 void CoreSink(std::wstring_view area, std::wstring_view message) noexcept { Write(area, message); }
 }
 
+void EnableDiagnostics() noexcept {
+#ifdef _DEBUG
+    wac::trace_sink::SetDiagnosticsEnabled(true);
+    Initialize();
+#endif
+}
+
+bool DiagnosticsEnabled() noexcept { return wac::trace_sink::DiagnosticsEnabled(); }
+
 void Initialize() noexcept {
+    if (!DiagnosticsEnabled()) return;
     bool first_initialization = false;
     {
         auto& state = State();
@@ -225,6 +235,7 @@ void Initialize() noexcept {
 }
 
 void Write(std::wstring_view area, std::wstring_view message) noexcept {
+    if (!DiagnosticsEnabled()) return;
     try {
         auto& state = State();
         {
@@ -252,6 +263,7 @@ void Write(std::wstring_view area, std::wstring_view message) noexcept {
 
 #ifdef _DEBUG
 void ConfigureDevelopmentOutput(HWND owner) noexcept {
+    if (!DiagnosticsEnabled()) return;
     try {
         ConfigureDevelopmentOutputAsync(owner);
     } catch (...) {
@@ -261,6 +273,7 @@ void ConfigureDevelopmentOutput(HWND owner) noexcept {
 #endif
 
 void WriteHr(std::wstring_view area, std::wstring_view operation, HRESULT result) noexcept {
+    if (!DiagnosticsEnabled()) return;
     try {
         std::wostringstream message;
         message << operation << L" hr=0x" << std::uppercase << std::hex << std::setfill(L'0')
