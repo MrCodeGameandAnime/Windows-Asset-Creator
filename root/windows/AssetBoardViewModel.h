@@ -56,6 +56,8 @@ struct AssetBoardViewModel : AssetBoardViewModelT<AssetBoardViewModel> {
     winrt::Microsoft::UI::Xaml::Visibility SourceSummaryVisibility() const noexcept;
     winrt::hstring SourceFramingNote() const;
     winrt::hstring ValidationText() const;
+    winrt::hstring ValidationDetail() const;
+    bool HasValidationSuccess() const noexcept;
     winrt::hstring ErrorText() const;
     bool IsIdle() const noexcept;
     bool IsBusy() const noexcept;

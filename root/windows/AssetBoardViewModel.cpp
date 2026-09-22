@@ -153,10 +153,23 @@ winrt::hstring AssetBoardViewModel::SourceFramingNote() const {
     return value;
 }
 winrt::hstring AssetBoardViewModel::ValidationText() const {
-    const auto value = !save_status_.empty()
-        ? save_status_
-        : winrt::hstring{state_.phase() == wac::BoardPhase::ready ? L"69 PNG + 1 ICO ready" : L"No generated assets yet."};
+    const auto value = HasValidationSuccess()
+        ? winrt::hstring{L"69 PNG + 1 ICO ready"}
+        : winrt::hstring{L"No generated assets yet."};
     TraceProperty(L"ValidationText", value.c_str(), this);
+    return value;
+}
+winrt::hstring AssetBoardViewModel::ValidationDetail() const {
+    const auto value = save_status_.empty() ? winrt::hstring{L"Validation passed"} : save_status_;
+    TraceProperty(L"ValidationDetail", value.c_str(), this);
+    return value;
+}
+bool AssetBoardViewModel::HasValidationSuccess() const noexcept {
+    const auto phase = state_.phase();
+    const auto value = state_.session().has_value() &&
+                       (phase == wac::BoardPhase::ready || phase == wac::BoardPhase::saving) &&
+                       state_.diagnostics().empty();
+    TraceProperty(L"HasValidationSuccess", value ? L"true" : L"false", this);
     return value;
 }
 winrt::hstring AssetBoardViewModel::ErrorText() const {

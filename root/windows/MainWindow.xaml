@@ -63,7 +63,10 @@
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
             <StackPanel Spacing="12">
                 <TextBlock Text="Generated assets" Style="{ThemeResource SubtitleTextBlockStyle}" />
-                <TextBlock Text="{x:Bind ViewModel.ValidationText, Mode=OneWay}" Opacity="0.7" />
+                <InfoBar IsOpen="{x:Bind ViewModel.HasValidationSuccess, Mode=OneWay}"
+                         IsClosable="False" Severity="Success"
+                         Title="{x:Bind ViewModel.ValidationText, Mode=OneWay}"
+                         Message="{x:Bind ViewModel.ValidationDetail, Mode=OneWay}" />
                 <ItemsControl ItemsSource="{x:Bind ViewModel.Groups, Mode=OneWay}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate x:DataType="local:AssetBoardGroupViewModel">
@@ -130,13 +133,13 @@
 
         <Grid Grid.Row="2" ColumnSpacing="12">
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <TextBlock Text="{x:Bind ViewModel.SourceName, Mode=OneWay}" VerticalAlignment="Center" />
-            <Button Grid.Column="1" Content="Reset" IsEnabled="{x:Bind ViewModel.CanReset, Mode=OneWay}" Click="Reset_Click" />
+            <Button Content="Reset" IsEnabled="{x:Bind ViewModel.CanReset, Mode=OneWay}" Click="Reset_Click" />
             <Button Grid.Column="2" Content="Save As…" IsEnabled="{x:Bind ViewModel.CanSave, Mode=OneWay}"
+                    Style="{StaticResource AccentButtonStyle}"
                     AutomationProperties.Name="Save generated asset ZIP as" Click="SaveAs_Click" />
         </Grid>
     </Grid>

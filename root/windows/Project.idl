@@ -32,6 +32,8 @@ namespace WindowsAssetCreator
         Microsoft.UI.Xaml.Visibility SourceSummaryVisibility{ get; };
         String SourceFramingNote{ get; };
         String ValidationText{ get; };
+        String ValidationDetail{ get; };
+        Boolean HasValidationSuccess{ get; };
         String ErrorText{ get; };
         Boolean IsIdle{ get; };
         Boolean IsBusy{ get; };
