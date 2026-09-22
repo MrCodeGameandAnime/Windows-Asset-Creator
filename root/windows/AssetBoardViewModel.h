@@ -14,11 +14,13 @@ struct AssetBoardItemViewModel : AssetBoardItemViewModelT<AssetBoardItemViewMode
     winrt::hstring Label() const;
     winrt::hstring Dimensions() const;
     winrt::hstring PreviewPath() const;
+    winrt::Microsoft::UI::Xaml::Media::ImageSource Thumbnail() const;
 
 private:
     winrt::hstring label_;
     winrt::hstring dimensions_;
     winrt::hstring preview_path_;
+    winrt::Microsoft::UI::Xaml::Media::ImageSource thumbnail_{nullptr};
 };
 
 struct AssetBoardGroupViewModel : AssetBoardGroupViewModelT<AssetBoardGroupViewModel> {

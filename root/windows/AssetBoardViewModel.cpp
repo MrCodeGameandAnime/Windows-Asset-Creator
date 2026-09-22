@@ -25,12 +25,25 @@ void TraceProperty(std::wstring_view name, std::wstring_view value, void const* 
     } catch (...) {
     }
 }
+
+winrt::hstring FileUri(winrt::hstring const& path) {
+    std::wstring uri{L"file:///"};
+    uri.reserve(uri.size() + path.size());
+    for (const auto character : path) {
+        uri.push_back(character == L'\\' ? L'/' : character);
+    }
+    return winrt::hstring{uri};
+}
 }
 
 namespace winrt::WindowsAssetCreator::implementation {
 AssetBoardItemViewModel::AssetBoardItemViewModel(winrt::hstring label, winrt::hstring dimensions,
                                                  winrt::hstring preview_path)
-    : label_(std::move(label)), dimensions_(std::move(dimensions)), preview_path_(std::move(preview_path)) {
+    : label_(std::move(label)),
+      dimensions_(std::move(dimensions)),
+      preview_path_(std::move(preview_path)),
+      thumbnail_(winrt::Microsoft::UI::Xaml::Media::Imaging::BitmapImage{
+          winrt::Windows::Foundation::Uri{FileUri(preview_path_)}}) {
     wac::trace_sink::Emit(L"BOARD", std::wstring{L"AssetBoardItemViewModel ctor this="} + PointerText(this) +
                                   L" label=" + std::wstring{label_.c_str()} +
                                   L" dimensions=" + std::wstring{dimensions_.c_str()});
@@ -46,6 +59,11 @@ winrt::hstring AssetBoardItemViewModel::Dimensions() const {
 winrt::hstring AssetBoardItemViewModel::PreviewPath() const {
     TraceProperty(L"AssetBoardItem.PreviewPath", preview_path_.c_str(), this);
     return preview_path_;
+}
+winrt::Microsoft::UI::Xaml::Media::ImageSource AssetBoardItemViewModel::Thumbnail() const {
+    wac::trace_sink::Emit(L"BOARD", std::wstring{L"AssetBoardItem.Thumbnail this="} + PointerText(this) +
+                                  L" value=" + std::wstring{thumbnail_ ? L"present" : L"null"});
+    return thumbnail_;
 }
 
 AssetBoardGroupViewModel::AssetBoardGroupViewModel(

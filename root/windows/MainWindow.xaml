@@ -64,26 +64,43 @@
             <StackPanel Spacing="12">
                 <TextBlock Text="Generated assets" Style="{ThemeResource SubtitleTextBlockStyle}" />
                 <TextBlock Text="{x:Bind ViewModel.ValidationText, Mode=OneWay}" Opacity="0.7" />
-                <ItemsRepeater ItemsSource="{x:Bind ViewModel.Groups, Mode=OneWay}">
-                    <ItemsRepeater.ItemTemplate>
+                <ItemsControl ItemsSource="{x:Bind ViewModel.Groups, Mode=OneWay}">
+                    <ItemsControl.ItemTemplate>
                         <DataTemplate x:DataType="local:AssetBoardGroupViewModel">
                             <StackPanel Spacing="8">
                                 <TextBlock Text="{x:Bind Title}" Style="{ThemeResource SubtitleTextBlockStyle}" />
                                 <ItemsControl ItemsSource="{x:Bind Assets}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <VariableSizedWrapGrid Orientation="Horizontal"
+                                                                   ItemWidth="162"
+                                                                   ItemHeight="190" />
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate x:DataType="local:AssetBoardItemViewModel">
-                                            <StackPanel Spacing="2" Margin="0,0,0,8">
-                                                <TextBlock Text="{x:Bind Label}" />
-                                                <TextBlock Text="{x:Bind Dimensions}" Opacity="0.7" />
-                                                <TextBlock Text="{x:Bind PreviewPath}" Opacity="0.55" TextTrimming="CharacterEllipsis" />
-                                            </StackPanel>
+                                            <Border Width="152" Margin="0,0,10,10" Padding="8"
+                                                    Background="{ThemeResource ControlFillColorDefaultBrush}"
+                                                    BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}"
+                                                    BorderThickness="1" CornerRadius="8">
+                                                <StackPanel Spacing="6">
+                                                    <Border Height="104" Padding="8"
+                                                            Background="{ThemeResource ControlAltFillColorSecondaryBrush}"
+                                                            CornerRadius="6">
+                                                        <Image Source="{x:Bind Thumbnail}" Stretch="Uniform" />
+                                                    </Border>
+                                                    <TextBlock Text="{x:Bind Label}" FontWeight="SemiBold"
+                                                               TextTrimming="CharacterEllipsis" />
+                                                    <TextBlock Text="{x:Bind Dimensions}" Opacity="0.7" />
+                                                </StackPanel>
+                                            </Border>
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
                                 </ItemsControl>
                             </StackPanel>
                         </DataTemplate>
-                    </ItemsRepeater.ItemTemplate>
-                </ItemsRepeater>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
             </StackPanel>
         </ScrollViewer>
 

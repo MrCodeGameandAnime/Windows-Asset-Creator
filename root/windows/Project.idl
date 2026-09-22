@@ -7,6 +7,7 @@ namespace WindowsAssetCreator
         String Label{ get; };
         String Dimensions{ get; };
         String PreviewPath{ get; };
+        Microsoft.UI.Xaml.Media.ImageSource Thumbnail{ get; };
     }
 
     [default_interface]
