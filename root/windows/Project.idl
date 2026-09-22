@@ -14,7 +14,11 @@ namespace WindowsAssetCreator
     runtimeclass AssetBoardGroupViewModel
     {
         AssetBoardGroupViewModel();
+        String FamilyTitle{ get; };
+        String FamilySummary{ get; };
+        Microsoft.UI.Xaml.Visibility FamilyHeaderVisibility{ get; };
         String Title{ get; };
+        String AssetCountText{ get; };
         Windows.Foundation.Collections.IObservableVector<AssetBoardItemViewModel> Assets{ get; };
     }
 

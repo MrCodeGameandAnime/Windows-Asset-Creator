@@ -67,36 +67,60 @@
                 <ItemsControl ItemsSource="{x:Bind ViewModel.Groups, Mode=OneWay}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate x:DataType="local:AssetBoardGroupViewModel">
-                            <StackPanel Spacing="8">
-                                <TextBlock Text="{x:Bind Title}" Style="{ThemeResource SubtitleTextBlockStyle}" />
-                                <ItemsControl ItemsSource="{x:Bind Assets}">
-                                    <ItemsControl.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <VariableSizedWrapGrid Orientation="Horizontal"
-                                                                   ItemWidth="162"
-                                                                   ItemHeight="190" />
-                                        </ItemsPanelTemplate>
-                                    </ItemsControl.ItemsPanel>
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate x:DataType="local:AssetBoardItemViewModel">
-                                            <Border Width="152" Margin="0,0,10,10" Padding="8"
-                                                    Background="{ThemeResource ControlFillColorDefaultBrush}"
-                                                    BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}"
-                                                    BorderThickness="1" CornerRadius="8">
-                                                <StackPanel Spacing="6">
-                                                    <Border Height="104" Padding="8"
-                                                            Background="{ThemeResource ControlAltFillColorSecondaryBrush}"
-                                                            CornerRadius="6">
-                                                        <Image Source="{x:Bind Thumbnail}" Stretch="Uniform" />
+                            <StackPanel Spacing="10" Margin="0,0,0,16">
+                                <Grid Visibility="{x:Bind FamilyHeaderVisibility}" Margin="0,8,0,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="{x:Bind FamilyTitle}" Style="{ThemeResource TitleTextBlockStyle}" />
+                                    <TextBlock Grid.Column="1" Text="{x:Bind FamilySummary}"
+                                               VerticalAlignment="Bottom" Opacity="0.65" />
+                                </Grid>
+                                <Border Padding="16"
+                                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                        BorderThickness="1" CornerRadius="10">
+                                    <StackPanel Spacing="12">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="{x:Bind Title}" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                                            <TextBlock Grid.Column="1" Text="{x:Bind AssetCountText}"
+                                                       VerticalAlignment="Center" Opacity="0.65" />
+                                        </Grid>
+                                        <ItemsControl ItemsSource="{x:Bind Assets}">
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <VariableSizedWrapGrid Orientation="Horizontal"
+                                                                           ItemWidth="162"
+                                                                           ItemHeight="190" />
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate x:DataType="local:AssetBoardItemViewModel">
+                                                    <Border Width="152" Margin="0,0,10,10" Padding="8"
+                                                            Background="{ThemeResource ControlFillColorDefaultBrush}"
+                                                            BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}"
+                                                            BorderThickness="1" CornerRadius="8">
+                                                        <StackPanel Spacing="6">
+                                                            <Border Height="104" Padding="8"
+                                                                    Background="{ThemeResource ControlAltFillColorSecondaryBrush}"
+                                                                    CornerRadius="6">
+                                                                <Image Source="{x:Bind Thumbnail}" Stretch="Uniform" />
+                                                            </Border>
+                                                            <TextBlock Text="{x:Bind Label}" FontWeight="SemiBold"
+                                                                       TextTrimming="CharacterEllipsis" />
+                                                            <TextBlock Text="{x:Bind Dimensions}" Opacity="0.7" />
+                                                        </StackPanel>
                                                     </Border>
-                                                    <TextBlock Text="{x:Bind Label}" FontWeight="SemiBold"
-                                                               TextTrimming="CharacterEllipsis" />
-                                                    <TextBlock Text="{x:Bind Dimensions}" Opacity="0.7" />
-                                                </StackPanel>
-                                            </Border>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </StackPanel>
+                                </Border>
                             </StackPanel>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>

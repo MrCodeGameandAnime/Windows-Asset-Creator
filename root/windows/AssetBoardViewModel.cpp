@@ -34,6 +34,26 @@ winrt::hstring FileUri(winrt::hstring const& path) {
     }
     return winrt::hstring{uri};
 }
+
+struct GroupPresentation {
+    winrt::hstring family_title;
+    winrt::hstring family_summary;
+    winrt::Microsoft::UI::Xaml::Visibility family_header_visibility;
+    winrt::hstring title;
+};
+
+GroupPresentation PresentGroup(std::wstring_view title) {
+    using winrt::Microsoft::UI::Xaml::Visibility;
+    if (title == L"AppList default") return {L"AppList", L"42 assets \u00B7 all valid", Visibility::Visible, L"Default"};
+    if (title == L"AppList altform unplated") return {L"", L"", Visibility::Collapsed, L"Unplated"};
+    if (title == L"AppList altform light unplated") return {L"", L"", Visibility::Collapsed, L"Light unplated"};
+    if (title == L"Square44") return {L"Logo families", L"27 assets \u00B7 all valid", Visibility::Visible, L"Square 44"};
+    if (title == L"Square150") return {L"", L"", Visibility::Collapsed, L"Square 150"};
+    if (title == L"StoreLogo") return {L"", L"", Visibility::Collapsed, L"Store logo"};
+    if (title == L"MedTile") return {L"", L"", Visibility::Collapsed, L"Medium tile"};
+    if (title == L"AppIcon") return {L"App icon", L"1 asset \u00B7 all valid", Visibility::Visible, L"Windows icon"};
+    return {winrt::hstring{title}, L"", Visibility::Visible, winrt::hstring{title}};
+}
 }
 
 namespace winrt::WindowsAssetCreator::implementation {
@@ -67,18 +87,32 @@ winrt::Microsoft::UI::Xaml::Media::ImageSource AssetBoardItemViewModel::Thumbnai
 }
 
 AssetBoardGroupViewModel::AssetBoardGroupViewModel(
+    winrt::hstring family_title,
+    winrt::hstring family_summary,
+    winrt::Microsoft::UI::Xaml::Visibility family_header_visibility,
     winrt::hstring title,
     winrt::Windows::Foundation::Collections::IObservableVector<winrt::WindowsAssetCreator::AssetBoardItemViewModel> assets)
-    : title_(std::move(title)), assets_(std::move(assets)) {
+    : family_title_(std::move(family_title)),
+      family_summary_(std::move(family_summary)),
+      family_header_visibility_(family_header_visibility),
+      title_(std::move(title)),
+      asset_count_text_(std::to_wstring(assets.Size()) + (assets.Size() == 1 ? L" asset" : L" assets")),
+      assets_(std::move(assets)) {
     wac::trace_sink::Emit(L"BOARD", std::wstring{L"AssetBoardGroupViewModel ctor this="} + PointerText(this) +
                                   L" title=" + std::wstring{title_.c_str()} +
                                   L" assets_abi=" + PointerText(winrt::get_abi(assets_)) +
                                   L" asset_count=" + std::to_wstring(assets_ ? assets_.Size() : 0));
 }
+winrt::hstring AssetBoardGroupViewModel::FamilyTitle() const { return family_title_; }
+winrt::hstring AssetBoardGroupViewModel::FamilySummary() const { return family_summary_; }
+winrt::Microsoft::UI::Xaml::Visibility AssetBoardGroupViewModel::FamilyHeaderVisibility() const noexcept {
+    return family_header_visibility_;
+}
 winrt::hstring AssetBoardGroupViewModel::Title() const {
     TraceProperty(L"AssetBoardGroup.Title", title_.c_str(), this);
     return title_;
 }
+winrt::hstring AssetBoardGroupViewModel::AssetCountText() const { return asset_count_text_; }
 winrt::Windows::Foundation::Collections::IObservableVector<winrt::WindowsAssetCreator::AssetBoardItemViewModel>
 AssetBoardGroupViewModel::Assets() const {
     wac::trace_sink::Emit(L"BOARD", std::wstring{L"AssetBoardGroup.Assets this="} + PointerText(this) +
@@ -271,7 +305,12 @@ void AssetBoardViewModel::RefreshGroups() {
                                           PointerText(winrt::get_abi(item)) + L" label=" + asset.label);
             assets.Append(item);
         }
-        const auto group_projection = winrt::make<AssetBoardGroupViewModel>(winrt::hstring{group.title}, assets);
+        const auto presentation = PresentGroup(group.title);
+        const auto group_projection = winrt::make<AssetBoardGroupViewModel>(presentation.family_title,
+                                                                            presentation.family_summary,
+                                                                            presentation.family_header_visibility,
+                                                                            presentation.title,
+                                                                            assets);
         wac::trace_sink::Emit(L"BOARD", std::wstring{L"RefreshGroups group projected_abi="} +
                                       PointerText(winrt::get_abi(group_projection)) + L" title=" + group.title +
                                       L" assets_abi=" + PointerText(winrt::get_abi(assets)) +

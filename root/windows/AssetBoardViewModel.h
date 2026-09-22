@@ -25,14 +25,25 @@ private:
 
 struct AssetBoardGroupViewModel : AssetBoardGroupViewModelT<AssetBoardGroupViewModel> {
     AssetBoardGroupViewModel() = default;
-    AssetBoardGroupViewModel(winrt::hstring title,
+    AssetBoardGroupViewModel(winrt::hstring family_title,
+                             winrt::hstring family_summary,
+                             winrt::Microsoft::UI::Xaml::Visibility family_header_visibility,
+                             winrt::hstring title,
                              winrt::Windows::Foundation::Collections::IObservableVector<winrt::WindowsAssetCreator::AssetBoardItemViewModel> assets);
 
+    winrt::hstring FamilyTitle() const;
+    winrt::hstring FamilySummary() const;
+    winrt::Microsoft::UI::Xaml::Visibility FamilyHeaderVisibility() const noexcept;
     winrt::hstring Title() const;
+    winrt::hstring AssetCountText() const;
     winrt::Windows::Foundation::Collections::IObservableVector<winrt::WindowsAssetCreator::AssetBoardItemViewModel> Assets() const;
 
 private:
+    winrt::hstring family_title_;
+    winrt::hstring family_summary_;
+    winrt::Microsoft::UI::Xaml::Visibility family_header_visibility_{winrt::Microsoft::UI::Xaml::Visibility::Collapsed};
     winrt::hstring title_;
+    winrt::hstring asset_count_text_;
     winrt::Windows::Foundation::Collections::IObservableVector<winrt::WindowsAssetCreator::AssetBoardItemViewModel> assets_{nullptr};
 };
 
