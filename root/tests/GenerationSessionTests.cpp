@@ -228,6 +228,23 @@ TEST_CASE(Board_state_retains_accepted_source_presentation)
     REQUIRE_EQ(state.source()->dimensions.height, uint32_t{768});
 }
 
+TEST_CASE(Board_state_second_source_replacement_updates_source_presentation)
+{
+    wac::AssetBoardState state;
+    state.BeginGeneration();
+    state.CompleteGeneration(ReadySession(), {L"source-a.png", {640, 480}});
+
+    state.BeginGeneration();
+    state.CompleteGeneration(ReadySession(), {L"source-b.jpg", {1280, 720}});
+
+    REQUIRE_EQ(state.phase(), wac::BoardPhase::ready);
+    REQUIRE_EQ(state.can_save(), true);
+    REQUIRE_EQ(state.source().has_value(), true);
+    REQUIRE_EQ(state.source()->name, std::wstring{L"source-b.jpg"});
+    REQUIRE_EQ(state.source()->dimensions.width, uint32_t{1280});
+    REQUIRE_EQ(state.source()->dimensions.height, uint32_t{720});
+}
+
 TEST_CASE(Reset_clears_source_presentation)
 {
     wac::AssetBoardState state;
