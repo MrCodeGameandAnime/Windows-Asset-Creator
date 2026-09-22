@@ -23,6 +23,8 @@ namespace WindowsAssetCreator
         AssetBoardViewModel();
         String SourceName{ get; };
         String SourceDimensions{ get; };
+        Microsoft.UI.Xaml.Media.ImageSource SourcePreview{ get; };
+        Microsoft.UI.Xaml.Visibility SourceSummaryVisibility{ get; };
         String SourceFramingNote{ get; };
         String ValidationText{ get; };
         String ErrorText{ get; };

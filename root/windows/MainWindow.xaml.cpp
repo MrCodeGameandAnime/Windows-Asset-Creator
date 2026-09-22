@@ -5,6 +5,7 @@
 
 #include <microsoft.ui.xaml.window.h>
 #include <shobjidl_core.h>
+#include <winrt/Windows.Storage.Streams.h>
 
 #include <cwchar>
 #include <cstdint>
@@ -45,6 +46,60 @@ void TraceHResultException(std::wstring_view area, std::wstring_view operation,
 void TraceStdException(std::wstring_view area, std::wstring_view operation,
                        std::exception const& error) noexcept {
     wac::trace::Write(area, std::wstring{operation} + L" std::exception=" + NarrowException(error.what()));
+}
+
+winrt::fire_and_forget CompleteGenerationOnUiAsync(
+    winrt::com_ptr<winrt::WindowsAssetCreator::implementation::MainWindow> window,
+    winrt::com_ptr<winrt::WindowsAssetCreator::implementation::AssetBoardViewModel> view_model,
+    std::shared_ptr<wac::GenerationResult<wac::GenerationSession>> result,
+    winrt::Windows::Storage::StorageFile temp_source,
+    std::filesystem::path temp_path,
+    std::wstring source_name,
+    std::wstring tag) {
+    wac::trace_sink::SetOperationTag(tag);
+    try {
+        wac::trace_sink::Emit(L"UI", L"generation completion coroutine ENTER");
+        if (result->succeeded()) {
+            const auto stream = co_await temp_source.OpenReadAsync();
+            auto preview = winrt::Microsoft::UI::Xaml::Media::Imaging::BitmapImage{};
+            co_await preview.SetSourceAsync(stream);
+            const auto dimensions = wac::PixelSize{
+                static_cast<uint32_t>(preview.PixelWidth()),
+                static_cast<uint32_t>(preview.PixelHeight())};
+            view_model->CompleteGeneration(
+                std::move(*result->value),
+                {std::move(source_name), dimensions},
+                preview);
+            wac::trace_sink::Emit(L"STATE", L"CompleteGeneration applied");
+        } else {
+            wac::trace_sink::Emit(L"STATE", L"CompleteFailure applied diagnostics=" +
+                                           std::to_wstring(result->diagnostics.size()));
+            view_model->CompleteFailure(std::move(result->diagnostics));
+        }
+    } catch (winrt::hresult_error const& error) {
+        TraceHResultException(L"UI", L"Source presentation preparation failure", error);
+        view_model->CompleteFailure({{wac::Severity::error, wac::DiagnosticCode::wic_failure,
+                                      L"The source preview could not be prepared.", source_name}});
+    } catch (std::exception const& error) {
+        TraceStdException(L"UI", L"Source presentation preparation failure", error);
+        view_model->CompleteFailure({{wac::Severity::error, wac::DiagnosticCode::wic_failure,
+                                      L"The source preview could not be prepared.", source_name}});
+    }
+
+    try {
+        co_await temp_source.DeleteAsync();
+        wac::trace::Write(L"STORAGE", tag + L" temporary source cleanup SUCCESS path=" + temp_path.wstring());
+    } catch (winrt::hresult_error const& error) {
+        wac::trace::WriteHr(L"STORAGE", tag + L" temporary source cleanup FAILURE", error.code());
+        wac::trace::Write(L"STORAGE", tag + L" temporary source cleanup message=" +
+                                      std::wstring{error.message().c_str()});
+    } catch (std::exception const& error) {
+        wac::trace::Write(L"STORAGE", tag + L" temporary source cleanup std::exception=" +
+                                      NarrowException(error.what()));
+    }
+
+    window->RefreshBindings();
+    wac::trace_sink::ClearOperationTag();
 }
 
 winrt::fire_and_forget CompleteSaveOnUiAsync(
@@ -390,40 +445,22 @@ winrt::fire_and_forget MainWindow::GenerateFromStorageFile(winrt::Windows::Stora
             wac::trace_sink::Emit(L"GENERATE", result->succeeded() ? L"background result ready success" : L"background result ready failure");
         }
 
-        try {
-            co_await temp_source.DeleteAsync();
-            wac::trace::Write(L"STORAGE", tag + L" temporary source cleanup SUCCESS path=" + temp_path.wstring());
-        } catch (winrt::hresult_error const& error) {
-            wac::trace::WriteHr(L"STORAGE", tag + L" temporary source cleanup FAILURE", error.code());
-            wac::trace::Write(L"STORAGE", tag + L" temporary source cleanup message=" + std::wstring{error.message().c_str()});
-        } catch (std::exception const& error) {
-            wac::trace::Write(L"STORAGE", tag + L" temporary source cleanup std::exception=" + NarrowException(error.what()));
-        }
-
-        const auto enqueued = dispatcher_queue.TryEnqueue([window, view_model, result, tag] {
-            try {
-                wac::trace_sink::SetOperationTag(tag);
-                wac::trace_sink::Emit(L"UI", L"completion callback ENTER");
-                if (result->succeeded()) {
-                    view_model->CompleteGeneration(std::move(*result->value));
-                    wac::trace_sink::Emit(L"STATE", L"CompleteGeneration applied");
-                } else {
-                    wac::trace_sink::Emit(L"STATE", L"CompleteFailure applied diagnostics=" + std::to_wstring(result->diagnostics.size()));
-                    view_model->CompleteFailure(std::move(result->diagnostics));
-                }
-                window->RefreshBindings();
-                wac::trace_sink::ClearOperationTag();
-            } catch (winrt::hresult_error const& error) {
-                TraceHResultException(L"UI", L"Generation completion callback exception", error);
-                wac::trace_sink::ClearOperationTag();
-                throw;
-            } catch (std::exception const& error) {
-                TraceStdException(L"UI", L"Generation completion callback exception", error);
-                wac::trace_sink::ClearOperationTag();
-                throw;
-            }
-        });
+        const auto enqueued = dispatcher_queue.TryEnqueue(
+            [window, view_model, result, temp_source, temp_path, original_name, tag] {
+                CompleteGenerationOnUiAsync(window, view_model, result, temp_source, temp_path,
+                                            original_name, tag);
+            });
         wac::trace::Write(L"DISPATCH", tag + (enqueued ? L" TryEnqueue result=true" : L" TryEnqueue result=false"));
+        if (!enqueued) {
+            try {
+                co_await temp_source.DeleteAsync();
+                wac::trace::Write(L"STORAGE", tag + L" temporary source cleanup SUCCESS after enqueue failure path=" +
+                                              temp_path.wstring());
+            } catch (...) {
+                wac::trace::Write(L"STORAGE", tag + L" temporary source cleanup FAILED after enqueue failure path=" +
+                                              temp_path.wstring());
+            }
+        }
     } catch (winrt::hresult_error const& error) {
         TraceHResultException(L"GENERATE", tag + L" exception", error);
         throw;

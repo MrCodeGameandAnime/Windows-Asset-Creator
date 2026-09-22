@@ -39,6 +39,8 @@ struct AssetBoardViewModel : AssetBoardViewModelT<AssetBoardViewModel> {
 
     winrt::hstring SourceName() const;
     winrt::hstring SourceDimensions() const;
+    winrt::Microsoft::UI::Xaml::Media::ImageSource SourcePreview() const;
+    winrt::Microsoft::UI::Xaml::Visibility SourceSummaryVisibility() const noexcept;
     winrt::hstring SourceFramingNote() const;
     winrt::hstring ValidationText() const;
     winrt::hstring ErrorText() const;
@@ -52,7 +54,8 @@ struct AssetBoardViewModel : AssetBoardViewModelT<AssetBoardViewModel> {
 
     void Reset();
     void BeginGeneration();
-    void CompleteGeneration(wac::GenerationSession session);
+    void CompleteGeneration(wac::GenerationSession session, wac::SourcePresentation source,
+                            winrt::Microsoft::UI::Xaml::Media::ImageSource source_preview);
     void CompleteFailure(std::vector<wac::Diagnostic> diagnostics);
     bool BeginSave();
     wac::OperationResult ExportZip(std::filesystem::path const& destination) const;
@@ -67,6 +70,7 @@ private:
     void NotifyChanged();
 
     wac::AssetBoardState state_;
+    winrt::Microsoft::UI::Xaml::Media::ImageSource source_preview_{nullptr};
     winrt::hstring save_status_;
     winrt::Windows::Foundation::Collections::IObservableVector<winrt::WindowsAssetCreator::AssetBoardGroupViewModel> groups_;
     winrt::event<winrt::Microsoft::UI::Xaml::Data::PropertyChangedEventHandler> property_changed_;

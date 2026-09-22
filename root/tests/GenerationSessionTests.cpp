@@ -51,6 +51,10 @@ wac::GenerationSession ReadySession() {
     REQUIRE_EQ(result.succeeded(), true);
     return std::move(*result.value);
 }
+
+wac::SourcePresentation ReadySourcePresentation() {
+    return {L"wide-red-blue.png", {400, 200}};
+}
 }
 
 TEST_CASE(Generation_creates_valid_69_png_and_ico_session)
@@ -190,7 +194,7 @@ TEST_CASE(Board_state_is_ready_only_after_valid_generation)
     REQUIRE_EQ(state.phase(), wac::BoardPhase::processing);
     REQUIRE_EQ(state.can_save(), false);
 
-    state.CompleteGeneration(ReadySession());
+    state.CompleteGeneration(ReadySession(), ReadySourcePresentation());
     REQUIRE_EQ(state.phase(), wac::BoardPhase::ready);
     REQUIRE_EQ(state.can_save(), true);
     REQUIRE_EQ(state.session().has_value(), true);
@@ -199,7 +203,7 @@ TEST_CASE(Board_state_is_ready_only_after_valid_generation)
 TEST_CASE(Board_state_groups_every_generated_preview)
 {
     wac::AssetBoardState state;
-    state.CompleteGeneration(ReadySession());
+    state.CompleteGeneration(ReadySession(), ReadySourcePresentation());
 
     size_t asset_count = 0;
     for (const auto& group : state.groups()) {
@@ -213,10 +217,31 @@ TEST_CASE(Board_state_groups_every_generated_preview)
     REQUIRE_EQ(state.groups().back().title, std::wstring{L"AppIcon"});
 }
 
+TEST_CASE(Board_state_retains_accepted_source_presentation)
+{
+    wac::AssetBoardState state;
+    state.CompleteGeneration(ReadySession(), {L"master-logo.png", {1024, 768}});
+
+    REQUIRE_EQ(state.source().has_value(), true);
+    REQUIRE_EQ(state.source()->name, std::wstring{L"master-logo.png"});
+    REQUIRE_EQ(state.source()->dimensions.width, uint32_t{1024});
+    REQUIRE_EQ(state.source()->dimensions.height, uint32_t{768});
+}
+
+TEST_CASE(Reset_clears_source_presentation)
+{
+    wac::AssetBoardState state;
+    state.CompleteGeneration(ReadySession(), {L"master-logo.png", {1024, 768}});
+
+    state.Reset();
+
+    REQUIRE_EQ(state.source().has_value(), false);
+}
+
 TEST_CASE(Reset_from_ready_returns_to_idle)
 {
     wac::AssetBoardState state;
-    state.CompleteGeneration(ReadySession());
+    state.CompleteGeneration(ReadySession(), ReadySourcePresentation());
     const auto staging_root = state.session()->staging_root();
     REQUIRE_EQ(std::filesystem::exists(staging_root), true);
 
@@ -255,7 +280,7 @@ TEST_CASE(Board_state_allows_reset_only_when_not_busy)
     REQUIRE_EQ(state.can_reset(), true);
     state.Reset();
     state.BeginGeneration();
-    state.CompleteGeneration(ReadySession());
+    state.CompleteGeneration(ReadySession(), ReadySourcePresentation());
     REQUIRE_EQ(state.can_reset(), true);
     state.BeginSave();
     REQUIRE_EQ(state.can_reset(), false);
@@ -278,7 +303,7 @@ TEST_CASE(Board_state_keeps_save_disabled_after_corrupt_source)
 TEST_CASE(Cancelled_save_returns_board_to_ready_state)
 {
     wac::AssetBoardState state;
-    state.CompleteGeneration(ReadySession());
+    state.CompleteGeneration(ReadySession(), ReadySourcePresentation());
     state.BeginSave();
     state.CompleteSaveCancelled();
     REQUIRE_EQ(state.phase(), wac::BoardPhase::ready);
@@ -288,7 +313,7 @@ TEST_CASE(Cancelled_save_returns_board_to_ready_state)
 TEST_CASE(Successful_save_returns_board_to_ready_state)
 {
     wac::AssetBoardState state;
-    state.CompleteGeneration(ReadySession());
+    state.CompleteGeneration(ReadySession(), ReadySourcePresentation());
     state.BeginSave();
     state.CompleteSaveSuccess();
     REQUIRE_EQ(state.phase(), wac::BoardPhase::ready);
@@ -299,7 +324,7 @@ TEST_CASE(Successful_save_returns_board_to_ready_state)
 TEST_CASE(Failed_export_preserves_the_ready_session)
 {
     wac::AssetBoardState state;
-    state.CompleteGeneration(ReadySession());
+    state.CompleteGeneration(ReadySession(), ReadySourcePresentation());
     state.BeginSave();
     state.CompleteSaveFailure({wac::Severity::error, wac::DiagnosticCode::zip_failure,
                                L"The ZIP could not be saved.", L"output.zip"});

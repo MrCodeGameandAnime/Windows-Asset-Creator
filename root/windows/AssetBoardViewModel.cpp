@@ -74,14 +74,26 @@ AssetBoardViewModel::AssetBoardViewModel()
     wac::trace_sink::Emit(L"VM", L"AssetBoardViewModel ctor this=" + PointerText(this));
 }
 winrt::hstring AssetBoardViewModel::SourceName() const {
-    const auto value = winrt::hstring{L"No source selected"};
+    const auto& source = state_.source();
+    const auto value = source ? winrt::hstring{source->name} : winrt::hstring{L"No source selected"};
     TraceProperty(L"SourceName", value.c_str(), this);
     return value;
 }
 winrt::hstring AssetBoardViewModel::SourceDimensions() const {
-    const auto value = winrt::hstring{L"Choose a PNG or JPEG to begin."};
+    const auto& source = state_.source();
+    const auto value = source
+        ? winrt::hstring{std::format(L"{} \u00D7 {}", source->dimensions.width, source->dimensions.height)}
+        : winrt::hstring{L"Choose a PNG or JPEG to begin."};
     TraceProperty(L"SourceDimensions", value.c_str(), this);
     return value;
+}
+winrt::Microsoft::UI::Xaml::Media::ImageSource AssetBoardViewModel::SourcePreview() const {
+    return source_preview_;
+}
+winrt::Microsoft::UI::Xaml::Visibility AssetBoardViewModel::SourceSummaryVisibility() const noexcept {
+    return state_.source()
+        ? winrt::Microsoft::UI::Xaml::Visibility::Visible
+        : winrt::Microsoft::UI::Xaml::Visibility::Collapsed;
 }
 winrt::hstring AssetBoardViewModel::SourceFramingNote() const {
     const auto value = winrt::hstring{L"Artwork is centered on a transparent square and never cropped."};
@@ -144,6 +156,7 @@ AssetBoardViewModel::Groups() const {
 void AssetBoardViewModel::Reset() {
     wac::trace_sink::Emit(L"VM", L"Reset this=" + PointerText(this));
     save_status_.clear();
+    source_preview_ = nullptr;
     state_.Reset();
     RefreshGroups();
     wac::trace_sink::Emit(L"STATE", L"reset complete diagnostics=" + std::to_wstring(state_.diagnostics().size()) +
@@ -156,14 +169,18 @@ void AssetBoardViewModel::Reset() {
 void AssetBoardViewModel::BeginGeneration() {
     wac::trace_sink::Emit(L"VM", L"BeginGeneration this=" + PointerText(this));
     save_status_.clear();
+    source_preview_ = nullptr;
     state_.BeginGeneration();
     RefreshGroups();
     wac::trace_sink::Emit(L"STATE", L"diagnostics=0 groups=0 generated_assets=0 CanSave=false");
     NotifyChanged();
 }
-void AssetBoardViewModel::CompleteGeneration(wac::GenerationSession session) {
+void AssetBoardViewModel::CompleteGeneration(
+    wac::GenerationSession session, wac::SourcePresentation source,
+    winrt::Microsoft::UI::Xaml::Media::ImageSource source_preview) {
     wac::trace_sink::Emit(L"VM", L"CompleteGeneration this=" + PointerText(this));
-    state_.CompleteGeneration(std::move(session));
+    source_preview_ = std::move(source_preview);
+    state_.CompleteGeneration(std::move(session), std::move(source));
     RefreshGroups();
     wac::trace_sink::Emit(L"STATE", L"diagnostics=" + std::to_wstring(state_.diagnostics().size()) +
                                   L" groups=" + std::to_wstring(state_.groups().size()) +
@@ -174,6 +191,7 @@ void AssetBoardViewModel::CompleteGeneration(wac::GenerationSession session) {
 void AssetBoardViewModel::CompleteFailure(std::vector<wac::Diagnostic> diagnostics) {
     wac::trace_sink::Emit(L"VM", L"CompleteFailure this=" + PointerText(this));
     save_status_.clear();
+    source_preview_ = nullptr;
     state_.CompleteFailure(std::move(diagnostics));
     RefreshGroups();
     wac::trace_sink::Emit(L"STATE", L"diagnostics=" + std::to_wstring(state_.diagnostics().size()) +
@@ -219,7 +237,7 @@ void AssetBoardViewModel::RefreshGroups() {
     for (const auto& group : state_.groups()) {
         auto assets = winrt::single_threaded_observable_vector<winrt::WindowsAssetCreator::AssetBoardItemViewModel>();
         for (const auto& asset : group.assets) {
-            const auto dimensions = std::format(L"{} × {} px", asset.size.width, asset.size.height);
+            const auto dimensions = std::format(L"{} \u00D7 {} px", asset.size.width, asset.size.height);
             const auto item = winrt::make<AssetBoardItemViewModel>(winrt::hstring{asset.label},
                                                                     winrt::hstring{dimensions},
                                                                     winrt::hstring{asset.staged_path.wstring()});

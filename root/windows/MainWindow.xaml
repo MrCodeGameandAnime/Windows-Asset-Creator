@@ -12,11 +12,24 @@
 
         <StackPanel Spacing="12">
             <TextBlock Text="Windows Asset Creator" Style="{ThemeResource TitleTextBlockStyle}" />
-            <StackPanel Orientation="Horizontal" Spacing="8">
-                <TextBlock Text="{x:Bind ViewModel.SourceName, Mode=OneWay}" />
-                <TextBlock Text="{x:Bind ViewModel.SourceDimensions, Mode=OneWay}" Opacity="0.7" />
-            </StackPanel>
-            <TextBlock Text="{x:Bind ViewModel.SourceFramingNote, Mode=OneWay}" TextWrapping="Wrap" />
+            <Border Padding="12" BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}" BorderThickness="1"
+                    CornerRadius="8" Visibility="{x:Bind ViewModel.SourceSummaryVisibility, Mode=OneWay}">
+                <Grid ColumnSpacing="12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Border Width="64" Height="64" BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}"
+                            BorderThickness="1" CornerRadius="6">
+                        <Image Source="{x:Bind ViewModel.SourcePreview, Mode=OneWay}" Stretch="Uniform" />
+                    </Border>
+                    <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="3">
+                        <TextBlock Text="{x:Bind ViewModel.SourceName, Mode=OneWay}" FontWeight="SemiBold" />
+                        <TextBlock Text="{x:Bind ViewModel.SourceDimensions, Mode=OneWay}" Opacity="0.7" />
+                        <TextBlock Text="{x:Bind ViewModel.SourceFramingNote, Mode=OneWay}" TextWrapping="Wrap" Opacity="0.7" />
+                    </StackPanel>
+                </Grid>
+            </Border>
             <Border x:Name="DropSurface" Padding="24" BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}" BorderThickness="1"
                     CornerRadius="8" Visibility="{x:Bind ViewModel.EmptyDropTargetVisibility, Mode=OneWay}"
                     AutomationProperties.Name="Choose or drop a source image" AllowDrop="True" Background="Transparent"

@@ -22,6 +22,7 @@ void TraceTransition(BoardPhase previous, BoardPhase next) noexcept {
 void AssetBoardState::Reset() {
     const auto previous = phase_;
     session_.reset();
+    source_.reset();
     diagnostics_.clear();
     groups_.clear();
     phase_ = BoardPhase::idle;
@@ -31,15 +32,17 @@ void AssetBoardState::Reset() {
 void AssetBoardState::BeginGeneration() {
     const auto previous = phase_;
     session_.reset();
+    source_.reset();
     diagnostics_.clear();
     groups_.clear();
     phase_ = BoardPhase::processing;
     TraceTransition(previous, phase_);
 }
 
-void AssetBoardState::CompleteGeneration(GenerationSession session) {
+void AssetBoardState::CompleteGeneration(GenerationSession session, SourcePresentation source) {
     const auto previous = phase_;
     session_ = std::move(session);
+    source_ = std::move(source);
     diagnostics_.clear();
     groups_.clear();
     for (const auto& preview : session_->preview_assets()) {
@@ -59,6 +62,7 @@ void AssetBoardState::CompleteGeneration(GenerationSession session) {
 void AssetBoardState::CompleteFailure(std::vector<Diagnostic> diagnostics) {
     const auto previous = phase_;
     session_.reset();
+    source_.reset();
     diagnostics_ = std::move(diagnostics);
     groups_.clear();
     phase_ = BoardPhase::error;
@@ -104,6 +108,7 @@ bool AssetBoardState::can_reset() const noexcept {
     return phase_ == BoardPhase::ready || phase_ == BoardPhase::error;
 }
 std::optional<GenerationSession> const& AssetBoardState::session() const noexcept { return session_; }
+std::optional<SourcePresentation> const& AssetBoardState::source() const noexcept { return source_; }
 std::span<Diagnostic const> AssetBoardState::diagnostics() const noexcept { return diagnostics_; }
 std::span<BoardPreviewGroup const> AssetBoardState::groups() const noexcept { return groups_; }
 }
