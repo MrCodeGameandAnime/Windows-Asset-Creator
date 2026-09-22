@@ -144,6 +144,14 @@ winrt::Microsoft::UI::Xaml::Visibility AssetBoardViewModel::EmptyDropTargetVisib
     TraceProperty(L"EmptyDropTargetVisibility", value == winrt::Microsoft::UI::Xaml::Visibility::Visible ? L"Visible" : L"Collapsed", this);
     return value;
 }
+winrt::Microsoft::UI::Xaml::Visibility AssetBoardViewModel::ReplacementDropTargetVisibility() const noexcept {
+    const auto value = state_.can_replace_source()
+        ? winrt::Microsoft::UI::Xaml::Visibility::Visible
+        : winrt::Microsoft::UI::Xaml::Visibility::Collapsed;
+    TraceProperty(L"ReplacementDropTargetVisibility",
+                  value == winrt::Microsoft::UI::Xaml::Visibility::Visible ? L"Visible" : L"Collapsed", this);
+    return value;
+}
 winrt::Windows::Foundation::Collections::IVectorView<winrt::WindowsAssetCreator::AssetBoardGroupViewModel>
 AssetBoardViewModel::Groups() const {
     const auto value = groups_.GetView();

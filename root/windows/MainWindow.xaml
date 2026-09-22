@@ -12,6 +12,22 @@
 
         <StackPanel Spacing="12">
             <TextBlock Text="Windows Asset Creator" Style="{ThemeResource TitleTextBlockStyle}" />
+            <Border x:Name="ReplacementDropSurface" Padding="10,6"
+                    BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}" BorderThickness="1"
+                    CornerRadius="8" Visibility="{x:Bind ViewModel.ReplacementDropTargetVisibility, Mode=OneWay}"
+                    AutomationProperties.Name="Drop another source image or browse" AllowDrop="True"
+                    Background="Transparent" DragOver="DropSurface_DragOver" Drop="DropSurface_Drop">
+                <Grid ColumnSpacing="12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Drop another PNG or JPEG here, or browse…"
+                               VerticalAlignment="Center" Opacity="0.7" />
+                    <Button Grid.Column="1" Content="Browse…" AutomationProperties.Name="Choose another source image"
+                            Click="Browse_Click" />
+                </Grid>
+            </Border>
             <Border Padding="12" BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}" BorderThickness="1"
                     CornerRadius="8" Visibility="{x:Bind ViewModel.SourceSummaryVisibility, Mode=OneWay}">
                 <Grid ColumnSpacing="12">

@@ -107,6 +107,9 @@ bool AssetBoardState::can_save() const noexcept { return phase_ == BoardPhase::r
 bool AssetBoardState::can_reset() const noexcept {
     return phase_ == BoardPhase::ready || phase_ == BoardPhase::error;
 }
+bool AssetBoardState::can_replace_source() const noexcept {
+    return phase_ == BoardPhase::ready && session_.has_value();
+}
 std::optional<GenerationSession> const& AssetBoardState::session() const noexcept { return session_; }
 std::optional<SourcePresentation> const& AssetBoardState::source() const noexcept { return source_; }
 std::span<Diagnostic const> AssetBoardState::diagnostics() const noexcept { return diagnostics_; }

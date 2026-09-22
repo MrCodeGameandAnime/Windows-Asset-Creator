@@ -34,6 +34,7 @@ namespace WindowsAssetCreator
         Boolean CanSave{ get; };
         Boolean CanReset{ get; };
         Microsoft.UI.Xaml.Visibility EmptyDropTargetVisibility{ get; };
+        Microsoft.UI.Xaml.Visibility ReplacementDropTargetVisibility{ get; };
         Windows.Foundation.Collections.IVectorView<AssetBoardGroupViewModel> Groups{ get; };
     }
 

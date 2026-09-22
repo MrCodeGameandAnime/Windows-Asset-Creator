@@ -288,6 +288,28 @@ TEST_CASE(Board_state_allows_reset_only_when_not_busy)
     REQUIRE_EQ(state.can_reset(), true);
 }
 
+TEST_CASE(Board_state_allows_replacement_intake_only_when_ready)
+{
+    wac::AssetBoardState state;
+    REQUIRE_EQ(state.can_replace_source(), false);
+
+    state.BeginGeneration();
+    REQUIRE_EQ(state.can_replace_source(), false);
+
+    state.CompleteGeneration(ReadySession(), ReadySourcePresentation());
+    REQUIRE_EQ(state.can_replace_source(), true);
+
+    state.BeginSave();
+    REQUIRE_EQ(state.can_replace_source(), false);
+
+    state.CompleteSaveCancelled();
+    REQUIRE_EQ(state.can_replace_source(), true);
+
+    state.CompleteFailure({{wac::Severity::error, wac::DiagnosticCode::corrupt_image,
+                            L"The source image could not be decoded.", L"corrupt.png"}});
+    REQUIRE_EQ(state.can_replace_source(), false);
+}
+
 TEST_CASE(Board_state_keeps_save_disabled_after_corrupt_source)
 {
     wac::AssetBoardState state;

@@ -39,6 +39,7 @@ public:
     std::span<Diagnostic const> diagnostics() const noexcept;
     std::span<BoardPreviewGroup const> groups() const noexcept;
     bool can_reset() const noexcept;
+    bool can_replace_source() const noexcept;
 
 private:
     BoardPhase phase_{BoardPhase::idle};
