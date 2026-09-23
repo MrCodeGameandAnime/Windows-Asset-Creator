@@ -213,12 +213,60 @@ DecodedImage NormalizeToSquare(DecodedImage const& source) {
 DecodedImage ResizeRgba(DecodedImage const& source, PixelSize target) {
     EnsureApartment();
     const auto factory = CreateFactory();
+
+    if (target.width == target.height || target.width == 0 || target.height == 0) {
+        ComPtr<IWICBitmapScaler> scaler;
+        Check(factory->CreateBitmapScaler(scaler.GetAddressOf()));
+        Check(scaler->Initialize(source.bitmap_.Get(), target.width, target.height, WICBitmapInterpolationModeFant));
+
+        ComPtr<IWICBitmap> resized;
+        Check(factory->CreateBitmapFromSource(scaler.Get(), WICBitmapCacheOnLoad, resized.GetAddressOf()));
+        return DecodedImage::FromBitmap(std::move(resized));
+    }
+
+    PixelSize fitted_size{};
+    if (static_cast<uint64_t>(target.width) * source.size_.height <=
+        static_cast<uint64_t>(target.height) * source.size_.width) {
+        fitted_size.width = target.width;
+        fitted_size.height = (std::max)(1u, static_cast<uint32_t>(
+            static_cast<uint64_t>(source.size_.height) * target.width / source.size_.width));
+    } else {
+        fitted_size.height = target.height;
+        fitted_size.width = (std::max)(1u, static_cast<uint32_t>(
+            static_cast<uint64_t>(source.size_.width) * target.height / source.size_.height));
+    }
+
     ComPtr<IWICBitmapScaler> scaler;
     Check(factory->CreateBitmapScaler(scaler.GetAddressOf()));
-    Check(scaler->Initialize(source.bitmap_.Get(), target.width, target.height, WICBitmapInterpolationModeFant));
+    Check(scaler->Initialize(source.bitmap_.Get(), fitted_size.width, fitted_size.height,
+                             WICBitmapInterpolationModeFant));
 
-    ComPtr<IWICBitmap> resized;
-    Check(factory->CreateBitmapFromSource(scaler.Get(), WICBitmapCacheOnLoad, resized.GetAddressOf()));
-    return DecodedImage::FromBitmap(std::move(resized));
+    ComPtr<IWICBitmap> fitted;
+    Check(factory->CreateBitmapFromSource(scaler.Get(), WICBitmapCacheOnLoad, fitted.GetAddressOf()));
+
+    ComPtr<IWICBitmap> canvas;
+    Check(factory->CreateBitmap(target.width, target.height, GUID_WICPixelFormat32bppRGBA,
+                                WICBitmapCacheOnLoad, canvas.GetAddressOf()));
+    ComPtr<IWICBitmapLock> lock;
+    Check(canvas->Lock(nullptr, WICBitmapLockWrite, lock.GetAddressOf()));
+    UINT buffer_size = 0;
+    BYTE* destination = nullptr;
+    UINT destination_stride = 0;
+    Check(lock->GetDataPointer(&buffer_size, &destination));
+    Check(lock->GetStride(&destination_stride));
+    std::memset(destination, 0, buffer_size);
+
+    const auto fitted_stride = fitted_size.width * 4;
+    std::vector<BYTE> fitted_pixels(static_cast<size_t>(fitted_stride) * fitted_size.height);
+    Check(fitted->CopyPixels(nullptr, fitted_stride, static_cast<UINT>(fitted_pixels.size()),
+                             fitted_pixels.data()));
+    const auto x_offset = (target.width - fitted_size.width) / 2;
+    const auto y_offset = (target.height - fitted_size.height) / 2;
+    for (uint32_t row = 0; row < fitted_size.height; ++row) {
+        std::memcpy(destination + static_cast<size_t>(row + y_offset) * destination_stride + x_offset * 4,
+                    fitted_pixels.data() + static_cast<size_t>(row) * fitted_stride, fitted_stride);
+    }
+
+    return DecodedImage::FromBitmap(std::move(canvas));
 }
 }

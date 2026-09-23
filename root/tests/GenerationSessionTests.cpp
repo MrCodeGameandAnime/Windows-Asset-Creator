@@ -79,6 +79,28 @@ TEST_CASE(Generation_creates_valid_70_png_and_ico_session)
     REQUIRE_EQ(decoded.value->size().height, 150u);
 }
 
+TEST_CASE(Wide310_output_fits_square_artwork_with_centered_transparent_padding)
+{
+    auto session = ReadySession();
+    const auto wide = std::find_if(session.preview_assets().begin(), session.preview_assets().end(), [](const auto& asset) {
+        return asset.spec.relative_path == L"Assets/Wide310x150Logo.png";
+    });
+    REQUIRE_EQ(wide != session.preview_assets().end(), true);
+
+    const auto decoded = wac::LoadImage(wide->staged_path);
+    REQUIRE_EQ(decoded.succeeded(), true);
+    REQUIRE_EQ(decoded.value->size().width, 310u);
+    REQUIRE_EQ(decoded.value->size().height, 150u);
+
+    const auto left_padding = decoded.value->pixel_at(40, 75);
+    const auto right_padding = decoded.value->pixel_at(269, 75);
+    REQUIRE_EQ(left_padding.a, uint8_t{0});
+    REQUIRE_EQ(right_padding.a, uint8_t{0});
+
+    const auto centered_artwork = decoded.value->pixel_at(155, 75);
+    REQUIRE_EQ(centered_artwork.a, uint8_t{255});
+}
+
 TEST_CASE(Export_zip_contains_only_assets_and_appicon)
 {
     auto session = ReadySession();
