@@ -99,10 +99,8 @@
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest" />
     <None Include="packages.config" />
-    <Image Include="Assets\StoreLogo.png" />
-    <Image Include="Assets\Square150x150Logo.png" />
-    <Image Include="Assets\Square44x44Logo.png" />
-    <Image Include="Assets\Wide310x150Logo.png" />
+    <Image Include="Assets\*.png" />
+    <Image Include="Assets\AppIcon.ico" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\src\AssetCore.vcxproj"><Project>{194566E0-B7D4-4723-85BF-D5BFF0A0A774}</Project></ProjectReference>

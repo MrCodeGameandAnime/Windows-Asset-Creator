@@ -66,3 +66,27 @@ TEST_CASE(Resize_returns_exact_target_dimensions)
     REQUIRE_EQ(resized.size().width, uint32_t{37});
     REQUIRE_EQ(resized.size().height, uint32_t{19});
 }
+
+TEST_CASE(Rectangular_resize_preserves_red_blue_channels_and_alpha)
+{
+    const auto loaded = wac::LoadImage(TestImage(L"wide-red-blue.png"));
+    REQUIRE_EQ(loaded.succeeded(), true);
+
+    const auto resized = wac::ResizeRgba(*loaded.value, {310, 150});
+    REQUIRE_EQ(resized.size().width, uint32_t{310});
+    REQUIRE_EQ(resized.size().height, uint32_t{150});
+
+    const auto red = resized.pixel_at(80, 75);
+    REQUIRE_EQ(red.r > 220, true);
+    REQUIRE_EQ(red.g < 30, true);
+    REQUIRE_EQ(red.b < 30, true);
+    REQUIRE_EQ(red.a, uint8_t{255});
+
+    const auto blue = resized.pixel_at(230, 75);
+    REQUIRE_EQ(blue.r < 30, true);
+    REQUIRE_EQ(blue.g < 30, true);
+    REQUIRE_EQ(blue.b > 220, true);
+    REQUIRE_EQ(blue.a, uint8_t{255});
+
+    REQUIRE_EQ(resized.pixel_at(2, 75).a, uint8_t{0});
+}

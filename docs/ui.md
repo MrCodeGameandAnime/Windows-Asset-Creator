@@ -261,23 +261,46 @@ Verify:
    - Explorer reveal still succeeds
    - polished UI remains usable after save
 
-### Step 8: Reduce Task 7 diagnostic instrumentation
+### Step 8: Isolate Task 7 diagnostic instrumentation
 
 Only after the polished packaged runtime flow has passed:
 
-- remove temporary projection/materialization trace noise
-- remove temporary property-getter tracing
-- remove temporary XAML binding diagnostics
-- remove ZIP investigation-only diagnostics that no longer provide product value
-- remove the development flight-recorder UI/setup if it is no longer needed
+Preserve the Task 7 diagnostic tooling where it remains useful for future investigation, but ensure investigation-only diagnostics are inactive during normal application use.
 
-Retain only diagnostics that have deliberate ongoing value.
+- wall off projection/materialization trace noise behind an explicit diagnostic/development switch
+- wall off property-getter tracing behind the same diagnostic boundary
+- disable temporary XAML binding diagnostics during normal execution
+- disable ZIP investigation-only diagnostics during normal execution
+- keep the development flight recorder available for future debugging, but do not initialize or write to it unless diagnostics are explicitly enabled
+- retain normal product diagnostics and actionable error reporting that have deliberate ongoing value
+- prefer one clear diagnostic activation mechanism rather than scattered individual switches
+- keep diagnostic code close to the behavior it observes so it can be reactivated without reconstructing the Task 7 investigation tooling
 
-Release behavior must not continuously perform the high-volume synchronous logging used during Task 7 investigation.
+Default behavior must be:
 
-Do not perform unrelated refactors while removing diagnostics.
+- diagnostics disabled
+- no development flight-recorder prompt or setup
+- no continuous trace file creation
+- no high-volume property/projection/materialization logging
+- no synchronous per-event flush behavior during ordinary use
+- no user-visible diagnostic UI
+- Release builds must not continuously perform Task 7 investigation logging
 
-After diagnostic cleanup, rerun the packaged smoke matrix relevant to the affected paths.
+Diagnostic mode may remain available for deliberate development/debug sessions.
+
+Do not delete useful diagnostic infrastructure solely because Task 7 is complete.
+
+Do not perform unrelated refactors while isolating diagnostics.
+
+After changing the diagnostic activation boundary:
+
+- rebuild Debug/package
+- run native tests
+- run the packaged smoke matrix relevant to affected paths
+- verify normal execution does not create or continuously write investigation trace output
+- where practical, briefly activate diagnostic mode and verify the preserved tooling still functions
+
+The goal of this step is dormant, reusable diagnostics, not diagnostic removal.
 
 ### Step 9: Add or update focused automated tests
 

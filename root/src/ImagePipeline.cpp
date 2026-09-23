@@ -241,8 +241,15 @@ DecodedImage ResizeRgba(DecodedImage const& source, PixelSize target) {
     Check(scaler->Initialize(source.bitmap_.Get(), fitted_size.width, fitted_size.height,
                              WICBitmapInterpolationModeFant));
 
+    ComPtr<IWICFormatConverter> fitted_converter;
+    Check(factory->CreateFormatConverter(fitted_converter.GetAddressOf()));
+    Check(fitted_converter->Initialize(scaler.Get(), GUID_WICPixelFormat32bppRGBA,
+                                       WICBitmapDitherTypeNone, nullptr, 0.0,
+                                       WICBitmapPaletteTypeCustom));
+
     ComPtr<IWICBitmap> fitted;
-    Check(factory->CreateBitmapFromSource(scaler.Get(), WICBitmapCacheOnLoad, fitted.GetAddressOf()));
+    Check(factory->CreateBitmapFromSource(fitted_converter.Get(), WICBitmapCacheOnLoad,
+                                          fitted.GetAddressOf()));
 
     ComPtr<IWICBitmap> canvas;
     Check(factory->CreateBitmap(target.width, target.height, GUID_WICPixelFormat32bppRGBA,
