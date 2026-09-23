@@ -148,6 +148,7 @@ MainWindow::MainWindow()
                                   L" view_model_impl=" + PointerText(view_model_impl_.get()));
     wac::trace::Write(L"XAML", L"InitializeComponent BEGIN");
     InitializeComponent();
+    Title(L"Windows Asset Creator");
     wac::trace::Write(L"XAML", L"InitializeComponent END");
     wac::trace::Write(L"WINDOW", L"MainWindow ctor EXIT");
 }

@@ -11,7 +11,6 @@
         </Grid.RowDefinitions>
 
         <StackPanel Spacing="10">
-            <TextBlock Text="Windows Asset Creator" Style="{ThemeResource TitleTextBlockStyle}" />
             <Border x:Name="ReplacementDropSurface" Padding="10,6"
                     Style="{StaticResource WacIntakeSurfaceStyle}"
                     Visibility="{x:Bind ViewModel.ReplacementDropTargetVisibility, Mode=OneWay}"
