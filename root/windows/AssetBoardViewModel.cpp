@@ -47,10 +47,11 @@ GroupPresentation PresentGroup(std::wstring_view title) {
     if (title == L"AppList default") return {L"AppList", L"42 assets \u00B7 all valid", Visibility::Visible, L"Default"};
     if (title == L"AppList altform unplated") return {L"", L"", Visibility::Collapsed, L"Unplated"};
     if (title == L"AppList altform light unplated") return {L"", L"", Visibility::Collapsed, L"Light unplated"};
-    if (title == L"Square44") return {L"Logo families", L"27 assets \u00B7 all valid", Visibility::Visible, L"Square 44"};
+    if (title == L"Square44") return {L"Logo families", L"28 assets \u00B7 all valid", Visibility::Visible, L"Square 44"};
     if (title == L"Square150") return {L"", L"", Visibility::Collapsed, L"Square 150"};
     if (title == L"StoreLogo") return {L"", L"", Visibility::Collapsed, L"Store logo"};
     if (title == L"MedTile") return {L"", L"", Visibility::Collapsed, L"Medium tile"};
+    if (title == L"Wide310") return {L"", L"", Visibility::Collapsed, L"Wide 310 \u00D7 150"};
     if (title == L"AppIcon") return {L"App icon", L"1 asset \u00B7 all valid", Visibility::Visible, L"Windows icon"};
     return {winrt::hstring{title}, L"", Visibility::Visible, winrt::hstring{title}};
 }
@@ -154,7 +155,7 @@ winrt::hstring AssetBoardViewModel::SourceFramingNote() const {
 }
 winrt::hstring AssetBoardViewModel::ValidationText() const {
     const auto value = HasValidationSuccess()
-        ? winrt::hstring{L"69 PNG + 1 ICO ready"}
+        ? winrt::hstring{L"70 PNG + 1 ICO ready"}
         : winrt::hstring{L"No generated assets yet."};
     TraceProperty(L"ValidationText", value.c_str(), this);
     return value;

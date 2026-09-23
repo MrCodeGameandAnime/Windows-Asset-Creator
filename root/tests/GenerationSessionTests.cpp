@@ -1,9 +1,11 @@
 #include "AssetGenerator.h"
 #include "AssetBoardState.h"
+#include "ImagePipeline.h"
 #include "NativeTest.h"
 #include "Output/Validator.h"
 #include "TestImageFactory.h"
 
+#include <algorithm>
 #include <array>
 #include <chrono>
 #include <fstream>
@@ -57,11 +59,24 @@ wac::SourcePresentation ReadySourcePresentation() {
 }
 }
 
-TEST_CASE(Generation_creates_valid_69_png_and_ico_session)
+TEST_CASE(Generation_creates_valid_70_png_and_ico_session)
 {
     auto session = ReadySession();
-    REQUIRE_EQ(session.preview_assets().size(), size_t{70});
+    REQUIRE_EQ(session.preview_assets().size(), size_t{71});
     REQUIRE_EQ(wac::ValidateStagedAssets(session.profile(), session.staging_root()).succeeded(), true);
+
+    const auto wide = std::find_if(session.preview_assets().begin(), session.preview_assets().end(), [](const auto& asset) {
+        return asset.spec.relative_path == L"Assets/Wide310x150Logo.png";
+    });
+    REQUIRE_EQ(wide != session.preview_assets().end(), true);
+    REQUIRE_EQ(wide->spec.size.width, 310u);
+    REQUIRE_EQ(wide->spec.size.height, 150u);
+    REQUIRE_EQ(std::filesystem::exists(wide->staged_path), true);
+
+    const auto decoded = wac::LoadImage(wide->staged_path);
+    REQUIRE_EQ(decoded.succeeded(), true);
+    REQUIRE_EQ(decoded.value->size().width, 310u);
+    REQUIRE_EQ(decoded.value->size().height, 150u);
 }
 
 TEST_CASE(Export_zip_contains_only_assets_and_appicon)
@@ -70,9 +85,18 @@ TEST_CASE(Export_zip_contains_only_assets_and_appicon)
     const auto zip = TempPath(L"Windows-Assets.zip");
     REQUIRE_EQ(session.ExportZip(zip).succeeded(), true);
     const auto entries = ReadZipEntries(zip);
-    REQUIRE_EQ(entries.size(), size_t{70});
+    REQUIRE_EQ(entries.size(), size_t{71});
     REQUIRE_EQ(Contains(entries, L"Assets/AppList.targetsize-16.png"), true);
+    REQUIRE_EQ(Contains(entries, L"Assets/Wide310x150Logo.png"), true);
     REQUIRE_EQ(Contains(entries, L"AppIcon.ico"), true);
+    size_t png_count = 0;
+    size_t ico_count = 0;
+    for (const auto& entry : entries) {
+        if (entry.extension() == L".png") ++png_count;
+        if (entry == L"AppIcon.ico") ++ico_count;
+    }
+    REQUIRE_EQ(png_count, size_t{70});
+    REQUIRE_EQ(ico_count, size_t{1});
     REQUIRE_EQ(Contains(entries, TestImage(L"wide-red-blue.png")), false);
 }
 
@@ -165,7 +189,7 @@ TEST_CASE(Export_successfully_replaces_existing_user_zip)
 
     REQUIRE_EQ(session.ExportZip(zip).succeeded(), true);
     const auto entries = ReadZipEntries(zip);
-    REQUIRE_EQ(entries.size(), size_t{70});
+    REQUIRE_EQ(entries.size(), size_t{71});
     REQUIRE_EQ(ReadBytes(zip).find("sentinel") == std::string::npos, true);
     REQUIRE_EQ(std::filesystem::exists(zip.wstring() + L".tmp"), false);
 }
@@ -211,10 +235,19 @@ TEST_CASE(Board_state_groups_every_generated_preview)
         asset_count += group.assets.size();
     }
 
-    REQUIRE_EQ(state.groups().size(), size_t{8});
-    REQUIRE_EQ(asset_count, size_t{70});
+    REQUIRE_EQ(state.groups().size(), size_t{9});
+    REQUIRE_EQ(asset_count, size_t{71});
     REQUIRE_EQ(state.groups().front().title, std::wstring{L"AppList default"});
     REQUIRE_EQ(state.groups().back().title, std::wstring{L"AppIcon"});
+
+    const auto wide_group = std::find_if(state.groups().begin(), state.groups().end(), [](const auto& group) {
+        return group.title == L"Wide310";
+    });
+    REQUIRE_EQ(wide_group != state.groups().end(), true);
+    REQUIRE_EQ(wide_group->assets.size(), size_t{1});
+    REQUIRE_EQ(wide_group->assets.front().label, std::wstring{L"Wide310x150Logo.png"});
+    REQUIRE_EQ(wide_group->assets.front().size.width, 310u);
+    REQUIRE_EQ(wide_group->assets.front().size.height, 150u);
 }
 
 TEST_CASE(Board_state_retains_accepted_source_presentation)

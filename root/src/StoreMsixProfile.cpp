@@ -48,7 +48,7 @@ StoreMsixProfile::StoreMsixProfile(std::vector<AssetSpec> png_assets, AssetSpec 
 
 StoreMsixProfile StoreMsixProfile::Create() {
     std::vector<AssetSpec> png_assets;
-    png_assets.reserve(69);
+    png_assets.reserve(70);
 
     for (const auto size : app_list_sizes) {
         const auto stem = L"Assets/AppList.targetsize-" + std::to_wstring(size);
@@ -61,6 +61,8 @@ StoreMsixProfile StoreMsixProfile::Create() {
     AddScaledAssets(png_assets, L"Square150", L"Square150x150Logo", square150_scales, true);
     AddScaledAssets(png_assets, L"StoreLogo", L"StoreLogo", store_logo_scales, true);
     AddScaledAssets(png_assets, L"MedTile", L"MedTile", med_tile_scales, false);
+    png_assets.push_back({L"Wide310", std::filesystem::path{L"Assets/Wide310x150Logo.png"},
+                          {310, 150}, AssetFormat::png});
 
     return StoreMsixProfile{std::move(png_assets), {L"AppIcon", L"AppIcon.ico", {256, 256}, AssetFormat::ico}};
 }
@@ -92,8 +94,8 @@ OperationResult ValidateProfile(StoreMsixProfile const& profile) {
         if (asset.size.width == 0 || asset.size.height == 0) return ValidationFailure(asset.relative_path.wstring());
         if (asset.format != AssetFormat::png) return ValidationFailure(asset.relative_path.wstring());
     }
-    if (profile.png_assets().size() != 69) {
-        return ValidationFailure(L"Expected 69 PNG assets but found " + std::to_wstring(profile.png_assets().size()) + L".");
+    if (profile.png_assets().size() != 70) {
+        return ValidationFailure(L"Expected 70 PNG assets but found " + std::to_wstring(profile.png_assets().size()) + L".");
     }
 
     const auto& ico = profile.ico_asset();

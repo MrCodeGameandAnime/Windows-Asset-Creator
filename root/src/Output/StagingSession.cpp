@@ -40,7 +40,7 @@ OperationResult GenerationSession::ExportZip(std::filesystem::path const& destin
     entries.push_back(profile_.ico_asset().relative_path);
     auto result = WriteZip(staging_root_, entries, destination);
     if (result.succeeded()) {
-        trace_sink::Emit(L"EXPORT", L"ExportZip result=success entries=70");
+        trace_sink::Emit(L"EXPORT", L"ExportZip result=success entries=71");
     } else {
         trace_sink::Emit(L"EXPORT", L"ExportZip result=failure diagnostics=" +
                                   std::to_wstring(result.diagnostics.size()));

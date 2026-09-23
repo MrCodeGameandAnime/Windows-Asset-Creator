@@ -43,6 +43,7 @@ std::vector<ExpectedPng> ExpectedPngAssets() {
     add_scaled_group(L"Square150", L"Square150x150Logo", {{100, 150}, {125, 188}, {150, 225}, {200, 300}, {250, 375}, {300, 450}, {400, 600}}, true);
     add_scaled_group(L"StoreLogo", L"StoreLogo", {{100, 50}, {125, 63}, {150, 75}, {200, 100}, {400, 200}}, true);
     add_scaled_group(L"MedTile", L"MedTile", {{100, 150}, {125, 188}, {150, 225}, {200, 300}, {400, 600}}, false);
+    expected.push_back({L"Wide310", L"Assets/Wide310x150Logo.png", {310, 150}});
     return expected;
 }
 
@@ -58,8 +59,8 @@ TEST_CASE(Store_profile_matches_the_fixed_png_inventory)
 {
     const auto profile = wac::StoreMsixProfile::Create();
     const auto expected = ExpectedPngAssets();
-    REQUIRE_EQ(profile.png_assets().size(), size_t{69});
-    REQUIRE_EQ(expected.size(), size_t{69});
+    REQUIRE_EQ(profile.png_assets().size(), size_t{70});
+    REQUIRE_EQ(expected.size(), size_t{70});
 
     for (const auto& expected_asset : expected) {
         const auto* actual = profile.find(expected_asset.path);
@@ -102,6 +103,7 @@ TEST_CASE(Store_profile_has_expected_group_membership)
     REQUIRE_EQ(count_group(L"Square150"), size_t{8});
     REQUIRE_EQ(count_group(L"StoreLogo"), size_t{6});
     REQUIRE_EQ(count_group(L"MedTile"), size_t{5});
+    REQUIRE_EQ(count_group(L"Wide310"), size_t{1});
 }
 
 TEST_CASE(Store_profile_validation_accepts_the_fixed_profile)
