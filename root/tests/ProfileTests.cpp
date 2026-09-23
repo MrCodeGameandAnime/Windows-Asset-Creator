@@ -39,7 +39,7 @@ std::vector<ExpectedPng> ExpectedPngAssets() {
         }
     };
 
-    add_scaled_group(L"Square44", L"Square44x44Logo", {{100, 44}, {125, 55}, {150, 66}, {200, 88}, {250, 110}, {300, 132}, {400, 176}}, true);
+    add_scaled_group(L"Square44", L"AppList", {{100, 44}, {125, 55}, {150, 66}, {200, 88}, {250, 110}, {300, 132}, {400, 176}}, true);
     add_scaled_group(L"Square150", L"Square150x150Logo", {{100, 150}, {125, 188}, {150, 225}, {200, 300}, {250, 375}, {300, 450}, {400, 600}}, true);
     add_scaled_group(L"StoreLogo", L"StoreLogo", {{100, 50}, {125, 63}, {150, 75}, {200, 100}, {400, 200}}, true);
     add_scaled_group(L"MedTile", L"MedTile", {{100, 150}, {125, 188}, {150, 225}, {200, 300}, {400, 600}}, false);

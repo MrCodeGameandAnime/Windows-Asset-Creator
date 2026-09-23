@@ -57,7 +57,7 @@ StoreMsixProfile StoreMsixProfile::Create() {
         png_assets.push_back(MakePng(L"AppList altform light unplated", stem + L"_altform-lightunplated.png", size));
     }
 
-    AddScaledAssets(png_assets, L"Square44", L"Square44x44Logo", square44_scales, true);
+    AddScaledAssets(png_assets, L"Square44", L"AppList", square44_scales, true);
     AddScaledAssets(png_assets, L"Square150", L"Square150x150Logo", square150_scales, true);
     AddScaledAssets(png_assets, L"StoreLogo", L"StoreLogo", store_logo_scales, true);
     AddScaledAssets(png_assets, L"MedTile", L"MedTile", med_tile_scales, false);
