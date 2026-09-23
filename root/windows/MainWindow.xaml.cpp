@@ -5,6 +5,8 @@
 
 #include <microsoft.ui.xaml.window.h>
 #include <shobjidl_core.h>
+#include <winrt/Microsoft.UI.Windowing.h>
+#include <winrt/Windows.ApplicationModel.h>
 #include <winrt/Windows.Storage.Streams.h>
 
 #include <cwchar>
@@ -149,6 +151,9 @@ MainWindow::MainWindow()
     wac::trace::Write(L"XAML", L"InitializeComponent BEGIN");
     InitializeComponent();
     Title(L"Windows Asset Creator");
+    const auto package_path = winrt::Windows::ApplicationModel::Package::Current().InstalledLocation().Path();
+    const auto icon_path = std::wstring{package_path.c_str()} + L"\\Assets\\AppIcon.ico";
+    AppWindow().SetIcon(icon_path);
     wac::trace::Write(L"XAML", L"InitializeComponent END");
     wac::trace::Write(L"WINDOW", L"MainWindow ctor EXIT");
 }
