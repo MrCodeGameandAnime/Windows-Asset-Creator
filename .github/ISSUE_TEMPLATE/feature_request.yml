@@ -1,0 +1,37 @@
+name: Feature request
+description: Suggest a focused improvement to Windows Asset Creator.
+title: "[Feature]: "
+body:
+  - type: markdown
+    attributes:
+      value: >-
+        Describe the user problem you want to solve. WAC is intentionally focused
+        on generating and reviewing Windows/MSIX assets from one PNG or JPEG.
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem would this solve?
+      description: Explain the situation or user need behind the request.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What would you like WAC to do?
+      description: Describe the behavior you have in mind.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives or workarounds
+      description: Describe any alternatives you have considered or currently use.
+    validations:
+      required: false
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Add examples or references that help explain the request.
+    validations:
+      required: false

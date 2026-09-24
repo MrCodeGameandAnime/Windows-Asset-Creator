@@ -1,0 +1,68 @@
+name: Bug report
+description: Report behavior that fails or differs from what WAC is expected to do.
+title: "[Bug]: "
+body:
+  - type: markdown
+    attributes:
+      value: >-
+        Please search existing issues before submitting. For a suspected security
+        vulnerability, do not report details publicly; follow the
+        [security policy](https://github.com/MrCodeGameandAnime/Windows-Asset-Creator/blob/main/docs/SECURITY.md).
+  - type: input
+    id: version
+    attributes:
+      label: WAC version or commit
+      description: If known, provide the app version or commit where you saw this.
+      placeholder: e.g. 1.0.0.2 or a commit SHA
+    validations:
+      required: false
+  - type: input
+    id: windows-version
+    attributes:
+      label: Windows version
+      description: Include the Windows edition and version/build if known.
+      placeholder: e.g. Windows 11, version 24H2
+    validations:
+      required: true
+  - type: dropdown
+    id: input-format
+    attributes:
+      label: Source image format
+      options:
+        - PNG
+        - JPEG/JPG
+        - Not applicable
+        - Not sure
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: Describe the problem and include any exact error message.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: List the actions needed to reproduce the problem.
+      placeholder: |
+        1. Open WAC...
+        2. Choose or drop an image...
+        3. Observe...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect to happen?
+    validations:
+      required: true
+  - type: textarea
+    id: diagnostics
+    attributes:
+      label: Relevant diagnostics (optional)
+      description: Remove private file paths, personal data, and secrets before sharing logs or screenshots.
+    validations:
+      required: false
