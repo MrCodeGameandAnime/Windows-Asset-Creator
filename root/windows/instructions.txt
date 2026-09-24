@@ -1,1 +1,0 @@
-Packaged WinUI 3 presentation layer; it may depend on AssetCore but AssetCore must not depend on it.
