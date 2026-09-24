@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
-  <Identity Name="WindowsAssetCreator" Publisher="CN=Windows Asset Creator" Version="1.0.0.0" />
+  <Identity Name="404Builds.WindowsAssetCreator" Publisher="CN=2BB531F8-77DD-4D82-AA5F-230F26EB09EE" Version="1.0.0.0" />
   <mp:PhoneIdentity PhoneProductId="00000000-0000-0000-0000-000000000001" PhonePublisherId="00000000-0000-0000-0000-000000000001" />
-  <Properties><DisplayName>Windows Asset Creator</DisplayName><PublisherDisplayName>Windows Asset Creator</PublisherDisplayName><Logo>Assets\StoreLogo.png</Logo></Properties>
+  <Properties><DisplayName>Windows Asset Creator</DisplayName><PublisherDisplayName>404 Builds</PublisherDisplayName><Logo>Assets\StoreLogo.png</Logo></Properties>
   <Resources><Resource Language="x-generate" /></Resources>
   <Applications><Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="Windows.PartialTrustApplication"><uap:VisualElements DisplayName="Windows Asset Creator" Description="Windows Asset Creator" BackgroundColor="transparent" Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\AppList.png"><uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" /></uap:VisualElements></Application></Applications>
 </Package>

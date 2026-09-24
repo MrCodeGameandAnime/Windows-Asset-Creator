@@ -9,12 +9,15 @@
             <ResourceDictionary.MergedDictionaries>
                 <controls:XamlControlsResources />
             </ResourceDictionary.MergedDictionaries>
-        <SolidColorBrush x:Key="WacCanvasBrush" Color="#F4F7FB" />
+        <SolidColorBrush x:Key="WacCanvasBrush" Color="#EEF3F8" />
         <SolidColorBrush x:Key="WacSurfaceBrush" Color="#FFFFFF" />
-        <SolidColorBrush x:Key="WacSurfaceSubtleBrush" Color="#F8FAFC" />
-        <SolidColorBrush x:Key="WacBorderBrush" Color="#D8E1EC" />
-        <SolidColorBrush x:Key="WacAccentSoftBrush" Color="#EFF6FF" />
-        <SolidColorBrush x:Key="WacAccentBorderBrush" Color="#93C5FD" />
+        <SolidColorBrush x:Key="WacSurfaceSubtleBrush" Color="#F7F9FC" />
+        <SolidColorBrush x:Key="WacBoardBrush" Color="#FBFCFE" />
+        <SolidColorBrush x:Key="WacFooterBrush" Color="#F7F9FC" />
+        <SolidColorBrush x:Key="WacBorderBrush" Color="#CFDAE6" />
+        <SolidColorBrush x:Key="WacDividerBrush" Color="#B8C6D6" />
+        <SolidColorBrush x:Key="WacAccentSoftBrush" Color="#FFFFFF" />
+        <SolidColorBrush x:Key="WacAccentBorderBrush" Color="#82B6F5" />
         <SolidColorBrush x:Key="WacAccentTextBrush" Color="#1D4ED8" />
         <SolidColorBrush x:Key="WacMutedTextBrush" Color="#64748B" />
 
@@ -22,13 +25,19 @@
             <Setter Property="Background" Value="{StaticResource WacSurfaceBrush}" />
             <Setter Property="BorderBrush" Value="{StaticResource WacBorderBrush}" />
             <Setter Property="BorderThickness" Value="1" />
-            <Setter Property="CornerRadius" Value="10" />
+            <Setter Property="CornerRadius" Value="12" />
+        </Style>
+        <Style x:Key="WacBoardCardStyle" TargetType="Border">
+            <Setter Property="Background" Value="{StaticResource WacBoardBrush}" />
+            <Setter Property="BorderBrush" Value="{StaticResource WacBorderBrush}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="12" />
         </Style>
         <Style x:Key="WacIntakeSurfaceStyle" TargetType="Border">
             <Setter Property="Background" Value="{StaticResource WacAccentSoftBrush}" />
             <Setter Property="BorderBrush" Value="{StaticResource WacAccentBorderBrush}" />
             <Setter Property="BorderThickness" Value="1" />
-            <Setter Property="CornerRadius" Value="8" />
+            <Setter Property="CornerRadius" Value="12" />
         </Style>
         <Style x:Key="WacAssetTileStyle" TargetType="Border">
             <Setter Property="Background" Value="{StaticResource WacSurfaceSubtleBrush}" />

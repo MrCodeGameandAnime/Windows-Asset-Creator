@@ -218,6 +218,20 @@ winrt::Microsoft::UI::Xaml::Visibility AssetBoardViewModel::ReplacementDropTarge
                   value == winrt::Microsoft::UI::Xaml::Visibility::Visible ? L"Visible" : L"Collapsed", this);
     return value;
 }
+winrt::Microsoft::UI::Xaml::Visibility AssetBoardViewModel::EmptyBoardVisibility() const noexcept {
+    const auto value = groups_.Size() == 0
+        ? winrt::Microsoft::UI::Xaml::Visibility::Visible
+        : winrt::Microsoft::UI::Xaml::Visibility::Collapsed;
+    TraceProperty(L"EmptyBoardVisibility", value == winrt::Microsoft::UI::Xaml::Visibility::Visible ? L"Visible" : L"Collapsed", this);
+    return value;
+}
+winrt::Microsoft::UI::Xaml::Visibility AssetBoardViewModel::GeneratedBoardVisibility() const noexcept {
+    const auto value = groups_.Size() != 0
+        ? winrt::Microsoft::UI::Xaml::Visibility::Visible
+        : winrt::Microsoft::UI::Xaml::Visibility::Collapsed;
+    TraceProperty(L"GeneratedBoardVisibility", value == winrt::Microsoft::UI::Xaml::Visibility::Visible ? L"Visible" : L"Collapsed", this);
+    return value;
+}
 winrt::Windows::Foundation::Collections::IVectorView<winrt::WindowsAssetCreator::AssetBoardGroupViewModel>
 AssetBoardViewModel::Groups() const {
     const auto value = groups_.GetView();

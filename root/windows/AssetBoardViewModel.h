@@ -66,6 +66,8 @@ struct AssetBoardViewModel : AssetBoardViewModelT<AssetBoardViewModel> {
     bool CanReset() const noexcept;
     winrt::Microsoft::UI::Xaml::Visibility EmptyDropTargetVisibility() const noexcept;
     winrt::Microsoft::UI::Xaml::Visibility ReplacementDropTargetVisibility() const noexcept;
+    winrt::Microsoft::UI::Xaml::Visibility EmptyBoardVisibility() const noexcept;
+    winrt::Microsoft::UI::Xaml::Visibility GeneratedBoardVisibility() const noexcept;
     winrt::Windows::Foundation::Collections::IVectorView<winrt::WindowsAssetCreator::AssetBoardGroupViewModel> Groups() const;
 
     void Reset();
