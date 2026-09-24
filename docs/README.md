@@ -4,8 +4,8 @@ Windows Asset Creator is a native Windows utility from **404 Builds** that turns
 
 Drop in a source image, review the generated asset board, and export a validated ZIP containing the Windows packaging assets your app needs.
 
-![](../root/res/screenshot/_01.png)
-![](../root/res/screenshot/_02.png)
+![](../root/res/screenshot_01.png)
+![](../root/res/screenshot_02.png)
 
 ## What it generates
 
