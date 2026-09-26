@@ -1,0 +1,1953 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type='text/xsl' href='C:\ProgramData\Windows App Certification Kit\results.xsl'?>
+<REPORT xml:lang="en-US" OVERALL_RESULT="PASS" VERSION="10.0.28000.2526" LATEST_VERSION="" UPDATE_DOWNLOAD_URL="" TOOLSET_ARCHITECTURE="x64" SecureBoot="FALSE" APP_TYPE="Centennial" PUBLISHER_DISPLAY_NAME="CN=2BB531F8-77DD-4D82-AA5F-230F26EB09EE" APP_NAME="404Builds.WindowsAssetCreator" APP_VERSION="1.0.0.0" OSVERSION="10.0.26220.0" OS="Microsoft Windows 11 Pro Insider Preview" PER_USER_APPLICATION="" PARTIAL_RUN="FALSE" LCID="1033" X64_ONLY="TRUE" VALIDATION_TYPE="CommandLine" ReportGenerationTime="9/24/2026 3:41:18 PM" ID="532335bda992acfe9aa91bdf45cfe40a">
+  <REQUIREMENTS>
+    <REQUIREMENT NUMBER="3" TITLE="Digitally signed file test" RATIONALE="An Authenticode digital signature allows users to be sure that the software is genuine. It also allows detection if a file has been tampered with e.g. infected by a virus.">
+      <TEST INDEX="2" NAME="Install signed driver and executable files" DESCRIPTION="Install signed driver and executable files." EXECUTIONTIME="00h:00m:01s.69ms" OPTIONAL="TRUE">
+        <MESSAGES />
+        <RESULT><![CDATA[PASS]]></RESULT>
+      </TEST>
+    </REQUIREMENT>
+    <REQUIREMENT NUMBER="6" TITLE="User account control (UAC) test" RATIONALE="Most applications do not require administrator privileges at run time, and should be just fine running as a standard-user. Windows applications must have a manifest (embedded or external) to define its execution level that tells OS the privileges needed to run the application.">
+      <TEST INDEX="11" NAME="User account control run level" DESCRIPTION="Windows® applications must have a manifest (embedded or external) to define its execution level that tells OS the privileges needed to run the application." EXECUTIONTIME="00h:00m:01s.04ms" OPTIONAL="TRUE">
+        <MESSAGES />
+        <RESULT><![CDATA[PASS]]></RESULT>
+      </TEST>
+    </REQUIREMENT>
+    <REQUIREMENT NUMBER="12" TITLE="Package compliance test" RATIONALE="The package does not satisfy Store compliance rules.">
+      <TEST INDEX="77" NAME="Application count" DESCRIPTION="One package should not define more than one app in the manifest." EXECUTIONTIME="00h:00m:01s.16ms" OPTIONAL="TRUE">
+        <MESSAGES />
+        <RESULT><![CDATA[PASS]]></RESULT>
+      </TEST>
+      <TEST INDEX="31" NAME="App manifest" DESCRIPTION="App manifest must include valid entries for all required fields." EXECUTIONTIME="00h:00m:01s.31ms" OPTIONAL="FALSE">
+        <MESSAGES />
+        <RESULT><![CDATA[PASS]]></RESULT>
+      </TEST>
+      <TEST INDEX="87" NAME="File association verbs" DESCRIPTION="Registry validation that no registered file association verbs are installed." EXECUTIONTIME="00h:00m:01s.74ms" OPTIONAL="TRUE">
+        <MESSAGES />
+        <RESULT><![CDATA[PASS]]></RESULT>
+      </TEST>
+      <TEST INDEX="86" NAME="Registry checks" DESCRIPTION="Registry validation that drivers are not installed and NT Services are not installed." EXECUTIONTIME="00h:00m:01s.59ms" OPTIONAL="TRUE">
+        <MESSAGES />
+        <RESULT><![CDATA[PASS]]></RESULT>
+      </TEST>
+      <TEST INDEX="91" NAME="Enterprise Features" DESCRIPTION="Check if any enterprise-only features are in the package." EXECUTIONTIME="00h:00m:01s.17ms" OPTIONAL="FALSE">
+        <MESSAGES />
+        <RESULT><![CDATA[PASS]]></RESULT>
+      </TEST>
+      <TEST INDEX="90" NAME="Resource Packages" DESCRIPTION="Check if any resource packages contain PE files." EXECUTIONTIME="00h:00m:01s.10ms" OPTIONAL="FALSE">
+        <MESSAGES />
+        <RESULT><![CDATA[PASS]]></RESULT>
+      </TEST>
+    </REQUIREMENT>
+    <REQUIREMENT NUMBER="14" TITLE="Windows security features test" RATIONALE="Applications must opt-into Windows security features.">
+      <TEST INDEX="70" NAME="Banned file analyzer" DESCRIPTION="Analysis of application to detect known insecure files" EXECUTIONTIME="00h:00m:00s.98ms" OPTIONAL="FALSE">
+        <MESSAGES />
+        <RESULT><![CDATA[PASS]]></RESULT>
+      </TEST>
+      <TEST INDEX="62" NAME="Private code signing" DESCRIPTION="App should not package private code signing key files." EXECUTIONTIME="00h:00m:01s.19ms" OPTIONAL="FALSE">
+        <MESSAGES />
+        <RESULT><![CDATA[PASS]]></RESULT>
+      </TEST>
+    </REQUIREMENT>
+    <REQUIREMENT NUMBER="19" TITLE="App manifest resources tests" RATIONALE="The App Package Manifest should have valid resources defined in the resources.pri file, as per the App Packaging Specification and App Manifest Schema.">
+      <TEST INDEX="45" NAME="App resources" DESCRIPTION="The package should have valid resources defined in the resources.pri file." EXECUTIONTIME="00h:00m:01s.72ms" OPTIONAL="TRUE">
+        <MESSAGES />
+        <RESULT><![CDATA[PASS]]></RESULT>
+      </TEST>
+      <TEST INDEX="61" NAME="Branding" DESCRIPTION="App should not use the default images packed by windows SDK samples or Visual Studio." EXECUTIONTIME="00h:00m:01s.65ms" OPTIONAL="FALSE">
+        <MESSAGES />
+        <RESULT><![CDATA[PASS]]></RESULT>
+      </TEST>
+    </REQUIREMENT>
+    <REQUIREMENT NUMBER="20" TITLE="Debug configuration test" RATIONALE="The App should not install any debug binaries.">
+      <TEST INDEX="46" NAME="Debug configuration" DESCRIPTION="The App should not install any debug binaries." EXECUTIONTIME="00h:00m:01s.21ms" OPTIONAL="TRUE">
+        <MESSAGES />
+        <RESULT><![CDATA[PASS]]></RESULT>
+      </TEST>
+    </REQUIREMENT>
+    <REQUIREMENT NUMBER="23" TITLE="App Capabilities test" RATIONALE="Packages declaring special-use capabilities will have to provide justifications during the onboarding process.">
+      <TEST INDEX="52" NAME="Special use capabilities" DESCRIPTION="Packages declaring special-use capabilities will have to provide justifications during the onboarding process." EXECUTIONTIME="00h:00m:01s.14ms" OPTIONAL="FALSE">
+        <MESSAGES />
+        <RESULT><![CDATA[PASS]]></RESULT>
+      </TEST>
+    </REQUIREMENT>
+    <REQUIREMENT NUMBER="24" TITLE="Windows Runtime metadata validation" RATIONALE="Metadata needs to be conformant and consistent across all generation sources.">
+      <TEST INDEX="56" NAME="ExclusiveTo attribute" DESCRIPTION="A class must not implement an interface that is marked ExclusiveTo another class." EXECUTIONTIME="00h:00m:23s.03ms" OPTIONAL="FALSE">
+        <MESSAGES />
+        <RESULT><![CDATA[PASS]]></RESULT>
+      </TEST>
+      <TEST INDEX="57" NAME="Type location" DESCRIPTION="Types must be defined in the metadata file with the longest matching namespace." EXECUTIONTIME="00h:00m:01s.62ms" OPTIONAL="FALSE">
+        <MESSAGES />
+        <RESULT><![CDATA[PASS]]></RESULT>
+      </TEST>
+      <TEST INDEX="55" NAME="Type name case-sensitivity" DESCRIPTION="Namespace and type names must not vary only by casing." EXECUTIONTIME="00h:00m:01s.09ms" OPTIONAL="FALSE">
+        <MESSAGES />
+        <RESULT><![CDATA[PASS]]></RESULT>
+      </TEST>
+      <TEST INDEX="54" NAME="Type name correctness" DESCRIPTION="Only system types can be in the Windows namespace and no types can be in the global namespace." EXECUTIONTIME="00h:00m:01s.13ms" OPTIONAL="FALSE">
+        <MESSAGES />
+        <RESULT><![CDATA[PASS]]></RESULT>
+      </TEST>
+      <TEST INDEX="58" NAME="General metadata correctness" DESCRIPTION="Metadata files must meet various requirements in order to be valid and correct." EXECUTIONTIME="00h:00m:12s.05ms" OPTIONAL="TRUE">
+        <MESSAGES>
+          <MESSAGE TEXT="The type Microsoft.UI.Xaml.Visibility referenced by type WindowsAssetCreator.IAssetBoardGroupViewModel in file WindowsAssetCreator.winmd was not found.  All types referenced in metadata files must be discoverable." />
+          <MESSAGE TEXT="The type Microsoft.UI.Xaml.Media.ImageSource referenced by type WindowsAssetCreator.IAssetBoardItemViewModel in file WindowsAssetCreator.winmd was not found.  All types referenced in metadata files must be discoverable." />
+          <MESSAGE TEXT="The type Microsoft.UI.Xaml.Media.ImageSource referenced by type WindowsAssetCreator.IAssetBoardViewModel in file WindowsAssetCreator.winmd was not found.  All types referenced in metadata files must be discoverable." />
+          <MESSAGE TEXT="The type Microsoft.UI.Xaml.Visibility referenced by type WindowsAssetCreator.IAssetBoardViewModel in file WindowsAssetCreator.winmd was not found.  All types referenced in metadata files must be discoverable." />
+          <MESSAGE TEXT="The type Microsoft.UI.Xaml.Visibility referenced by type WindowsAssetCreator.IAssetBoardViewModel in file WindowsAssetCreator.winmd was not found.  All types referenced in metadata files must be discoverable." />
+          <MESSAGE TEXT="The type Microsoft.UI.Xaml.Visibility referenced by type WindowsAssetCreator.IAssetBoardViewModel in file WindowsAssetCreator.winmd was not found.  All types referenced in metadata files must be discoverable." />
+          <MESSAGE TEXT="The type Microsoft.UI.Xaml.Visibility referenced by type WindowsAssetCreator.IAssetBoardViewModel in file WindowsAssetCreator.winmd was not found.  All types referenced in metadata files must be discoverable." />
+          <MESSAGE TEXT="The type Microsoft.UI.Xaml.Visibility referenced by type WindowsAssetCreator.IAssetBoardViewModel in file WindowsAssetCreator.winmd was not found.  All types referenced in metadata files must be discoverable." />
+          <MESSAGE TEXT="The type Microsoft.UI.Xaml.Visibility referenced by type WindowsAssetCreator.AssetBoardGroupViewModel in file WindowsAssetCreator.winmd was not found.  All types referenced in metadata files must be discoverable." />
+          <MESSAGE TEXT="The type Microsoft.UI.Xaml.Media.ImageSource referenced by type WindowsAssetCreator.AssetBoardItemViewModel in file WindowsAssetCreator.winmd was not found.  All types referenced in metadata files must be discoverable." />
+          <MESSAGE TEXT="The type Microsoft.UI.Xaml.Media.ImageSource referenced by type WindowsAssetCreator.AssetBoardViewModel in file WindowsAssetCreator.winmd was not found.  All types referenced in metadata files must be discoverable." />
+          <MESSAGE TEXT="The type Microsoft.UI.Xaml.Visibility referenced by type WindowsAssetCreator.AssetBoardViewModel in file WindowsAssetCreator.winmd was not found.  All types referenced in metadata files must be discoverable." />
+          <MESSAGE TEXT="The type Microsoft.UI.Xaml.Visibility referenced by type WindowsAssetCreator.AssetBoardViewModel in file WindowsAssetCreator.winmd was not found.  All types referenced in metadata files must be discoverable." />
+          <MESSAGE TEXT="The type Microsoft.UI.Xaml.Visibility referenced by type WindowsAssetCreator.AssetBoardViewModel in file WindowsAssetCreator.winmd was not found.  All types referenced in metadata files must be discoverable." />
+          <MESSAGE TEXT="The type Microsoft.UI.Xaml.Visibility referenced by type WindowsAssetCreator.AssetBoardViewModel in file WindowsAssetCreator.winmd was not found.  All types referenced in metadata files must be discoverable." />
+          <MESSAGE TEXT="The type Microsoft.UI.Xaml.Visibility referenced by type WindowsAssetCreator.AssetBoardViewModel in file WindowsAssetCreator.winmd was not found.  All types referenced in metadata files must be discoverable." />
+          <MESSAGE TEXT="The type Microsoft.UI.Xaml.Data.PropertyChangedEventHandler referenced by type WindowsAssetCreator.AssetBoardViewModel in file WindowsAssetCreator.winmd was not found.  All types referenced in metadata files must be discoverable." />
+          <MESSAGE TEXT="The type Microsoft.UI.Xaml.Markup.IXamlType referenced by type WindowsAssetCreator.XamlMetaDataProvider in file WindowsAssetCreator.winmd was not found.  All types referenced in metadata files must be discoverable." />
+          <MESSAGE TEXT="The type Microsoft.UI.Xaml.Markup.IXamlType referenced by type WindowsAssetCreator.XamlMetaDataProvider in file WindowsAssetCreator.winmd was not found.  All types referenced in metadata files must be discoverable." />
+          <MESSAGE TEXT="Parameter result of method GetXmlnsDefinitions of type WindowsAssetCreator.XamlMetaDataProvider in file WindowsAssetCreator.winmd references the non-Windows Runtime type Microsoft.UI.Xaml.Markup.XmlnsDefinition. Windows Runtime types can reference only Windows Runtime types." />
+          <MESSAGE TEXT="The type Microsoft.UI.Xaml.Window referenced by type WindowsAssetCreator.MainWindow in file WindowsAssetCreator.winmd was not found.  All types referenced in metadata files must be discoverable." />
+          <MESSAGE TEXT="Class WindowsAssetCreator.MainWindow in file WindowsAssetCreator.winmd does not derive from composable base class. All composable classes must ultimately derive from an unsealed type." />
+          <MESSAGE TEXT="The event adder for event PropertyChanged in type WindowsAssetCreator.AssetBoardViewModel in metadata file WindowsAssetCreator.winmd has invalid parameters. Event adders must have a single parameter whose type is a delegate and a return type which is Windows.Foundation.EventRegistrationToken." />
+          <MESSAGE TEXT="The type Microsoft.UI.Xaml.Data.INotifyPropertyChanged referenced by type WindowsAssetCreator.AssetBoardViewModel in file WindowsAssetCreator.winmd was not found.  All types referenced in metadata files must be discoverable." />
+          <MESSAGE TEXT="The type Microsoft.UI.Xaml.Data.INotifyPropertyChanged referenced by type WindowsAssetCreator.AssetBoardViewModel in file WindowsAssetCreator.winmd was not found.  All types referenced in metadata files must be discoverable." />
+          <MESSAGE TEXT="The type Microsoft.UI.Xaml.Markup.IXamlMetadataProvider referenced by type WindowsAssetCreator.XamlMetaDataProvider in file WindowsAssetCreator.winmd was not found.  All types referenced in metadata files must be discoverable." />
+          <MESSAGE TEXT="The type Microsoft.UI.Xaml.Markup.IXamlMetadataProvider referenced by type WindowsAssetCreator.XamlMetaDataProvider in file WindowsAssetCreator.winmd was not found.  All types referenced in metadata files must be discoverable." />
+          <MESSAGE TEXT="The type Microsoft.UI.Xaml.Markup.IXamlMetadataProvider referenced by type WindowsAssetCreator.XamlMetaDataProvider in file WindowsAssetCreator.winmd was not found.  All types referenced in metadata files must be discoverable." />
+        </MESSAGES>
+        <RESULT><![CDATA[FAIL]]></RESULT>
+      </TEST>
+      <TEST INDEX="53" NAME="Properties" DESCRIPTION="Write-only and indexer properties may not be used. Corresponding getter and setter methods must match in type." EXECUTIONTIME="00h:00m:01s.13ms" OPTIONAL="FALSE">
+        <MESSAGES />
+        <RESULT><![CDATA[PASS]]></RESULT>
+      </TEST>
+    </REQUIREMENT>
+    <REQUIREMENT NUMBER="25" TITLE="Package sanity test" RATIONALE="Validation of the app package contents to ensure correctness.">
+      <TEST INDEX="89" NAME="Archive files usage" DESCRIPTION="Packages should not contain PE files inside archive files." EXECUTIONTIME="00h:00m:01s.09ms" OPTIONAL="TRUE">
+        <MESSAGES />
+        <RESULT><![CDATA[PASS]]></RESULT>
+      </TEST>
+      <TEST INDEX="88" NAME="Blocked executables" DESCRIPTION="Detects if there are references to process launch APIs and blocked executables" EXECUTIONTIME="00h:00m:01s.21ms" OPTIONAL="TRUE">
+        <MESSAGES />
+        <RESULT><![CDATA[PASS]]></RESULT>
+      </TEST>
+      <TEST INDEX="63" NAME="Platform appropriate files" DESCRIPTION="App should not install files that do not match the target processor architecture." EXECUTIONTIME="00h:00m:01s.13ms" OPTIONAL="TRUE">
+        <MESSAGES />
+        <RESULT><![CDATA[PASS]]></RESULT>
+      </TEST>
+    </REQUIREMENT>
+    <REQUIREMENT NUMBER="26" TITLE="High-DPI support" RATIONALE="The application needs to set DPI-aware to make the UI look consistently good across a wide variety of high-DPI display settings.">
+      <TEST INDEX="92" NAME="DPIAwarenessValidation" DESCRIPTION="Applications should set DPI-aware to make its UI look consistently good across a wide variety of high-DPI display settings." EXECUTIONTIME="00h:00m:01s.21ms" OPTIONAL="FALSE">
+        <MESSAGES />
+        <RESULT><![CDATA[PASS]]></RESULT>
+      </TEST>
+    </REQUIREMENT>
+  </REQUIREMENTS>
+  <APPLICATIONS>
+    <Installed_Programs>
+      <Program Name="404Builds.WindowsAssetCreator" Type="Application" Source="AppxPackage" Publisher="CN=2BB531F8-77DD-4D82-AA5F-230F26EB09EE" Version="1.0.0.0" Language="1033" InstallDate="" RootDirPath="C:\WINDOWS\temp\appcert_2B68\404Builds.WindowsAssetCreator_1.0.0.0_x64__rbtq5hp7x1kcm" Id="0000d9451552cac016716a5340ee97792adb00000904" HiddenArp="false">
+        <Indicators>
+          <WindowsStoreAppManifestIndicators>
+            <PackageManifest PackageFullName="404Builds.WindowsAssetCreator_1.0.0.0_x64__rbtq5hp7x1kcm">
+              <Package>
+                <Identity Name="404Builds.WindowsAssetCreator" Publisher="CN=2BB531F8-77DD-4D82-AA5F-230F26EB09EE" Version="1.0.0.0" ProcessorArchitecture="x64"></Identity>
+                <PhoneIdentity PhoneProductId="00000000-0000-0000-0000-000000000001" PhonePublisherId="00000000-0000-0000-0000-000000000001"></PhoneIdentity>
+                <Properties>
+                  <DisplayName>Windows Asset Creator</DisplayName>
+                  <PublisherDisplayName>404 Builds</PublisherDisplayName>
+                  <Logo>Assets\StoreLogo.png</Logo>
+                </Properties>
+                <Resources>
+                  <Resource Language="EN-US"></Resource>
+                </Resources>
+                <Applications>
+                  <Application Id="App" Executable="WindowsAssetCreator.exe" EntryPoint="Windows.PartialTrustApplication">
+                    <VisualElements DisplayName="Windows Asset Creator" Description="Windows Asset Creator" BackgroundColor="transparent" Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\AppList.png" ForegroundText="light">
+                      <DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png"></DefaultTile>
+                    </VisualElements>
+                  </Application>
+                </Applications>
+                <Dependencies>
+                  <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.17763.0" MaxVersionTested="10.0.28000.0"></TargetDeviceFamily>
+                  <PackageDependency Name="Microsoft.WindowsAppRuntime.1.6" MinVersion="6000.242.101.0" Publisher="CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US"></PackageDependency>
+                  <PackageDependency Name="Microsoft.VCLibs.140.00" MinVersion="14.0.33519.0" Publisher="CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US"></PackageDependency>
+                  <PackageDependency Name="Microsoft.VCLibs.140.00.UWPDesktop" MinVersion="14.0.33728.0" Publisher="CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US"></PackageDependency>
+                </Dependencies>
+                <Extensions>
+                  <Extension Category="windows.activatableClass.inProcessServer">
+                    <InProcessServer>
+                      <Path>Microsoft.Web.WebView2.Core.dll</Path>
+                      <ActivatableClass ActivatableClassId="Microsoft.Web.WebView2.Core.CoreWebView2CompositionController" ThreadingModel="both"></ActivatableClass>
+                      <ActivatableClass ActivatableClassId="Microsoft.Web.WebView2.Core.CoreWebView2EnvironmentOptions" ThreadingModel="both"></ActivatableClass>
+                      <ActivatableClass ActivatableClassId="Microsoft.Web.WebView2.Core.CoreWebView2CustomSchemeRegistration" ThreadingModel="both"></ActivatableClass>
+                      <ActivatableClass ActivatableClassId="Microsoft.Web.WebView2.Core.CoreWebView2ControllerWindowReference" ThreadingModel="both"></ActivatableClass>
+                      <ActivatableClass ActivatableClassId="Microsoft.Web.WebView2.Core.CoreWebView2Environment" ThreadingModel="both"></ActivatableClass>
+                      <ActivatableClass ActivatableClassId="Microsoft.Web.WebView2.Core.CoreWebView2Controller" ThreadingModel="both"></ActivatableClass>
+                    </InProcessServer>
+                  </Extension>
+                </Extensions>
+              </Package>
+            </PackageManifest>
+          </WindowsStoreAppManifestIndicators>
+        </Indicators>
+        <StaticProperties>
+          <Files Id="">
+            <File Id="0000444b28dc2dce04b36dd8c7561cfd1c77f6c50ebe" Name="Microsoft.Web.WebView2.Core.winmd" ProductName="" CompanyName="" ProductVersion="" VerLanguage="0" SwitchBackContext="0" FileVersion="" OriginalFileName="" InternalName="" Size="123456" SizeOfImage="118784" PeHeaderHash="0101e8f8eaf1aef0c5dbb789059ba741d925e0837b00" PeChecksum="125703" CrcChecksum="1324641933" BinProductVersion="" BinFileVersion="" FileDescription="" LegalCopyright="" LinkDate="07/20/2024 08:03:28" BinaryType="pe32_clr_il" LowerCaseLongPath="c:\windows\temp\appcert_2b68\404builds.windowsassetcreator_1.0.0.0_x64__rbtq5hp7x1kcm\microsoft.web.webview2.core.winmd" SigPublisherName="microsoft corporation" PeSubsystem="3" PeCharacteristics="8450" Sha256="45caf0b1954e7a5452146aa83ea21fed932502f5af72006eeb1d8d5a0ea9f942" />
+            <File Id="000063d5715a7f645dcf3655ea39b15b3dd5bb238fd8" Name="Microsoft.Web.WebView2.Core.dll" ProductName="microsoft edge embedded browser winrt component" CompanyName="microsoft corporation" ProductVersion="1.0.2651.64" VerLanguage="1033" SwitchBackContext="0" FileVersion="1.0.2651.64" OriginalFileName="microsoft.web.webview2.core.dll" InternalName="microsoft.web.webview2.core.dll" Size="797768" SizeOfImage="806912" PeHeaderHash="010167c4009c000ad546069229a89b1310d55e7b509c" PeChecksum="811634" CrcChecksum="3591457469" BinProductVersion="1.0.2651.64" BinFileVersion="1.0.2651.64" FileDescription="microsoft edge embedded browser winrt component" LegalCopyright="copyright microsoft corporation. all rights reserved." LinkDate="07/20/2024 08:04:51" BinaryType="pe64_amd64" LowerCaseLongPath="c:\windows\temp\appcert_2b68\404builds.windowsassetcreator_1.0.0.0_x64__rbtq5hp7x1kcm\microsoft.web.webview2.core.dll" SigPublisherName="microsoft corporation" PeSubsystem="3" PeCharacteristics="8226" Sha256="f4a24dcee910b7628b8df0f359c0fdab939dc6b10782909161fc58909bb7a45e" />
+            <File Id="0000adabace00c44ff6585129e2764bd787fe9c90f44" Name="resources.pri" ProductName="" CompanyName="" ProductVersion="" VerLanguage="0" SwitchBackContext="0" FileVersion="" OriginalFileName="" InternalName="" Size="18104" SizeOfImage="0" PeHeaderHash="" PeChecksum="0" CrcChecksum="1696007042" BinProductVersion="" BinFileVersion="" FileDescription="" LegalCopyright="" LinkDate="" BinaryType="data_only" LowerCaseLongPath="c:\windows\temp\appcert_2b68\404builds.windowsassetcreator_1.0.0.0_x64__rbtq5hp7x1kcm\resources.pri" SigPublisherName="" PeSubsystem="0" PeCharacteristics="0" Sha256="6069e23caf4e800ddb36987ea962d5c122424f89fda43f7a517d961323c7bb2c" />
+            <File Id="0000547f67f28c4dd0ba68b4baf48c203519179e4b38" Name="WindowsAssetCreator.winmd" ProductName="" CompanyName="" ProductVersion="" VerLanguage="0" SwitchBackContext="0" FileVersion="" OriginalFileName="" InternalName="" Size="7168" SizeOfImage="12288" PeHeaderHash="0101d1c75bb0d7d2ca90fab1c7fd224b4fd20449b824" PeChecksum="0" CrcChecksum="620178842" BinProductVersion="" BinFileVersion="" FileDescription="" LegalCopyright="" LinkDate="09/24/2026 19:20:55" BinaryType="pe32_clr_il" LowerCaseLongPath="c:\windows\temp\appcert_2b68\404builds.windowsassetcreator_1.0.0.0_x64__rbtq5hp7x1kcm\windowsassetcreator.winmd" SigPublisherName="" PeSubsystem="3" PeCharacteristics="8450" Sha256="1e60d407feb034421163f892f714b49ccce1e2f272c17ba92738da8a2187b702" />
+            <File Id="0000f813fee7b606b8c8aff97ddc03d1dba736c23d1c" Name="WindowsAssetCreator.exe" ProductName="" CompanyName="" ProductVersion="" VerLanguage="0" SwitchBackContext="0" FileVersion="" OriginalFileName="" InternalName="" Size="1182720" SizeOfImage="1196032" PeHeaderHash="0101f1290d7dcc679fb4ee449151a27532baf10cbbc6" PeChecksum="0" CrcChecksum="3860483922" BinProductVersion="" BinFileVersion="" FileDescription="" LegalCopyright="" LinkDate="09/24/2026 19:37:25" BinaryType="pe64_amd64" LowerCaseLongPath="c:\windows\temp\appcert_2b68\404builds.windowsassetcreator_1.0.0.0_x64__rbtq5hp7x1kcm\windowsassetcreator.exe" SigPublisherName="" PeSubsystem="2" PeCharacteristics="34" Sha256="a9fce0725d68e77e41538e7a7e5ac86834bb042b9c7376508ceced34e85b99fa" />
+          </Files>
+        </StaticProperties>
+      </Program>
+    </Installed_Programs>
+  </APPLICATIONS>
+  <DEPENDENCY_INFORMATION>
+    <AitStaticAnalysis ProgramId="0000da39a3ee5e6b4b0d3255bfef95601890afd80709" AnalysisVersion="1.80" DictionaryVersion="3.7" Type="Max" Id="C:\WINDOWS\temp\appcert_2B68\404Builds.WindowsAssetCreator_1.0.0.0_x64__rbtq5hp7x1kcm">
+      <AitFile ErrorCode="0" Name="Microsoft.Web.WebView2.Core.winmd" Id="0000444b28dc2dce04b36dd8c7561cfd1c77f6c50ebe">
+        <AitCategory Id="DotNetWinRt">
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2AcceleratorKeyPressedEventArgs" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2BasicAuthenticationRequestedEventArgs" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2BasicAuthenticationResponse" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2BoundsMode" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2BrowserExtension" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2BrowserProcessExitKind" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2BrowserProcessExitedEventArgs" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2BrowsingDataKinds" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2CapturePreviewImageFormat" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2Certificate" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2Certificate_Manual" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2Certificate_Manual.ToCertificate" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2ChannelSearchKind" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2ClientCertificate" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2ClientCertificateKind" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2ClientCertificateRequestedEventArgs" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2ClientCertificate_Manual" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2ClientCertificate_Manual.ToCertificate" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2CompositionController" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2ContentLoadingEventArgs" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2ContextMenuItem" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2ContextMenuItemKind" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2ContextMenuRequestedEventArgs" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2ContextMenuTarget" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2ContextMenuTargetKind" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2Controller" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2ControllerOptions" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2ControllerWindowReference" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2Cookie" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2CookieManager" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2CookieSameSiteKind" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2CustomSchemeRegistration" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2DOMContentLoadedEventArgs" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2DefaultDownloadDialogCornerAlignment" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2DevToolsProtocolEventReceivedEventArgs" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2DevToolsProtocolEventReceiver" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2DownloadInterruptReason" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2DownloadOperation" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2DownloadStartingEventArgs" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2DownloadState" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2Environment" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2EnvironmentOptions" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2ExecuteScriptResult" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2FaviconImageFormat" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2File" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2FileSystemHandle" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2FileSystemHandleKind" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2FileSystemHandlePermission" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2Frame" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2FrameCreatedEventArgs" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2FrameInfo" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2FrameKind" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2HostResourceAccessKind" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2HttpHeadersCollectionIterator" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2HttpRequestHeaders" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2HttpResponseHeaders" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2KeyEventKind" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2LaunchingExternalUriSchemeEventArgs" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2MemoryUsageTargetLevel" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2MouseEventKind" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2MouseEventVirtualKeys" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2MoveFocusReason" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2MoveFocusRequestedEventArgs" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2NavigationCompletedEventArgs" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2NavigationKind" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2NavigationStartingEventArgs" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2NewWindowRequestedEventArgs" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2NonClientRegionChangedEventArgs" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2NonClientRegionKind" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2PdfToolbarItems" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2PermissionKind" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2PermissionRequestedEventArgs" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2PermissionSetting" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2PermissionState" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2PhysicalKeyStatus" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2PointerEventKind" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2PointerInfo" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2PreferredColorScheme" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2PrintCollation" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2PrintColorMode" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2PrintDialogKind" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2PrintDuplex" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2PrintMediaSize" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2PrintOrientation" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2PrintSettings" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2PrintStatus" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2ProcessExtendedInfo" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2ProcessFailedEventArgs" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2ProcessFailedKind" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2ProcessFailedReason" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2ProcessInfo" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2ProcessKind" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2Profile" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2Profile_Manual" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2Profile_Manual.ClearBrowsingDataAsync" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2Profile_Manual2" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2Profile_Manual2.GetNonDefaultPermissionSettingsAsync" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2Profile_Manual3" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2Profile_Manual3.GetBrowserExtensionsAsync" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2ReleaseChannels" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2ScriptDialogKind" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2ScriptDialogOpeningEventArgs" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2ScriptException" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2ScrollbarStyle" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2ServerCertificateErrorAction" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2ServerCertificateErrorDetectedEventArgs" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2Settings" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2SharedBuffer" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2SharedBufferAccess" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2SourceChangedEventArgs" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2TrackingPreventionLevel" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2WebErrorStatus" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2WebMessageReceivedEventArgs" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2WebResourceContext" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2WebResourceRequest" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2WebResourceRequestSourceKinds" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2WebResourceRequestedEventArgs" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2WebResourceResponse" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2WebResourceResponseReceivedEventArgs" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2WebResourceResponseView" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.CoreWebView2WindowFeatures" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2.AddHostObjectToScript" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2.AddScriptToExecuteOnDocumentCreatedAsync" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2.AddWebResourceRequestedFilter" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2.CallDevToolsProtocolMethodAsync" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2.CapturePreviewAsync" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2.ExecuteScriptAsync" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2.GetDevToolsProtocolEventReceiver" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2.GoBack" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2.GoForward" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2.Navigate" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2.NavigateToString" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2.OpenDevToolsWindow" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2.PostWebMessageAsJson" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2.PostWebMessageAsString" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2.Reload" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2.RemoveHostObjectFromScript" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2.RemoveScriptToExecuteOnDocumentCreated" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2.RemoveWebResourceRequestedFilter" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2.Stop" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2.add_ContainsFullScreenElementChanged" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2.add_ContentLoading" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2.add_DocumentTitleChanged" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2.add_FrameNavigationCompleted" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2.add_FrameNavigationStarting" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2.add_HistoryChanged" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2.add_NavigationCompleted" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2.add_NavigationStarting" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2.add_NewWindowRequested" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2.add_PermissionRequested" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2.add_ProcessFailed" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2.add_ScriptDialogOpening" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2.add_SourceChanged" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2.add_WebMessageReceived" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2.add_WebResourceRequested" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2.add_WindowCloseRequested" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2.get_BrowserProcessId" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2.get_CanGoBack" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2.get_CanGoForward" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2.get_ContainsFullScreenElement" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2.get_DocumentTitle" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2.get_Settings" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2.get_Source" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2.remove_ContainsFullScreenElementChanged" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2.remove_ContentLoading" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2.remove_DocumentTitleChanged" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2.remove_FrameNavigationCompleted" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2.remove_FrameNavigationStarting" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2.remove_HistoryChanged" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2.remove_NavigationCompleted" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2.remove_NavigationStarting" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2.remove_NewWindowRequested" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2.remove_PermissionRequested" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2.remove_ProcessFailed" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2.remove_ScriptDialogOpening" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2.remove_SourceChanged" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2.remove_WebMessageReceived" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2.remove_WebResourceRequested" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2.remove_WindowCloseRequested" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2AcceleratorKeyPressedEventArgs" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2AcceleratorKeyPressedEventArgs.get_Handled" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2AcceleratorKeyPressedEventArgs.get_KeyEventKind" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2AcceleratorKeyPressedEventArgs.get_KeyEventLParam" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2AcceleratorKeyPressedEventArgs.get_PhysicalKeyStatus" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2AcceleratorKeyPressedEventArgs.get_VirtualKey" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2AcceleratorKeyPressedEventArgs.put_Handled" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2AcceleratorKeyPressedEventArgs2" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2AcceleratorKeyPressedEventArgs2.get_IsBrowserAcceleratorKeyEnabled" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2AcceleratorKeyPressedEventArgs2.put_IsBrowserAcceleratorKeyEnabled" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2BasicAuthenticationRequestedEventArgs" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2BasicAuthenticationRequestedEventArgs.GetDeferral" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2BasicAuthenticationRequestedEventArgs.get_Cancel" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2BasicAuthenticationRequestedEventArgs.get_Challenge" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2BasicAuthenticationRequestedEventArgs.get_Response" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2BasicAuthenticationRequestedEventArgs.get_Uri" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2BasicAuthenticationRequestedEventArgs.put_Cancel" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2BasicAuthenticationResponse" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2BasicAuthenticationResponse.get_Password" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2BasicAuthenticationResponse.get_UserName" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2BasicAuthenticationResponse.put_Password" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2BasicAuthenticationResponse.put_UserName" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2BrowserExtension" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2BrowserExtension.EnableAsync" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2BrowserExtension.RemoveAsync" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2BrowserExtension.get_Id" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2BrowserExtension.get_IsEnabled" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2BrowserExtension.get_Name" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2BrowserProcessExitedEventArgs" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2BrowserProcessExitedEventArgs.get_BrowserProcessExitKind" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2BrowserProcessExitedEventArgs.get_BrowserProcessId" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Certificate" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Certificate.ToPemEncoding" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Certificate.get_DerEncodedSerialNumber" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Certificate.get_DisplayName" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Certificate.get_Issuer" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Certificate.get_PemEncodedIssuerCertificateChain" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Certificate.get_Subject" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Certificate.get_ValidFrom" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Certificate.get_ValidTo" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ClientCertificate" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ClientCertificate.ToPemEncoding" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ClientCertificate.get_DerEncodedSerialNumber" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ClientCertificate.get_DisplayName" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ClientCertificate.get_Issuer" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ClientCertificate.get_Kind" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ClientCertificate.get_PemEncodedIssuerCertificateChain" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ClientCertificate.get_Subject" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ClientCertificate.get_ValidFrom" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ClientCertificate.get_ValidTo" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ClientCertificateRequestedEventArgs" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ClientCertificateRequestedEventArgs.GetDeferral" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ClientCertificateRequestedEventArgs.get_AllowedCertificateAuthorities" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ClientCertificateRequestedEventArgs.get_Cancel" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ClientCertificateRequestedEventArgs.get_Handled" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ClientCertificateRequestedEventArgs.get_Host" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ClientCertificateRequestedEventArgs.get_IsProxy" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ClientCertificateRequestedEventArgs.get_MutuallyTrustedCertificates" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ClientCertificateRequestedEventArgs.get_Port" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ClientCertificateRequestedEventArgs.get_SelectedCertificate" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ClientCertificateRequestedEventArgs.put_Cancel" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ClientCertificateRequestedEventArgs.put_Handled" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ClientCertificateRequestedEventArgs.put_SelectedCertificate" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2CompositionController" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2CompositionController.DragEnter" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2CompositionController.DragOver" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2CompositionController.Drop" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2CompositionController.SendMouseInput" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2CompositionController.SendPointerInput" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2CompositionController.add_CursorChanged" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2CompositionController.get_Cursor" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2CompositionController.get_RootVisualTarget" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2CompositionController.put_RootVisualTarget" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2CompositionController.remove_CursorChanged" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2CompositionController2" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2CompositionController3" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2CompositionController3.DragLeave" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2CompositionController4" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2CompositionController4.GetNonClientRegionAtPoint" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2CompositionController4.QueryNonClientRegion" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2CompositionController4.add_NonClientRegionChanged" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2CompositionController4.remove_NonClientRegionChanged" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2CompositionControllerStatics" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2CompositionControllerStatics2_Manual" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ContentLoadingEventArgs" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ContentLoadingEventArgs.get_IsErrorPage" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ContentLoadingEventArgs.get_NavigationId" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ContextMenuItem" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ContextMenuItem.add_CustomItemSelected" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ContextMenuItem.get_Children" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ContextMenuItem.get_CommandId" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ContextMenuItem.get_Icon" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ContextMenuItem.get_IsChecked" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ContextMenuItem.get_IsEnabled" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ContextMenuItem.get_Kind" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ContextMenuItem.get_Label" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ContextMenuItem.get_Name" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ContextMenuItem.get_ShortcutKeyDescription" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ContextMenuItem.put_IsChecked" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ContextMenuItem.put_IsEnabled" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ContextMenuItem.remove_CustomItemSelected" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ContextMenuRequestedEventArgs" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ContextMenuRequestedEventArgs.GetDeferral" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ContextMenuRequestedEventArgs.get_ContextMenuTarget" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ContextMenuRequestedEventArgs.get_Handled" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ContextMenuRequestedEventArgs.get_Location" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ContextMenuRequestedEventArgs.get_MenuItems" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ContextMenuRequestedEventArgs.get_SelectedCommandId" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ContextMenuRequestedEventArgs.put_Handled" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ContextMenuRequestedEventArgs.put_SelectedCommandId" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ContextMenuTarget" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ContextMenuTarget.get_FrameUri" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ContextMenuTarget.get_HasLinkText" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ContextMenuTarget.get_HasLinkUri" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ContextMenuTarget.get_HasSelection" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ContextMenuTarget.get_HasSourceUri" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ContextMenuTarget.get_IsEditable" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ContextMenuTarget.get_IsRequestedForMainFrame" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ContextMenuTarget.get_Kind" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ContextMenuTarget.get_LinkText" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ContextMenuTarget.get_LinkUri" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ContextMenuTarget.get_PageUri" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ContextMenuTarget.get_SelectionText" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ContextMenuTarget.get_SourceUri" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Controller" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Controller.Close" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Controller.MoveFocus" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Controller.NotifyParentWindowPositionChanged" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Controller.SetBoundsAndZoomFactor" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Controller.add_AcceleratorKeyPressed" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Controller.add_GotFocus" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Controller.add_LostFocus" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Controller.add_MoveFocusRequested" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Controller.add_ZoomFactorChanged" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Controller.get_Bounds" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Controller.get_CoreWebView2" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Controller.get_IsVisible" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Controller.get_ParentWindow" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Controller.get_ZoomFactor" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Controller.put_Bounds" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Controller.put_IsVisible" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Controller.put_ParentWindow" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Controller.put_ZoomFactor" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Controller.remove_AcceleratorKeyPressed" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Controller.remove_GotFocus" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Controller.remove_LostFocus" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Controller.remove_MoveFocusRequested" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Controller.remove_ZoomFactorChanged" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Controller2" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Controller2.get_DefaultBackgroundColor" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Controller2.put_DefaultBackgroundColor" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Controller3" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Controller3.add_RasterizationScaleChanged" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Controller3.get_BoundsMode" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Controller3.get_RasterizationScale" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Controller3.get_ShouldDetectMonitorScaleChanges" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Controller3.put_BoundsMode" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Controller3.put_RasterizationScale" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Controller3.put_ShouldDetectMonitorScaleChanges" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Controller3.remove_RasterizationScaleChanged" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Controller4" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Controller4.get_AllowExternalDrop" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Controller4.put_AllowExternalDrop" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ControllerFactory" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ControllerOptions" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ControllerOptions.get_IsInPrivateModeEnabled" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ControllerOptions.get_ProfileName" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ControllerOptions.put_IsInPrivateModeEnabled" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ControllerOptions.put_ProfileName" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ControllerOptions2" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ControllerOptions2.get_ScriptLocale" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ControllerOptions2.put_ScriptLocale" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ControllerWindowReference" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ControllerWindowReference.get_CoreWindow" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ControllerWindowReference.get_WindowHandle" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ControllerWindowReferenceStatics" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Cookie" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Cookie.get_Domain" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Cookie.get_Expires" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Cookie.get_IsHttpOnly" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Cookie.get_IsSecure" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Cookie.get_IsSession" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Cookie.get_Name" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Cookie.get_Path" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Cookie.get_SameSite" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Cookie.get_Value" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Cookie.put_Expires" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Cookie.put_IsHttpOnly" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Cookie.put_IsSecure" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Cookie.put_SameSite" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Cookie.put_Value" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2CookieManager" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2CookieManager.AddOrUpdateCookie" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2CookieManager.CopyCookie" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2CookieManager.CreateCookie" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2CookieManager.DeleteAllCookies" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2CookieManager.DeleteCookie" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2CookieManager.DeleteCookies" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2CookieManager.DeleteCookiesWithDomainAndPath" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2CookieManager_Manual" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2CookieManager_Manual.GetCookiesAsync" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2CustomSchemeRegistration" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2CustomSchemeRegistration.get_HasAuthorityComponent" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2CustomSchemeRegistration.get_TreatAsSecure" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2CustomSchemeRegistration.put_HasAuthorityComponent" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2CustomSchemeRegistration.put_TreatAsSecure" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2CustomSchemeRegistrationFactory" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2CustomSchemeRegistration_Manual" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2CustomSchemeRegistration_Manual.get_AllowedOrigins" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2CustomSchemeRegistration_Manual.get_SchemeName" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2DOMContentLoadedEventArgs" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2DOMContentLoadedEventArgs.get_NavigationId" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2DevToolsProtocolEventReceivedEventArgs" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2DevToolsProtocolEventReceivedEventArgs.get_ParameterObjectAsJson" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2DevToolsProtocolEventReceivedEventArgs2" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2DevToolsProtocolEventReceivedEventArgs2.get_SessionId" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2DevToolsProtocolEventReceiver" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2DevToolsProtocolEventReceiver.add_DevToolsProtocolEventReceived" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2DevToolsProtocolEventReceiver.remove_DevToolsProtocolEventReceived" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2DispatchAdapter" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2DownloadOperation" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2DownloadOperation.Cancel" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2DownloadOperation.Pause" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2DownloadOperation.Resume" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2DownloadOperation.add_BytesReceivedChanged" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2DownloadOperation.add_EstimatedEndTimeChanged" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2DownloadOperation.add_StateChanged" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2DownloadOperation.get_BytesReceived" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2DownloadOperation.get_CanResume" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2DownloadOperation.get_ContentDisposition" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2DownloadOperation.get_EstimatedEndTime" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2DownloadOperation.get_InterruptReason" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2DownloadOperation.get_MimeType" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2DownloadOperation.get_ResultFilePath" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2DownloadOperation.get_State" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2DownloadOperation.get_TotalBytesToReceive" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2DownloadOperation.get_Uri" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2DownloadOperation.remove_BytesReceivedChanged" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2DownloadOperation.remove_EstimatedEndTimeChanged" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2DownloadOperation.remove_StateChanged" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2DownloadStartingEventArgs" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2DownloadStartingEventArgs.GetDeferral" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2DownloadStartingEventArgs.get_Cancel" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2DownloadStartingEventArgs.get_DownloadOperation" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2DownloadStartingEventArgs.get_Handled" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2DownloadStartingEventArgs.get_ResultFilePath" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2DownloadStartingEventArgs.put_Cancel" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2DownloadStartingEventArgs.put_Handled" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2DownloadStartingEventArgs.put_ResultFilePath" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Environment" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Environment.CreateCoreWebView2ControllerAsync" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Environment.CreateWebResourceResponse" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Environment.add_NewBrowserVersionAvailable" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Environment.get_BrowserVersionString" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Environment.remove_NewBrowserVersionAvailable" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Environment10" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Environment10.CreateCoreWebView2ControllerOptions" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Environment11" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Environment11.get_FailureReportFolderPath" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Environment12" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Environment12.CreateSharedBuffer" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Environment13" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Environment13.GetProcessExtendedInfosAsync" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Environment14" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Environment14.CreateWebFileSystemDirectoryHandle" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Environment14.CreateWebFileSystemFileHandle" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Environment2" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Environment2.CreateWebResourceRequest" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Environment3" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Environment3.CreateCoreWebView2CompositionControllerAsync" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Environment3.CreateCoreWebView2PointerInfo" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Environment4" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Environment5" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Environment5.add_BrowserProcessExited" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Environment5.remove_BrowserProcessExited" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Environment6" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Environment6.CreatePrintSettings" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Environment7" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Environment7.get_UserDataFolder" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Environment8" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Environment8.GetProcessInfos" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Environment8.add_ProcessInfosChanged" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Environment8.remove_ProcessInfosChanged" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Environment9" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Environment9.CreateContextMenuItem" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2EnvironmentOptions" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2EnvironmentOptions.get_AdditionalBrowserArguments" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2EnvironmentOptions.get_AllowSingleSignOnUsingOSPrimaryAccount" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2EnvironmentOptions.get_Language" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2EnvironmentOptions.get_TargetCompatibleBrowserVersion" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2EnvironmentOptions.put_AdditionalBrowserArguments" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2EnvironmentOptions.put_AllowSingleSignOnUsingOSPrimaryAccount" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2EnvironmentOptions.put_Language" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2EnvironmentOptions.put_TargetCompatibleBrowserVersion" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2EnvironmentOptions2" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2EnvironmentOptions2.get_ExclusiveUserDataFolderAccess" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2EnvironmentOptions2.put_ExclusiveUserDataFolderAccess" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2EnvironmentOptions3" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2EnvironmentOptions3.get_IsCustomCrashReportingEnabled" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2EnvironmentOptions3.put_IsCustomCrashReportingEnabled" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2EnvironmentOptions4" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2EnvironmentOptions5" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2EnvironmentOptions5.get_EnableTrackingPrevention" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2EnvironmentOptions5.put_EnableTrackingPrevention" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2EnvironmentOptions6" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2EnvironmentOptions6.get_AreBrowserExtensionsEnabled" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2EnvironmentOptions6.put_AreBrowserExtensionsEnabled" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2EnvironmentOptions7" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2EnvironmentOptions7.get_ChannelSearchKind" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2EnvironmentOptions7.get_ReleaseChannels" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2EnvironmentOptions7.put_ChannelSearchKind" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2EnvironmentOptions7.put_ReleaseChannels" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2EnvironmentOptions8" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2EnvironmentOptions8.get_ScrollBarStyle" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2EnvironmentOptions8.put_ScrollBarStyle" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2EnvironmentOptions_Manual" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2EnvironmentOptions_Manual3" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2EnvironmentOptions_Manual3.get_CustomSchemeRegistrations" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2EnvironmentOptions_Manual3.put_CustomSchemeRegistrations" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2EnvironmentStatics" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2EnvironmentStatics2" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Environment_Manual" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Environment_Manual.CreateCoreWebView2CompositionControllerAsync" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Environment_Manual.CreateCoreWebView2ControllerAsync" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ExecuteScriptResult" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ExecuteScriptResult.get_Exception" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ExecuteScriptResult.get_ResultAsJson" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ExecuteScriptResult.get_Succeeded" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ExecuteScriptResult_Manual" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ExecuteScriptResult_Manual.TryGetResultAsString" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2File" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2File.get_Path" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2FileSystemHandle" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2FileSystemHandle.get_Kind" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2FileSystemHandle.get_Path" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2FileSystemHandle.get_Permission" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Frame" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Frame.IsDestroyed" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Frame.RemoveHostObjectFromScript" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Frame.add_Destroyed" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Frame.add_NameChanged" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Frame.get_Name" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Frame.remove_Destroyed" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Frame.remove_NameChanged" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Frame2" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Frame2.ExecuteScriptAsync" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Frame2.PostWebMessageAsJson" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Frame2.PostWebMessageAsString" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Frame2.add_ContentLoading" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Frame2.add_DOMContentLoaded" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Frame2.add_NavigationCompleted" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Frame2.add_NavigationStarting" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Frame2.add_WebMessageReceived" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Frame2.remove_ContentLoading" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Frame2.remove_DOMContentLoaded" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Frame2.remove_NavigationCompleted" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Frame2.remove_NavigationStarting" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Frame2.remove_WebMessageReceived" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Frame3" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Frame3.add_PermissionRequested" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Frame3.remove_PermissionRequested" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Frame4" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Frame4.PostSharedBufferToScript" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Frame5" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Frame5.get_FrameId" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2FrameCreatedEventArgs" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2FrameCreatedEventArgs.get_Frame" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2FrameInfo" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2FrameInfo.get_Name" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2FrameInfo.get_Source" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2FrameInfo2" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2FrameInfo2.get_FrameId" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2FrameInfo2.get_FrameKind" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2FrameInfo2.get_ParentFrameInfo" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2HttpHeadersCollectionIterator" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2HttpRequestHeaders" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2HttpRequestHeaders.Contains" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2HttpRequestHeaders.GetHeader" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2HttpRequestHeaders.GetHeaders" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2HttpRequestHeaders.RemoveHeader" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2HttpRequestHeaders.SetHeader" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2HttpResponseHeaders" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2HttpResponseHeaders.AppendHeader" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2HttpResponseHeaders.Contains" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2HttpResponseHeaders.GetHeader" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2HttpResponseHeaders.GetHeaders" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2LaunchingExternalUriSchemeEventArgs" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2LaunchingExternalUriSchemeEventArgs.GetDeferral" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2LaunchingExternalUriSchemeEventArgs.get_Cancel" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2LaunchingExternalUriSchemeEventArgs.get_InitiatingOrigin" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2LaunchingExternalUriSchemeEventArgs.get_IsUserInitiated" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2LaunchingExternalUriSchemeEventArgs.get_Uri" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2LaunchingExternalUriSchemeEventArgs.put_Cancel" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2MoveFocusRequestedEventArgs" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2MoveFocusRequestedEventArgs.get_Handled" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2MoveFocusRequestedEventArgs.get_Reason" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2MoveFocusRequestedEventArgs.put_Handled" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2NavigationCompletedEventArgs" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2NavigationCompletedEventArgs.get_IsSuccess" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2NavigationCompletedEventArgs.get_NavigationId" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2NavigationCompletedEventArgs.get_WebErrorStatus" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2NavigationCompletedEventArgs2" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2NavigationCompletedEventArgs2.get_HttpStatusCode" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2NavigationStartingEventArgs" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2NavigationStartingEventArgs.get_Cancel" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2NavigationStartingEventArgs.get_IsRedirected" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2NavigationStartingEventArgs.get_IsUserInitiated" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2NavigationStartingEventArgs.get_NavigationId" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2NavigationStartingEventArgs.get_RequestHeaders" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2NavigationStartingEventArgs.get_Uri" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2NavigationStartingEventArgs.put_Cancel" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2NavigationStartingEventArgs2" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2NavigationStartingEventArgs2.get_AdditionalAllowedFrameAncestors" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2NavigationStartingEventArgs2.put_AdditionalAllowedFrameAncestors" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2NavigationStartingEventArgs3" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2NavigationStartingEventArgs3.get_NavigationKind" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2NewWindowRequestedEventArgs" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2NewWindowRequestedEventArgs.GetDeferral" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2NewWindowRequestedEventArgs.get_Handled" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2NewWindowRequestedEventArgs.get_IsUserInitiated" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2NewWindowRequestedEventArgs.get_NewWindow" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2NewWindowRequestedEventArgs.get_Uri" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2NewWindowRequestedEventArgs.get_WindowFeatures" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2NewWindowRequestedEventArgs.put_Handled" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2NewWindowRequestedEventArgs.put_NewWindow" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2NewWindowRequestedEventArgs2" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2NewWindowRequestedEventArgs2.get_Name" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2NewWindowRequestedEventArgs3" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2NewWindowRequestedEventArgs3.get_OriginalSourceFrameInfo" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2NonClientRegionChangedEventArgs" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2NonClientRegionChangedEventArgs.get_RegionKind" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PermissionRequestedEventArgs" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PermissionRequestedEventArgs.GetDeferral" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PermissionRequestedEventArgs.get_IsUserInitiated" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PermissionRequestedEventArgs.get_PermissionKind" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PermissionRequestedEventArgs.get_State" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PermissionRequestedEventArgs.get_Uri" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PermissionRequestedEventArgs.put_State" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PermissionRequestedEventArgs2" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PermissionRequestedEventArgs2.get_Handled" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PermissionRequestedEventArgs2.put_Handled" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PermissionRequestedEventArgs3" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PermissionRequestedEventArgs3.get_SavesInProfile" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PermissionRequestedEventArgs3.put_SavesInProfile" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PermissionSetting" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PermissionSetting.get_PermissionKind" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PermissionSetting.get_PermissionOrigin" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PermissionSetting.get_PermissionState" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PointerInfo" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PointerInfo.get_ButtonChangeKind" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PointerInfo.get_DisplayRect" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PointerInfo.get_FrameId" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PointerInfo.get_HimetricLocation" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PointerInfo.get_HimetricLocationRaw" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PointerInfo.get_HistoryCount" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PointerInfo.get_InputData" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PointerInfo.get_KeyStates" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PointerInfo.get_PenFlags" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PointerInfo.get_PenMask" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PointerInfo.get_PenPressure" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PointerInfo.get_PenRotation" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PointerInfo.get_PenTiltX" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PointerInfo.get_PenTiltY" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PointerInfo.get_PerformanceCount" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PointerInfo.get_PixelLocation" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PointerInfo.get_PixelLocationRaw" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PointerInfo.get_PointerDeviceRect" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PointerInfo.get_PointerFlags" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PointerInfo.get_PointerId" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PointerInfo.get_PointerKind" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PointerInfo.get_Time" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PointerInfo.get_TouchContact" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PointerInfo.get_TouchContactRaw" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PointerInfo.get_TouchFlags" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PointerInfo.get_TouchMask" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PointerInfo.get_TouchOrientation" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PointerInfo.get_TouchPressure" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PointerInfo.put_ButtonChangeKind" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PointerInfo.put_DisplayRect" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PointerInfo.put_FrameId" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PointerInfo.put_HimetricLocation" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PointerInfo.put_HimetricLocationRaw" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PointerInfo.put_HistoryCount" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PointerInfo.put_InputData" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PointerInfo.put_KeyStates" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PointerInfo.put_PenFlags" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PointerInfo.put_PenMask" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PointerInfo.put_PenPressure" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PointerInfo.put_PenRotation" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PointerInfo.put_PenTiltX" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PointerInfo.put_PenTiltY" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PointerInfo.put_PerformanceCount" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PointerInfo.put_PixelLocation" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PointerInfo.put_PixelLocationRaw" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PointerInfo.put_PointerDeviceRect" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PointerInfo.put_PointerFlags" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PointerInfo.put_PointerId" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PointerInfo.put_PointerKind" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PointerInfo.put_Time" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PointerInfo.put_TouchContact" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PointerInfo.put_TouchContactRaw" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PointerInfo.put_TouchFlags" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PointerInfo.put_TouchMask" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PointerInfo.put_TouchOrientation" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PointerInfo.put_TouchPressure" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PrintSettings" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PrintSettings.get_FooterUri" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PrintSettings.get_HeaderTitle" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PrintSettings.get_MarginBottom" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PrintSettings.get_MarginLeft" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PrintSettings.get_MarginRight" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PrintSettings.get_MarginTop" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PrintSettings.get_Orientation" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PrintSettings.get_PageHeight" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PrintSettings.get_PageWidth" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PrintSettings.get_ScaleFactor" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PrintSettings.get_ShouldPrintBackgrounds" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PrintSettings.get_ShouldPrintHeaderAndFooter" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PrintSettings.get_ShouldPrintSelectionOnly" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PrintSettings.put_FooterUri" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PrintSettings.put_HeaderTitle" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PrintSettings.put_MarginBottom" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PrintSettings.put_MarginLeft" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PrintSettings.put_MarginRight" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PrintSettings.put_MarginTop" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PrintSettings.put_Orientation" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PrintSettings.put_PageHeight" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PrintSettings.put_PageWidth" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PrintSettings.put_ScaleFactor" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PrintSettings.put_ShouldPrintBackgrounds" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PrintSettings.put_ShouldPrintHeaderAndFooter" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PrintSettings.put_ShouldPrintSelectionOnly" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PrintSettings2" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PrintSettings2.get_Collation" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PrintSettings2.get_ColorMode" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PrintSettings2.get_Copies" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PrintSettings2.get_Duplex" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PrintSettings2.get_MediaSize" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PrintSettings2.get_PageRanges" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PrintSettings2.get_PagesPerSide" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PrintSettings2.get_PrinterName" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PrintSettings2.put_Collation" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PrintSettings2.put_ColorMode" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PrintSettings2.put_Copies" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PrintSettings2.put_Duplex" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PrintSettings2.put_MediaSize" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PrintSettings2.put_PageRanges" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PrintSettings2.put_PagesPerSide" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PrintSettings2.put_PrinterName" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PrivatePartial" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PrivatePartialController" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2PrivatePartialController.get_IsBrowserHitTransparent" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ProcessExtendedInfo" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ProcessExtendedInfo.get_AssociatedFrameInfos" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ProcessExtendedInfo.get_ProcessInfo" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ProcessFailedEventArgs" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ProcessFailedEventArgs.get_ProcessFailedKind" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ProcessFailedEventArgs2" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ProcessFailedEventArgs2.get_ExitCode" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ProcessFailedEventArgs2.get_FrameInfosForFailedProcess" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ProcessFailedEventArgs2.get_ProcessDescription" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ProcessFailedEventArgs2.get_Reason" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ProcessFailedEventArgs3" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ProcessFailedEventArgs3.get_FailureSourceModulePath" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ProcessInfo" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ProcessInfo.get_Kind" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ProcessInfo.get_ProcessId" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Profile" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Profile.get_DefaultDownloadFolderPath" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Profile.get_IsInPrivateModeEnabled" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Profile.get_PreferredColorScheme" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Profile.get_ProfileName" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Profile.get_ProfilePath" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Profile.put_DefaultDownloadFolderPath" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Profile.put_PreferredColorScheme" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Profile2" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Profile2.ClearBrowsingDataAsync" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Profile3" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Profile3.get_PreferredTrackingPreventionLevel" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Profile3.put_PreferredTrackingPreventionLevel" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Profile4" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Profile4.SetPermissionStateAsync" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Profile5" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Profile5.get_CookieManager" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Profile6" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Profile6.get_IsGeneralAutofillEnabled" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Profile6.get_IsPasswordAutosaveEnabled" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Profile6.put_IsGeneralAutofillEnabled" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Profile6.put_IsPasswordAutosaveEnabled" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Profile7" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Profile7.AddBrowserExtensionAsync" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Profile8" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Profile8.Delete" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Profile8.add_Deleted" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Profile8.remove_Deleted" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ScriptDialogOpeningEventArgs" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ScriptDialogOpeningEventArgs.Accept" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ScriptDialogOpeningEventArgs.GetDeferral" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ScriptDialogOpeningEventArgs.get_DefaultText" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ScriptDialogOpeningEventArgs.get_Kind" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ScriptDialogOpeningEventArgs.get_Message" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ScriptDialogOpeningEventArgs.get_ResultText" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ScriptDialogOpeningEventArgs.get_Uri" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ScriptDialogOpeningEventArgs.put_ResultText" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ScriptException" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ScriptException.get_ColumnNumber" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ScriptException.get_LineNumber" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ScriptException.get_Message" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ScriptException.get_Name" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ScriptException.get_ToJson" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ServerCertificateErrorDetectedEventArgs" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ServerCertificateErrorDetectedEventArgs.GetDeferral" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ServerCertificateErrorDetectedEventArgs.get_Action" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ServerCertificateErrorDetectedEventArgs.get_ErrorStatus" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ServerCertificateErrorDetectedEventArgs.get_RequestUri" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ServerCertificateErrorDetectedEventArgs.get_ServerCertificate" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2ServerCertificateErrorDetectedEventArgs.put_Action" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Settings" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Settings.get_AreDefaultContextMenusEnabled" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Settings.get_AreDefaultScriptDialogsEnabled" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Settings.get_AreDevToolsEnabled" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Settings.get_AreHostObjectsAllowed" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Settings.get_IsBuiltInErrorPageEnabled" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Settings.get_IsScriptEnabled" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Settings.get_IsStatusBarEnabled" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Settings.get_IsWebMessageEnabled" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Settings.get_IsZoomControlEnabled" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Settings.put_AreDefaultContextMenusEnabled" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Settings.put_AreDefaultScriptDialogsEnabled" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Settings.put_AreDevToolsEnabled" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Settings.put_AreHostObjectsAllowed" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Settings.put_IsBuiltInErrorPageEnabled" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Settings.put_IsScriptEnabled" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Settings.put_IsStatusBarEnabled" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Settings.put_IsWebMessageEnabled" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Settings.put_IsZoomControlEnabled" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Settings2" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Settings2.get_UserAgent" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Settings2.put_UserAgent" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Settings3" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Settings3.get_AreBrowserAcceleratorKeysEnabled" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Settings3.put_AreBrowserAcceleratorKeysEnabled" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Settings4" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Settings4.get_IsGeneralAutofillEnabled" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Settings4.get_IsPasswordAutosaveEnabled" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Settings4.put_IsGeneralAutofillEnabled" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Settings4.put_IsPasswordAutosaveEnabled" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Settings5" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Settings5.get_IsPinchZoomEnabled" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Settings5.put_IsPinchZoomEnabled" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Settings6" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Settings6.get_IsSwipeNavigationEnabled" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Settings6.put_IsSwipeNavigationEnabled" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Settings7" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Settings7.get_HiddenPdfToolbarItems" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Settings7.put_HiddenPdfToolbarItems" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Settings8" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Settings8.get_IsReputationCheckingRequired" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Settings8.put_IsReputationCheckingRequired" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Settings9" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Settings9.get_IsNonClientRegionSupportEnabled" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Settings9.put_IsNonClientRegionSupportEnabled" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Settings_Manual" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Settings_Manual.get_HostObjectDispatchAdapter" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2Settings_Manual.put_HostObjectDispatchAdapter" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2SharedBuffer" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2SharedBuffer.OpenStream" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2SharedBuffer.get_Size" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2SharedBuffer_Manual" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2SharedBuffer_Manual.get_Buffer" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2SourceChangedEventArgs" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2SourceChangedEventArgs.get_IsNewDocument" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2WebMessageReceivedEventArgs" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2WebMessageReceivedEventArgs.TryGetWebMessageAsString" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2WebMessageReceivedEventArgs.get_Source" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2WebMessageReceivedEventArgs.get_WebMessageAsJson" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2WebMessageReceivedEventArgs2" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2WebMessageReceivedEventArgs2.get_AdditionalObjects" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2WebResourceRequest" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2WebResourceRequest.get_Content" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2WebResourceRequest.get_Headers" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2WebResourceRequest.get_Method" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2WebResourceRequest.get_Uri" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2WebResourceRequest.put_Content" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2WebResourceRequest.put_Method" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2WebResourceRequest.put_Uri" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2WebResourceRequestedEventArgs" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2WebResourceRequestedEventArgs.GetDeferral" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2WebResourceRequestedEventArgs.get_Request" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2WebResourceRequestedEventArgs.get_ResourceContext" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2WebResourceRequestedEventArgs.get_Response" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2WebResourceRequestedEventArgs.put_Response" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2WebResourceRequestedEventArgs2" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2WebResourceRequestedEventArgs2.get_RequestedSourceKind" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2WebResourceResponse" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2WebResourceResponse.get_Content" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2WebResourceResponse.get_Headers" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2WebResourceResponse.get_ReasonPhrase" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2WebResourceResponse.get_StatusCode" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2WebResourceResponse.put_Content" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2WebResourceResponse.put_ReasonPhrase" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2WebResourceResponse.put_StatusCode" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2WebResourceResponseReceivedEventArgs" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2WebResourceResponseReceivedEventArgs.get_Request" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2WebResourceResponseReceivedEventArgs.get_Response" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2WebResourceResponseView" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2WebResourceResponseView.GetContentAsync" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2WebResourceResponseView.get_Headers" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2WebResourceResponseView.get_ReasonPhrase" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2WebResourceResponseView.get_StatusCode" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2WindowFeatures" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2WindowFeatures.get_HasPosition" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2WindowFeatures.get_HasSize" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2WindowFeatures.get_Height" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2WindowFeatures.get_Left" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2WindowFeatures.get_ShouldDisplayMenuBar" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2WindowFeatures.get_ShouldDisplayScrollBars" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2WindowFeatures.get_ShouldDisplayStatus" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2WindowFeatures.get_ShouldDisplayToolbar" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2WindowFeatures.get_Top" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2WindowFeatures.get_Width" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_10" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_10.add_BasicAuthenticationRequested" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_10.remove_BasicAuthenticationRequested" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_11" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_11.CallDevToolsProtocolMethodForSessionAsync" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_11.add_ContextMenuRequested" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_11.remove_ContextMenuRequested" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_12" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_12.add_StatusBarTextChanged" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_12.get_StatusBarText" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_12.remove_StatusBarTextChanged" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_13" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_13.get_Profile" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_14" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_14.ClearServerCertificateErrorActionsAsync" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_14.add_ServerCertificateErrorDetected" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_14.remove_ServerCertificateErrorDetected" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_15" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_15.GetFaviconAsync" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_15.add_FaviconChanged" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_15.get_FaviconUri" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_15.remove_FaviconChanged" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_16" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_16.PrintAsync" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_16.PrintToPdfStreamAsync" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_16.ShowPrintUI" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_17" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_17.PostSharedBufferToScript" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_18" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_18.add_LaunchingExternalUriScheme" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_18.remove_LaunchingExternalUriScheme" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_19" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_19.get_MemoryUsageTargetLevel" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_19.put_MemoryUsageTargetLevel" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_2" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_2.NavigateWithWebResourceRequest" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_2.add_DOMContentLoaded" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_2.add_WebResourceResponseReceived" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_2.get_CookieManager" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_2.get_Environment" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_2.remove_DOMContentLoaded" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_2.remove_WebResourceResponseReceived" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_20" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_20.get_FrameId" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_21" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_21.ExecuteScriptWithResultAsync" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_22" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_23" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_3" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_3.ClearVirtualHostNameToFolderMapping" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_3.Resume" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_3.SetVirtualHostNameToFolderMapping" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_3.TrySuspendAsync" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_3.get_IsSuspended" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_4" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_4.add_DownloadStarting" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_4.add_FrameCreated" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_4.remove_DownloadStarting" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_4.remove_FrameCreated" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_5" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_5.add_ClientCertificateRequested" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_5.remove_ClientCertificateRequested" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_6" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_6.OpenTaskManagerWindow" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_7" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_7.PrintToPdfAsync" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_8" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_8.add_IsDocumentPlayingAudioChanged" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_8.add_IsMutedChanged" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_8.get_IsDocumentPlayingAudio" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_8.get_IsMuted" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_8.put_IsMuted" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_8.remove_IsDocumentPlayingAudioChanged" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_8.remove_IsMutedChanged" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_9" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_9.CloseDefaultDownloadDialog" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_9.OpenDefaultDownloadDialog" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_9.add_IsDefaultDownloadDialogOpenChanged" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_9.get_DefaultDownloadDialogCornerAlignment" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_9.get_DefaultDownloadDialogMargin" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_9.get_IsDefaultDownloadDialogOpen" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_9.put_DefaultDownloadDialogCornerAlignment" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_9.put_DefaultDownloadDialogMargin" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_9.remove_IsDefaultDownloadDialogOpenChanged" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_Manual" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_Manual.AddWebResourceRequestedFilter" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_Manual.RemoveWebResourceRequestedFilter" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_Manual2" />
+          <AitFeature Name="Microsoft.Web.WebView2.Core.ICoreWebView2_Manual2.PostWebMessageAsJson" />
+          <AitFeature Name="Windows.ApplicationModel.DataTransfer.DataPackageOperation" />
+          <AitFeature Name="Windows.ApplicationModel.DataTransfer.DragDrop.Core.CoreDragInfo" />
+          <AitFeature Name="Windows.ApplicationModel.DataTransfer.DragDrop.Core.CoreDragUIOverride" />
+          <AitFeature Name="Windows.Foundation.Collections.IIterator`1" />
+          <AitFeature Name="Windows.Foundation.Deferral" />
+          <AitFeature Name="Windows.Foundation.IAsyncAction" />
+          <AitFeature Name="Windows.Foundation.IAsyncOperation`1" />
+          <AitFeature Name="Windows.Foundation.IMemoryBufferReference" />
+          <AitFeature Name="Windows.Foundation.Metadata.ActivatableAttribute" />
+          <AitFeature Name="Windows.Foundation.Metadata.ActivatableAttribute..ctor" />
+          <AitFeature Name="Windows.Foundation.Metadata.ComposableAttribute" />
+          <AitFeature Name="Windows.Foundation.Metadata.ComposableAttribute..ctor" />
+          <AitFeature Name="Windows.Foundation.Metadata.CompositionType" />
+          <AitFeature Name="Windows.Foundation.Metadata.DefaultAttribute" />
+          <AitFeature Name="Windows.Foundation.Metadata.DefaultAttribute..ctor" />
+          <AitFeature Name="Windows.Foundation.Metadata.DefaultOverloadAttribute" />
+          <AitFeature Name="Windows.Foundation.Metadata.DefaultOverloadAttribute..ctor" />
+          <AitFeature Name="Windows.Foundation.Metadata.ExclusiveToAttribute" />
+          <AitFeature Name="Windows.Foundation.Metadata.ExclusiveToAttribute..ctor" />
+          <AitFeature Name="Windows.Foundation.Metadata.GuidAttribute" />
+          <AitFeature Name="Windows.Foundation.Metadata.GuidAttribute..ctor" />
+          <AitFeature Name="Windows.Foundation.Metadata.MarshalingBehaviorAttribute" />
+          <AitFeature Name="Windows.Foundation.Metadata.MarshalingBehaviorAttribute..ctor" />
+          <AitFeature Name="Windows.Foundation.Metadata.MarshalingType" />
+          <AitFeature Name="Windows.Foundation.Metadata.OverloadAttribute" />
+          <AitFeature Name="Windows.Foundation.Metadata.OverloadAttribute..ctor" />
+          <AitFeature Name="Windows.Foundation.Metadata.StaticAttribute" />
+          <AitFeature Name="Windows.Foundation.Metadata.StaticAttribute..ctor" />
+          <AitFeature Name="Windows.Foundation.Metadata.ThreadingAttribute" />
+          <AitFeature Name="Windows.Foundation.Metadata.ThreadingAttribute..ctor" />
+          <AitFeature Name="Windows.Foundation.Metadata.ThreadingModel" />
+          <AitFeature Name="Windows.Foundation.Metadata.VersionAttribute" />
+          <AitFeature Name="Windows.Foundation.Metadata.VersionAttribute..ctor" />
+          <AitFeature Name="Windows.Foundation.Point" />
+          <AitFeature Name="Windows.Foundation.Rect" />
+          <AitFeature Name="Windows.Foundation.TypedEventHandler`2" />
+          <AitFeature Name="Windows.Security.Cryptography.Certificates.Certificate" />
+          <AitFeature Name="Windows.Storage.Streams.IRandomAccessStream" />
+          <AitFeature Name="Windows.UI.Color" />
+          <AitFeature Name="Windows.UI.Core.CoreCursor" />
+          <AitFeature Name="Windows.UI.Core.CoreWindow" />
+        </AitCategory>
+        <AitCategory Id="DotNet">
+          <AitFeature Name="System.Collections.Generic.IEnumerable`1" />
+          <AitFeature Name="System.Collections.Generic.IList`1" />
+          <AitFeature Name="System.Collections.Generic.IReadOnlyList`1" />
+          <AitFeature Name="System.Collections.Generic.KeyValuePair`2" />
+          <AitFeature Name="System.DateTimeOffset" />
+          <AitFeature Name="System.Enum" />
+          <AitFeature Name="System.FlagsAttribute" />
+          <AitFeature Name="System.FlagsAttribute..ctor" />
+          <AitFeature Name="System.IDisposable" />
+          <AitFeature Name="System.IDisposable.Dispose" />
+          <AitFeature Name="System.Object" />
+          <AitFeature Name="System.Runtime.InteropServices.WindowsRuntime.EventRegistrationToken" />
+          <AitFeature Name="System.Type" />
+          <AitFeature Name="System.ValueType" />
+        </AitCategory>
+      </AitFile>
+      <AitFile ErrorCode="0" Name="WindowsAssetCreator.winmd" Id="0000547f67f28c4dd0ba68b4baf48c203519179e4b38">
+        <AitCategory Id="DotNetWinRt">
+          <AitFeature Name="Microsoft.UI.Xaml.Data.INotifyPropertyChanged" />
+          <AitFeature Name="Microsoft.UI.Xaml.Data.INotifyPropertyChanged.add_PropertyChanged" />
+          <AitFeature Name="Microsoft.UI.Xaml.Data.INotifyPropertyChanged.remove_PropertyChanged" />
+          <AitFeature Name="Microsoft.UI.Xaml.Data.PropertyChangedEventHandler" />
+          <AitFeature Name="Microsoft.UI.Xaml.Markup.IXamlMetadataProvider" />
+          <AitFeature Name="Microsoft.UI.Xaml.Markup.IXamlMetadataProvider.GetXamlType" />
+          <AitFeature Name="Microsoft.UI.Xaml.Markup.IXamlMetadataProvider.GetXmlnsDefinitions" />
+          <AitFeature Name="Microsoft.UI.Xaml.Markup.IXamlType" />
+          <AitFeature Name="Microsoft.UI.Xaml.Markup.XmlnsDefinition" />
+          <AitFeature Name="Microsoft.UI.Xaml.Media.ImageSource" />
+          <AitFeature Name="Microsoft.UI.Xaml.Visibility" />
+          <AitFeature Name="Microsoft.UI.Xaml.Window" />
+          <AitFeature Name="Windows.Foundation.Collections.IObservableVector`1" />
+          <AitFeature Name="Windows.Foundation.Metadata.ActivatableAttribute" />
+          <AitFeature Name="Windows.Foundation.Metadata.ActivatableAttribute..ctor" />
+          <AitFeature Name="Windows.Foundation.Metadata.DefaultAttribute" />
+          <AitFeature Name="Windows.Foundation.Metadata.DefaultAttribute..ctor" />
+          <AitFeature Name="Windows.Foundation.Metadata.DefaultOverloadAttribute" />
+          <AitFeature Name="Windows.Foundation.Metadata.DefaultOverloadAttribute..ctor" />
+          <AitFeature Name="Windows.Foundation.Metadata.ExclusiveToAttribute" />
+          <AitFeature Name="Windows.Foundation.Metadata.ExclusiveToAttribute..ctor" />
+          <AitFeature Name="Windows.Foundation.Metadata.GuidAttribute" />
+          <AitFeature Name="Windows.Foundation.Metadata.GuidAttribute..ctor" />
+          <AitFeature Name="Windows.Foundation.Metadata.MarshalingBehaviorAttribute" />
+          <AitFeature Name="Windows.Foundation.Metadata.MarshalingBehaviorAttribute..ctor" />
+          <AitFeature Name="Windows.Foundation.Metadata.MarshalingType" />
+          <AitFeature Name="Windows.Foundation.Metadata.OverloadAttribute" />
+          <AitFeature Name="Windows.Foundation.Metadata.OverloadAttribute..ctor" />
+          <AitFeature Name="Windows.Foundation.Metadata.ThreadingAttribute" />
+          <AitFeature Name="Windows.Foundation.Metadata.ThreadingAttribute..ctor" />
+          <AitFeature Name="Windows.Foundation.Metadata.ThreadingModel" />
+          <AitFeature Name="Windows.Foundation.Metadata.VersionAttribute" />
+          <AitFeature Name="Windows.Foundation.Metadata.VersionAttribute..ctor" />
+        </AitCategory>
+        <AitCategory Id="DotNet">
+          <AitFeature Name="System.Collections.Generic.IReadOnlyList`1" />
+          <AitFeature Name="System.Object" />
+          <AitFeature Name="System.Runtime.InteropServices.WindowsRuntime.EventRegistrationToken" />
+          <AitFeature Name="System.Type" />
+        </AitCategory>
+      </AitFile>
+      <AitFile ErrorCode="0" Name="Microsoft.Web.WebView2.Core.dll" Id="000063d5715a7f645dcf3655ea39b15b3dd5bb238fd8">
+        <AitCategory Id="Com">
+          <AitFeature Name="{00000000-0000-0000-c000-000000000046}" />
+          <AitFeature Name="{00000003-0000-0000-c000-000000000046}" />
+          <AitFeature Name="{0000000c-0000-0000-c000-000000000046}" />
+          <AitFeature Name="{00000035-0000-0000-c000-000000000046}" />
+          <AitFeature Name="{00000036-0000-0000-c000-000000000046}" />
+          <AitFeature Name="{00000037-0000-0000-c000-000000000046}" />
+          <AitFeature Name="{00000038-0000-0000-c000-000000000046}" />
+          <AitFeature Name="{0000010e-0000-0000-c000-000000000046}" />
+          <AitFeature Name="{00000146-0000-0000-c000-000000000046}" />
+          <AitFeature Name="{00000323-0000-0000-c000-000000000046}" />
+          <AitFeature Name="{00020400-0000-0000-c000-000000000046}" />
+          <AitFeature Name="{05eb86f1-7140-5517-b88d-cbaebe57e6b1}" />
+          <AitFeature Name="{092b849b-60b1-52be-a44a-6fe8e933cbe4}" />
+          <AitFeature Name="{0b651ad6-9755-5be5-8918-6bd61eed3795}" />
+          <AitFeature Name="{17b4221c-4baf-44a2-9608-04fb62b16942}" />
+          <AitFeature Name="{1cf2b120-547d-101b-8e65-08002b2bd119}" />
+          <AitFeature Name="{2f13c006-a03a-5f69-b090-75a43e33423e}" />
+          <AitFeature Name="{30d5a829-7fa4-4026-83bb-d75bae4ea99e}" />
+          <AitFeature Name="{320b7e22-3cb0-4cdf-8663-1d28910065eb}" />
+          <AitFeature Name="{3487aa9d-505f-550e-874e-5b6194c618eb}" />
+          <AitFeature Name="{398c4183-793d-5b00-819b-4aef92485e94}" />
+          <AitFeature Name="{3e1fe603-f897-5263-b328-0806426b8a79}" />
+          <AitFeature Name="{430ecece-1418-5d19-81b2-5ddb381603cc}" />
+          <AitFeature Name="{44a94f2d-04f8-5091-b336-be7892dd10be}" />
+          <AitFeature Name="{45d64a29-a63e-4cb6-b498-5781d298cb4f}" />
+          <AitFeature Name="{4f50731a-89cf-4782-b3e0-dce8c90476ba}" />
+          <AitFeature Name="{5746e5c4-5b97-424c-b620-2822915734dd}" />
+          <AitFeature Name="{575933df-34fe-4480-af15-07691f3d5d9b}" />
+          <AitFeature Name="{5a648006-843a-4da9-865b-9d26e5dfad7b}" />
+          <AitFeature Name="{60310303-49c5-52e6-abc6-a9b36eccc716}" />
+          <AitFeature Name="{65a1ecc5-3fb5-4832-8ca9-f061b281d13a}" />
+          <AitFeature Name="{7b81c56a-0985-518d-baa9-0da9ae009f65}" />
+          <AitFeature Name="{82ba7092-4c88-427d-a7bc-16dd93feb67e}" />
+          <AitFeature Name="{8504dbea-fb6a-4144-a6c2-33499c9284f5}" />
+          <AitFeature Name="{8c304ebb-6615-50a4-8829-879ecd443236}" />
+          <AitFeature Name="{905a0fe1-bc53-11df-8c49-001e4fc686da}" />
+          <AitFeature Name="{94ea2b94-e9cc-49e0-c0ff-ee64ca8f5b90}" />
+          <AitFeature Name="{98b9acc1-4b56-532e-ac73-03d5291cca90}" />
+          <AitFeature Name="{a4ed5c81-76c9-40bd-8be6-b1d90fb20ae7}" />
+          <AitFeature Name="{a6487363-b074-5c60-ab16-866dce4ee54d}" />
+          <AitFeature Name="{af86e2e0-b12d-4c6a-9c5a-d7aa65101e90}" />
+          <AitFeature Name="{b32bdca4-5e52-5b27-bc5d-d66a1a268c2a}" />
+          <AitFeature Name="{b79a741f-7fb5-50ae-9e99-911201ec3d41}" />
+          <AitFeature Name="{c03f6a43-65a4-9818-987e-e0b810d2a6f2}" />
+          <AitFeature Name="{c1d3d1a2-ae17-5a5f-b5a2-bdcc8844889a}" />
+          <AitFeature Name="{c54691e5-e6fb-4d74-b4b1-8a3c17f25e9e}" />
+          <AitFeature Name="{cdb5efb3-5788-509d-9be1-71ccb8a3362a}" />
+          <AitFeature Name="{e2fcc7c1-3bfc-5a0b-b2b0-72e769d1cb7e}" />
+          <AitFeature Name="{e9bdaaf0-cbf6-5c72-be90-29cbf3a1319b}" />
+          <AitFeature Name="{ec699315-2109-545a-8425-26f721372fd3}" />
+          <AitFeature Name="{ed32a372-f3c8-4faa-9cfb-470148da3888}" />
+          <AitFeature Name="{f4637d4a-0760-5431-bfc0-24eb1d4f6c4f}" />
+          <AitFeature Name="{f6359621-a79d-4ed3-8c32-a9ef9d6b76a4}" />
+          <AitFeature Name="{f7a49934-2bcd-50b0-a10a-750045d95578}" />
+          <AitFeature Name="{fbc4dd29-245b-11e4-af98-689423260cf8}" />
+        </AitCategory>
+        <AitCategory Id="WinRtCom">
+          <AitFeature Name="{00000036-0000-0000-c000-000000000046}" />
+          <AitFeature Name="{17b4221c-4baf-44a2-9608-04fb62b16942}" />
+          <AitFeature Name="{30d5a829-7fa4-4026-83bb-d75bae4ea99e}" />
+          <AitFeature Name="{320b7e22-3cb0-4cdf-8663-1d28910065eb}" />
+          <AitFeature Name="{575933df-34fe-4480-af15-07691f3d5d9b}" />
+          <AitFeature Name="{5a648006-843a-4da9-865b-9d26e5dfad7b}" />
+          <AitFeature Name="{65a1ecc5-3fb5-4832-8ca9-f061b281d13a}" />
+          <AitFeature Name="{8504dbea-fb6a-4144-a6c2-33499c9284f5}" />
+          <AitFeature Name="{905a0fe1-bc53-11df-8c49-001e4fc686da}" />
+          <AitFeature Name="{a4ed5c81-76c9-40bd-8be6-b1d90fb20ae7}" />
+          <AitFeature Name="{c54691e5-e6fb-4d74-b4b1-8a3c17f25e9e}" />
+          <AitFeature Name="{ed32a372-f3c8-4faa-9cfb-470148da3888}" />
+          <AitFeature Name="{f6359621-a79d-4ed3-8c32-a9ef9d6b76a4}" />
+          <AitFeature Name="{fbc4dd29-245b-11e4-af98-689423260cf8}" />
+        </AitCategory>
+        <AitCategory Id="ApiStatic">
+          <AitFeature Name="api-ms-win-crt-runtime-l1-1-0.dll!_cexit" />
+          <AitFeature Name="api-ms-win-crt-runtime-l1-1-0.dll!_configure_narrow_argv" />
+          <AitFeature Name="api-ms-win-crt-runtime-l1-1-0.dll!_crt_atexit" />
+          <AitFeature Name="api-ms-win-crt-runtime-l1-1-0.dll!_errno" />
+          <AitFeature Name="api-ms-win-crt-runtime-l1-1-0.dll!_execute_onexit_table" />
+          <AitFeature Name="api-ms-win-crt-runtime-l1-1-0.dll!_initialize_narrow_environment" />
+          <AitFeature Name="api-ms-win-crt-runtime-l1-1-0.dll!_initialize_onexit_table" />
+          <AitFeature Name="api-ms-win-crt-runtime-l1-1-0.dll!_initterm" />
+          <AitFeature Name="api-ms-win-crt-runtime-l1-1-0.dll!_initterm_e" />
+          <AitFeature Name="api-ms-win-crt-runtime-l1-1-0.dll!_invalid_parameter_noinfo" />
+          <AitFeature Name="api-ms-win-crt-runtime-l1-1-0.dll!_invalid_parameter_noinfo_noreturn" />
+          <AitFeature Name="api-ms-win-crt-runtime-l1-1-0.dll!_register_onexit_function" />
+          <AitFeature Name="api-ms-win-crt-runtime-l1-1-0.dll!_seh_filter_dll" />
+          <AitFeature Name="api-ms-win-crt-runtime-l1-1-0.dll!abort" />
+          <AitFeature Name="api-ms-win-crt-runtime-l1-1-0.dll!terminate" />
+          <AitFeature Name="api-ms-win-crt-string-l1-1-0.dll!_wcsicmp" />
+          <AitFeature Name="api-ms-win-crt-string-l1-1-0.dll!iswspace" />
+          <AitFeature Name="api-ms-win-crt-string-l1-1-0.dll!strcpy_s" />
+          <AitFeature Name="api-ms-win-crt-string-l1-1-0.dll!wcscmp" />
+          <AitFeature Name="api-ms-win-crt-string-l1-1-0.dll!wcslen" />
+          <AitFeature Name="api-ms-win-crt-string-l1-1-0.dll!wcsncmp" />
+          <AitFeature Name="api-ms-win-crt-math-l1-1-0.dll!floor" />
+          <AitFeature Name="api-ms-win-core-com-l1-1-0.dll!CoCreateFreeThreadedMarshaler" />
+          <AitFeature Name="api-ms-win-core-com-l1-1-0.dll!CoCreateInstance" />
+          <AitFeature Name="api-ms-win-core-com-l1-1-0.dll!CoTaskMemAlloc" />
+          <AitFeature Name="api-ms-win-core-com-l1-1-0.dll!CoTaskMemFree" />
+          <AitFeature Name="api-ms-win-crt-stdio-l1-1-0.dll!__stdio_common_vsnprintf_s" />
+          <AitFeature Name="api-ms-win-crt-stdio-l1-1-0.dll!__stdio_common_vswprintf" />
+          <AitFeature Name="api-ms-win-crt-heap-l1-1-0.dll!_callnewh" />
+          <AitFeature Name="api-ms-win-crt-heap-l1-1-0.dll!calloc" />
+          <AitFeature Name="api-ms-win-crt-heap-l1-1-0.dll!free" />
+          <AitFeature Name="api-ms-win-crt-heap-l1-1-0.dll!malloc" />
+          <AitFeature Name="api-ms-win-eventing-provider-l1-1-0.dll!EventRegister" />
+          <AitFeature Name="api-ms-win-eventing-provider-l1-1-0.dll!EventSetInformation" />
+          <AitFeature Name="api-ms-win-eventing-provider-l1-1-0.dll!EventUnregister" />
+          <AitFeature Name="api-ms-win-eventing-provider-l1-1-0.dll!EventWriteTransfer" />
+          <AitFeature Name="api-ms-win-crt-convert-l1-1-0.dll!_ultow_s" />
+          <AitFeature Name="api-ms-win-crt-convert-l1-1-0.dll!_wtoi" />
+          <AitFeature Name="api-ms-win-crt-convert-l1-1-0.dll!wcstol" />
+          <AitFeature Name="api-ms-win-core-registry-l1-1-0.dll!RegCloseKey" />
+          <AitFeature Name="api-ms-win-core-registry-l1-1-0.dll!RegGetValueW" />
+          <AitFeature Name="api-ms-win-core-registry-l1-1-0.dll!RegOpenKeyExW" />
+          <AitFeature Name="api-ms-win-core-registry-l1-1-0.dll!RegQueryValueExW" />
+          <AitFeature Name="kernel32.dll!AcquireSRWLockExclusive" />
+          <AitFeature Name="kernel32.dll!AcquireSRWLockShared" />
+          <AitFeature Name="kernel32.dll!CloseHandle" />
+          <AitFeature Name="kernel32.dll!CreateFileW" />
+          <AitFeature Name="kernel32.dll!CreateMutexExW" />
+          <AitFeature Name="kernel32.dll!CreateSemaphoreExW" />
+          <AitFeature Name="kernel32.dll!DebugBreak" />
+          <AitFeature Name="kernel32.dll!DecodePointer" />
+          <AitFeature Name="kernel32.dll!DeleteCriticalSection" />
+          <AitFeature Name="kernel32.dll!EncodePointer" />
+          <AitFeature Name="kernel32.dll!FormatMessageW" />
+          <AitFeature Name="kernel32.dll!FreeLibrary" />
+          <AitFeature Name="kernel32.dll!GetCurrentProcess" />
+          <AitFeature Name="kernel32.dll!GetCurrentProcessId" />
+          <AitFeature Name="kernel32.dll!GetCurrentThreadId" />
+          <AitFeature Name="kernel32.dll!GetEnvironmentVariableW" />
+          <AitFeature Name="kernel32.dll!GetFileAttributesW" />
+          <AitFeature Name="kernel32.dll!GetLastError" />
+          <AitFeature Name="kernel32.dll!GetModuleFileNameA" />
+          <AitFeature Name="kernel32.dll!GetModuleFileNameW" />
+          <AitFeature Name="kernel32.dll!GetModuleHandleExW" />
+          <AitFeature Name="kernel32.dll!GetModuleHandleW" />
+          <AitFeature Name="kernel32.dll!GetProcAddress" />
+          <AitFeature Name="kernel32.dll!GetProcessHeap" />
+          <AitFeature Name="kernel32.dll!GetSystemTimeAsFileTime" />
+          <AitFeature Name="kernel32.dll!HeapAlloc" />
+          <AitFeature Name="kernel32.dll!HeapFree" />
+          <AitFeature Name="kernel32.dll!InitOnceExecuteOnce" />
+          <AitFeature Name="kernel32.dll!InitializeCriticalSectionAndSpinCount" />
+          <AitFeature Name="kernel32.dll!InitializeSListHead" />
+          <AitFeature Name="kernel32.dll!InterlockedFlushSList" />
+          <AitFeature Name="kernel32.dll!InterlockedPushEntrySList" />
+          <AitFeature Name="kernel32.dll!IsDebuggerPresent" />
+          <AitFeature Name="kernel32.dll!IsProcessorFeaturePresent" />
+          <AitFeature Name="kernel32.dll!LoadLibraryExW" />
+          <AitFeature Name="kernel32.dll!LoadLibraryW" />
+          <AitFeature Name="kernel32.dll!MultiByteToWideChar" />
+          <AitFeature Name="kernel32.dll!OpenSemaphoreW" />
+          <AitFeature Name="kernel32.dll!OutputDebugStringA" />
+          <AitFeature Name="kernel32.dll!OutputDebugStringW" />
+          <AitFeature Name="kernel32.dll!QueryPerformanceCounter" />
+          <AitFeature Name="kernel32.dll!RaiseException" />
+          <AitFeature Name="kernel32.dll!ReleaseMutex" />
+          <AitFeature Name="kernel32.dll!ReleaseSRWLockExclusive" />
+          <AitFeature Name="kernel32.dll!ReleaseSRWLockShared" />
+          <AitFeature Name="kernel32.dll!ReleaseSemaphore" />
+          <AitFeature Name="kernel32.dll!RtlCaptureContext" />
+          <AitFeature Name="kernel32.dll!RtlLookupFunctionEntry" />
+          <AitFeature Name="kernel32.dll!RtlPcToFileHeader" />
+          <AitFeature Name="kernel32.dll!RtlUnwindEx" />
+          <AitFeature Name="kernel32.dll!RtlVirtualUnwind" />
+          <AitFeature Name="kernel32.dll!SetLastError" />
+          <AitFeature Name="kernel32.dll!SetUnhandledExceptionFilter" />
+          <AitFeature Name="kernel32.dll!SleepConditionVariableSRW" />
+          <AitFeature Name="kernel32.dll!TerminateProcess" />
+          <AitFeature Name="kernel32.dll!TlsAlloc" />
+          <AitFeature Name="kernel32.dll!TlsFree" />
+          <AitFeature Name="kernel32.dll!TlsGetValue" />
+          <AitFeature Name="kernel32.dll!TlsSetValue" />
+          <AitFeature Name="kernel32.dll!UnhandledExceptionFilter" />
+          <AitFeature Name="kernel32.dll!WaitForSingleObject" />
+          <AitFeature Name="kernel32.dll!WaitForSingleObjectEx" />
+          <AitFeature Name="kernel32.dll!WakeAllConditionVariable" />
+          <AitFeature Name="kernel32.dll!WideCharToMultiByte" />
+          <AitFeature Name="oleaut32.dll!2" />
+          <AitFeature Name="oleaut32.dll!200" />
+          <AitFeature Name="oleaut32.dll!201" />
+          <AitFeature Name="oleaut32.dll!6" />
+          <AitFeature Name="oleaut32.dll!7" />
+          <AitFeature Name="oleaut32.dll!8" />
+          <AitFeature Name="oleaut32.dll!9" />
+          <AitFeature Name="oleaut32.dll!GetErrorInfo" />
+          <AitFeature Name="oleaut32.dll!SetErrorInfo" />
+          <AitFeature Name="oleaut32.dll!SysAllocString" />
+          <AitFeature Name="oleaut32.dll!SysFreeString" />
+          <AitFeature Name="oleaut32.dll!SysStringLen" />
+          <AitFeature Name="oleaut32.dll!VariantClear" />
+          <AitFeature Name="oleaut32.dll!VariantInit" />
+        </AitCategory>
+        <AitCategory Id="ApiDynamic">
+          <AitFeature Name="kernel32.dll!FlsAlloc" />
+          <AitFeature Name="kernel32.dll!FlsFree" />
+          <AitFeature Name="kernel32.dll!FlsGetValue" />
+          <AitFeature Name="kernel32.dll!FlsSetValue" />
+          <AitFeature Name="kernel32.dll!GetCurrentApplicationUserModelId" />
+          <AitFeature Name="kernel32.dll!GetCurrentPackageInfo" />
+          <AitFeature Name="kernel32.dll!InitializeCriticalSectionEx" />
+          <AitFeature Name="kernel32.dll!RaiseFailFastException" />
+          <AitFeature Name="shell32.dll!GetCurrentProcessExplicitAppUserModelID" />
+          <AitFeature Name="kernelbase.dll!AddPackageDependency" />
+          <AitFeature Name="kernelbase.dll!FlsAlloc" />
+          <AitFeature Name="kernelbase.dll!FlsFree" />
+          <AitFeature Name="kernelbase.dll!FlsGetValue" />
+          <AitFeature Name="kernelbase.dll!FlsSetValue" />
+          <AitFeature Name="kernelbase.dll!GetCurrentApplicationUserModelId" />
+          <AitFeature Name="kernelbase.dll!GetCurrentPackageInfo" />
+          <AitFeature Name="kernelbase.dll!GetFileVersionInfoSizeW" />
+          <AitFeature Name="kernelbase.dll!GetFileVersionInfoW" />
+          <AitFeature Name="kernelbase.dll!InitializeCriticalSectionEx" />
+          <AitFeature Name="kernelbase.dll!RaiseFailFastException" />
+          <AitFeature Name="kernelbase.dll!TryCreatePackageDependency" />
+          <AitFeature Name="kernelbase.dll!VerQueryValueW" />
+          <AitFeature Name="combase.dll!CoIncrementMTAUsage" />
+          <AitFeature Name="combase.dll!RoGetActivationFactory" />
+          <AitFeature Name="combase.dll!RoOriginateLanguageException" />
+          <AitFeature Name="combase.dll!RoTransformError" />
+          <AitFeature Name="version.dll!GetFileVersionInfoSizeW" />
+          <AitFeature Name="version.dll!GetFileVersionInfoW" />
+          <AitFeature Name="version.dll!VerQueryValueW" />
+        </AitCategory>
+        <AitCategory Id="WRTClassFromSearch">
+          <AitFeature Name="Windows.Foundation.IAsyncOperation`1" />
+          <AitFeature Name="Windows.Foundation.Collections.IIterator`1" />
+          <AitFeature Name="Windows.Foundation.Collections.IVector`1" />
+          <AitFeature Name="Windows.Foundation.Collections.IObservableVector`1" />
+          <AitFeature Name="Windows.Foundation.Collections.IVectorView`1" />
+          <AitFeature Name="Windows.Foundation.Collections.IKeyValuePair`2" />
+          <AitFeature Name="Windows.Foundation.IMemoryBufferReference" />
+          <AitFeature Name="Windows.Security.Cryptography.Certificates.Certificate" />
+          <AitFeature Name="Windows.Foundation.Deferral" />
+          <AitFeature Name="Windows.Storage.Streams.IRandomAccessStream" />
+          <AitFeature Name="Windows.Foundation.IAsyncAction" />
+          <AitFeature Name="Windows.Security.Cryptography.CryptographicBuffer" />
+          <AitFeature Name="Windows.UI.ColorHelper" />
+          <AitFeature Name="Windows.UI.Core.CoreCursor" />
+          <AitFeature Name="Windows.Foundation.Collections.IVectorChangedEventArgs" />
+          <AitFeature Name="Windows.Foundation.Rect" />
+        </AitCategory>
+      </AitFile>
+      <AitFile ErrorCode="0" Name="WindowsAssetCreator.exe" Id="0000f813fee7b606b8c8aff97ddc03d1dba736c23d1c">
+        <AitCategory Id="Com">
+          <AitFeature Name="{00000000-0000-0000-0000-000000000001}" />
+          <AitFeature Name="{00000000-0000-0000-0000-000000000010}" />
+          <AitFeature Name="{00000000-0000-0000-0000-000000000025}" />
+          <AitFeature Name="{00000000-0000-0000-c000-000000000046}" />
+          <AitFeature Name="{00000003-0000-0000-c000-000000000046}" />
+          <AitFeature Name="{00000035-0000-0000-c000-000000000046}" />
+          <AitFeature Name="{00000036-0000-0000-c000-000000000046}" />
+          <AitFeature Name="{00000037-0000-0000-c000-000000000046}" />
+          <AitFeature Name="{00000038-0000-0000-c000-000000000046}" />
+          <AitFeature Name="{00000120-a8f2-4877-ba0a-fd2b6645fb94}" />
+          <AitFeature Name="{00000146-0000-0000-c000-000000000046}" />
+          <AitFeature Name="{000001da-0000-0000-c000-000000000046}" />
+          <AitFeature Name="{00000323-0000-0000-c000-000000000046}" />
+          <AitFeature Name="{092b849b-60b1-52be-a44a-6fe8e933cbe4}" />
+          <AitFeature Name="{0a299774-3e4e-fc42-1d9d-72cee105ca57}" />
+          <AitFeature Name="{1cf2b120-547d-101b-8e65-08002b2bd119}" />
+          <AitFeature Name="{2ca8278a-12c5-4c5f-8977-94547793c241}" />
+          <AitFeature Name="{2f13c006-a03a-5f69-b090-75a43e33423e}" />
+          <AitFeature Name="{2f2d6c29-5473-5f3e-92e7-96572bb990e2}" />
+          <AitFeature Name="{317d06e8-5f24-433d-bdf7-79ce68d8abc2}" />
+          <AitFeature Name="{3286ffcb-617f-4cc5-af6a-b3fdf29ad145}" />
+          <AitFeature Name="{33ee3134-1dd6-4e3a-8067-d1c162e8642b}" />
+          <AitFeature Name="{3c00fd60-2950-5939-a21a-2d12c5a01b8a}" />
+          <AitFeature Name="{3dddecf4-1d39-58e8-83b1-dbed541c7f35}" />
+          <AitFeature Name="{3e68d4bd-7135-4d10-8018-9fb6d9f33fa1}" />
+          <AitFeature Name="{4207a996-ca2f-42f7-bde8-8b10457a7f30}" />
+          <AitFeature Name="{44a94f2d-04f8-5091-b336-be7892dd10be}" />
+          <AitFeature Name="{44a9796f-723e-4fdf-a218-033e75b0c084}" />
+          <AitFeature Name="{4bd682dd-7554-40e9-9a9b-82654ede7e62}" />
+          <AitFeature Name="{4e534bdf-2960-4878-97a4-9624deb72f2d}" />
+          <AitFeature Name="{51436e75-ace1-5a68-b260-f843b846f0db}" />
+          <AitFeature Name="{548cefbd-bc8a-5fa0-8df2-957440fc8bf4}" />
+          <AitFeature Name="{5612147b-e843-45e3-94d8-06169e3c8e17}" />
+          <AitFeature Name="{5746e5c4-5b97-424c-b620-2822915734dd}" />
+          <AitFeature Name="{575933df-34fe-4480-af15-07691f3d5d9b}" />
+          <AitFeature Name="{5984c710-daf2-43c8-8bb4-a4d3eacfd03f}" />
+          <AitFeature Name="{629bdbc8-d932-4ff4-96b9-8d96c5c1e858}" />
+          <AitFeature Name="{7b81c56a-0985-518d-baa9-0da9ae009f65}" />
+          <AitFeature Name="{7ed681a1-a880-40c9-b4ed-0bee1e15f549}" />
+          <AitFeature Name="{82ba7092-4c88-427d-a7bc-16dd93feb67e}" />
+          <AitFeature Name="{8c304ebb-6615-50a4-8829-879ecd443236}" />
+          <AitFeature Name="{905a0fe1-bc53-11df-8c49-001e4fc686da}" />
+          <AitFeature Name="{94ea2b94-e9cc-49e0-c0ff-ee64ca8f5b90}" />
+          <AitFeature Name="{98b9acc1-4b56-532e-ac73-03d5291cca90}" />
+          <AitFeature Name="{a4ed5c81-76c9-40bd-8be6-b1d90fb20ae7}" />
+          <AitFeature Name="{a6487363-b074-5c60-ab16-866dce4ee54d}" />
+          <AitFeature Name="{a9db33a2-af5f-43c7-b679-74f5984b5aa4}" />
+          <AitFeature Name="{af86e2e0-b12d-4c6a-9c5a-d7aa65101e90}" />
+          <AitFeature Name="{b32bdca4-5e52-5b27-bc5d-d66a1a268c2a}" />
+          <AitFeature Name="{bb91c27d-6b87-432a-bd04-776c6f5fb2ab}" />
+          <AitFeature Name="{c03f6a43-65a4-9818-987e-e0b810d2a6f2}" />
+          <AitFeature Name="{c1d3d1a2-ae17-5a5f-b5a2-bdcc8844889a}" />
+          <AitFeature Name="{cdb5efb3-5788-509d-9be1-71ccb8a3362a}" />
+          <AitFeature Name="{e2fcc7c1-3bfc-5a0b-b2b0-72e769d1cb7e}" />
+          <AitFeature Name="{e521c894-2c26-5946-9e61-2b5e188d01ed}" />
+          <AitFeature Name="{e5af3542-ca67-4081-995b-709dd13792df}" />
+          <AitFeature Name="{ec5ec8a9-c395-4314-9c77-54d7a935ff70}" />
+          <AitFeature Name="{f5f69427-55ed-5512-8429-d4f6626dfcdd}" />
+          <AitFeature Name="{fa3f6186-4214-428c-a64c-14c9ac7315ea}" />
+          <AitFeature Name="{fd416dfb-2a07-52eb-aae3-dfce14116c05}" />
+        </AitCategory>
+        <AitCategory Id="WinRtCom">
+          <AitFeature Name="{00000036-0000-0000-c000-000000000046}" />
+          <AitFeature Name="{2ca8278a-12c5-4c5f-8977-94547793c241}" />
+          <AitFeature Name="{3286ffcb-617f-4cc5-af6a-b3fdf29ad145}" />
+          <AitFeature Name="{33ee3134-1dd6-4e3a-8067-d1c162e8642b}" />
+          <AitFeature Name="{4207a996-ca2f-42f7-bde8-8b10457a7f30}" />
+          <AitFeature Name="{44a9796f-723e-4fdf-a218-033e75b0c084}" />
+          <AitFeature Name="{4bd682dd-7554-40e9-9a9b-82654ede7e62}" />
+          <AitFeature Name="{4e534bdf-2960-4878-97a4-9624deb72f2d}" />
+          <AitFeature Name="{5612147b-e843-45e3-94d8-06169e3c8e17}" />
+          <AitFeature Name="{575933df-34fe-4480-af15-07691f3d5d9b}" />
+          <AitFeature Name="{5984c710-daf2-43c8-8bb4-a4d3eacfd03f}" />
+          <AitFeature Name="{5b24ef84-d895-5fea-9153-1ac49aed9ba9}" />
+          <AitFeature Name="{629bdbc8-d932-4ff4-96b9-8d96c5c1e858}" />
+          <AitFeature Name="{7ed681a1-a880-40c9-b4ed-0bee1e15f549}" />
+          <AitFeature Name="{905a0fe1-bc53-11df-8c49-001e4fc686da}" />
+          <AitFeature Name="{a4ed5c81-76c9-40bd-8be6-b1d90fb20ae7}" />
+          <AitFeature Name="{bb91c27d-6b87-432a-bd04-776c6f5fb2ab}" />
+          <AitFeature Name="{e5af3542-ca67-4081-995b-709dd13792df}" />
+          <AitFeature Name="{fa3f6186-4214-428c-a64c-14c9ac7315ea}" />
+        </AitCategory>
+        <AitCategory Id="ApiStatic">
+          <AitFeature Name="api-ms-win-crt-locale-l1-1-0.dll!___lc_codepage_func" />
+          <AitFeature Name="api-ms-win-crt-locale-l1-1-0.dll!___lc_locale_name_func" />
+          <AitFeature Name="api-ms-win-crt-locale-l1-1-0.dll!_configthreadlocale" />
+          <AitFeature Name="api-ms-win-crt-locale-l1-1-0.dll!localeconv" />
+          <AitFeature Name="api-ms-win-crt-runtime-l1-1-0.dll!_c_exit" />
+          <AitFeature Name="api-ms-win-crt-runtime-l1-1-0.dll!_cexit" />
+          <AitFeature Name="api-ms-win-crt-runtime-l1-1-0.dll!_configure_narrow_argv" />
+          <AitFeature Name="api-ms-win-crt-runtime-l1-1-0.dll!_configure_wide_argv" />
+          <AitFeature Name="api-ms-win-crt-runtime-l1-1-0.dll!_crt_atexit" />
+          <AitFeature Name="api-ms-win-crt-runtime-l1-1-0.dll!_errno" />
+          <AitFeature Name="api-ms-win-crt-runtime-l1-1-0.dll!_execute_onexit_table" />
+          <AitFeature Name="api-ms-win-crt-runtime-l1-1-0.dll!_exit" />
+          <AitFeature Name="api-ms-win-crt-runtime-l1-1-0.dll!_get_wide_winmain_command_line" />
+          <AitFeature Name="api-ms-win-crt-runtime-l1-1-0.dll!_initialize_narrow_environment" />
+          <AitFeature Name="api-ms-win-crt-runtime-l1-1-0.dll!_initialize_onexit_table" />
+          <AitFeature Name="api-ms-win-crt-runtime-l1-1-0.dll!_initialize_wide_environment" />
+          <AitFeature Name="api-ms-win-crt-runtime-l1-1-0.dll!_initterm" />
+          <AitFeature Name="api-ms-win-crt-runtime-l1-1-0.dll!_initterm_e" />
+          <AitFeature Name="api-ms-win-crt-runtime-l1-1-0.dll!_invalid_parameter_noinfo" />
+          <AitFeature Name="api-ms-win-crt-runtime-l1-1-0.dll!_register_onexit_function" />
+          <AitFeature Name="api-ms-win-crt-runtime-l1-1-0.dll!_register_thread_local_exe_atexit_callback" />
+          <AitFeature Name="api-ms-win-crt-runtime-l1-1-0.dll!_seh_filter_dll" />
+          <AitFeature Name="api-ms-win-crt-runtime-l1-1-0.dll!_seh_filter_exe" />
+          <AitFeature Name="api-ms-win-crt-runtime-l1-1-0.dll!_set_app_type" />
+          <AitFeature Name="api-ms-win-crt-runtime-l1-1-0.dll!abort" />
+          <AitFeature Name="api-ms-win-crt-runtime-l1-1-0.dll!exit" />
+          <AitFeature Name="api-ms-win-crt-runtime-l1-1-0.dll!terminate" />
+          <AitFeature Name="api-ms-win-crt-string-l1-1-0.dll!_wcsicmp" />
+          <AitFeature Name="api-ms-win-crt-string-l1-1-0.dll!iswspace" />
+          <AitFeature Name="api-ms-win-crt-string-l1-1-0.dll!strlen" />
+          <AitFeature Name="api-ms-win-crt-string-l1-1-0.dll!wcscmp" />
+          <AitFeature Name="api-ms-win-crt-string-l1-1-0.dll!wcslen" />
+          <AitFeature Name="api-ms-win-crt-math-l1-1-0.dll!__setusermatherr" />
+          <AitFeature Name="api-ms-win-crt-math-l1-1-0.dll!_dsign" />
+          <AitFeature Name="api-ms-win-crt-math-l1-1-0.dll!_fdsign" />
+          <AitFeature Name="api-ms-win-crt-math-l1-1-0.dll!_ldsign" />
+          <AitFeature Name="api-ms-win-crt-math-l1-1-0.dll!ceilf" />
+          <AitFeature Name="api-ms-win-crt-filesystem-l1-1-0.dll!_lock_file" />
+          <AitFeature Name="api-ms-win-crt-filesystem-l1-1-0.dll!_unlock_file" />
+          <AitFeature Name="api-ms-win-core-com-l1-1-0.dll!CoCreateFreeThreadedMarshaler" />
+          <AitFeature Name="api-ms-win-core-com-l1-1-0.dll!CoCreateInstance" />
+          <AitFeature Name="api-ms-win-core-com-l1-1-0.dll!CoGetApartmentType" />
+          <AitFeature Name="api-ms-win-core-com-l1-1-0.dll!CoGetObjectContext" />
+          <AitFeature Name="api-ms-win-core-com-l1-1-0.dll!CoInitializeEx" />
+          <AitFeature Name="api-ms-win-core-com-l1-1-0.dll!CoTaskMemAlloc" />
+          <AitFeature Name="api-ms-win-core-com-l1-1-0.dll!CoTaskMemFree" />
+          <AitFeature Name="api-ms-win-core-com-l1-1-0.dll!CoUninitialize" />
+          <AitFeature Name="api-ms-win-core-com-l1-1-0.dll!PropVariantClear" />
+          <AitFeature Name="api-ms-win-crt-stdio-l1-1-0.dll!__p__commode" />
+          <AitFeature Name="api-ms-win-crt-stdio-l1-1-0.dll!_fseeki64" />
+          <AitFeature Name="api-ms-win-crt-stdio-l1-1-0.dll!_get_stream_buffer_pointers" />
+          <AitFeature Name="api-ms-win-crt-stdio-l1-1-0.dll!_set_fmode" />
+          <AitFeature Name="api-ms-win-crt-stdio-l1-1-0.dll!fclose" />
+          <AitFeature Name="api-ms-win-crt-stdio-l1-1-0.dll!fflush" />
+          <AitFeature Name="api-ms-win-crt-stdio-l1-1-0.dll!fgetc" />
+          <AitFeature Name="api-ms-win-crt-stdio-l1-1-0.dll!fgetpos" />
+          <AitFeature Name="api-ms-win-crt-stdio-l1-1-0.dll!fputc" />
+          <AitFeature Name="api-ms-win-crt-stdio-l1-1-0.dll!fread" />
+          <AitFeature Name="api-ms-win-crt-stdio-l1-1-0.dll!fsetpos" />
+          <AitFeature Name="api-ms-win-crt-stdio-l1-1-0.dll!fwrite" />
+          <AitFeature Name="api-ms-win-crt-stdio-l1-1-0.dll!setvbuf" />
+          <AitFeature Name="api-ms-win-crt-stdio-l1-1-0.dll!ungetc" />
+          <AitFeature Name="api-ms-win-crt-heap-l1-1-0.dll!_callnewh" />
+          <AitFeature Name="api-ms-win-crt-heap-l1-1-0.dll!_set_new_mode" />
+          <AitFeature Name="api-ms-win-crt-heap-l1-1-0.dll!calloc" />
+          <AitFeature Name="api-ms-win-crt-heap-l1-1-0.dll!free" />
+          <AitFeature Name="api-ms-win-crt-heap-l1-1-0.dll!malloc" />
+          <AitFeature Name="api-ms-win-crt-heap-l1-1-0.dll!realloc" />
+          <AitFeature Name="api-ms-win-crt-convert-l1-1-0.dll!wcstol" />
+          <AitFeature Name="vcruntime140.dll!_CxxThrowException" />
+          <AitFeature Name="vcruntime140.dll!__C_specific_handler" />
+          <AitFeature Name="vcruntime140.dll!__RTtypeid" />
+          <AitFeature Name="vcruntime140.dll!__current_exception" />
+          <AitFeature Name="vcruntime140.dll!__current_exception_context" />
+          <AitFeature Name="vcruntime140.dll!__std_exception_copy" />
+          <AitFeature Name="vcruntime140.dll!__std_exception_destroy" />
+          <AitFeature Name="vcruntime140.dll!__std_terminate" />
+          <AitFeature Name="vcruntime140.dll!__std_type_info_compare" />
+          <AitFeature Name="vcruntime140.dll!__std_type_info_destroy_list" />
+          <AitFeature Name="vcruntime140.dll!_purecall" />
+          <AitFeature Name="vcruntime140.dll!memcmp" />
+          <AitFeature Name="vcruntime140.dll!memcpy" />
+          <AitFeature Name="vcruntime140.dll!memmove" />
+          <AitFeature Name="vcruntime140.dll!memset" />
+          <AitFeature Name="vcruntime140.dll!strchr" />
+          <AitFeature Name="vcruntime140.dll!wcsrchr" />
+          <AitFeature Name="msvcp140.dll!??0?$basic_ios@DU?$char_traits@D@std@@@std@@IEAA@XZ" />
+          <AitFeature Name="msvcp140.dll!??0?$basic_ios@_WU?$char_traits@_W@std@@@std@@IEAA@XZ" />
+          <AitFeature Name="msvcp140.dll!??0?$basic_istream@DU?$char_traits@D@std@@@std@@QEAA@PEAV?$basic_streambuf@DU?$char_traits@D@std@@@1@_N@Z" />
+          <AitFeature Name="msvcp140.dll!??0?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAA@PEAV?$basic_streambuf@DU?$char_traits@D@std@@@1@_N@Z" />
+          <AitFeature Name="msvcp140.dll!??0?$basic_ostream@_WU?$char_traits@_W@std@@@std@@QEAA@PEAV?$basic_streambuf@_WU?$char_traits@_W@std@@@1@_N@Z" />
+          <AitFeature Name="msvcp140.dll!??0?$basic_streambuf@DU?$char_traits@D@std@@@std@@IEAA@XZ" />
+          <AitFeature Name="msvcp140.dll!??0?$basic_streambuf@_WU?$char_traits@_W@std@@@std@@IEAA@XZ" />
+          <AitFeature Name="msvcp140.dll!??0_Locinfo@std@@QEAA@PEBD@Z" />
+          <AitFeature Name="msvcp140.dll!??0_Lockit@std@@QEAA@H@Z" />
+          <AitFeature Name="msvcp140.dll!??0facet@locale@std@@IEAA@_K@Z" />
+          <AitFeature Name="msvcp140.dll!??1?$basic_ios@DU?$char_traits@D@std@@@std@@UEAA@XZ" />
+          <AitFeature Name="msvcp140.dll!??1?$basic_ios@_WU?$char_traits@_W@std@@@std@@UEAA@XZ" />
+          <AitFeature Name="msvcp140.dll!??1?$basic_istream@DU?$char_traits@D@std@@@std@@UEAA@XZ" />
+          <AitFeature Name="msvcp140.dll!??1?$basic_ostream@DU?$char_traits@D@std@@@std@@UEAA@XZ" />
+          <AitFeature Name="msvcp140.dll!??1?$basic_ostream@_WU?$char_traits@_W@std@@@std@@UEAA@XZ" />
+          <AitFeature Name="msvcp140.dll!??1?$basic_streambuf@DU?$char_traits@D@std@@@std@@UEAA@XZ" />
+          <AitFeature Name="msvcp140.dll!??1?$basic_streambuf@_WU?$char_traits@_W@std@@@std@@UEAA@XZ" />
+          <AitFeature Name="msvcp140.dll!??1_Locinfo@std@@QEAA@XZ" />
+          <AitFeature Name="msvcp140.dll!??1_Lockit@std@@QEAA@XZ" />
+          <AitFeature Name="msvcp140.dll!??1facet@locale@std@@MEAA@XZ" />
+          <AitFeature Name="msvcp140.dll!??6?$basic_ostream@_WU?$char_traits@_W@std@@@std@@QEAAAEAV01@G@Z" />
+          <AitFeature Name="msvcp140.dll!??6?$basic_ostream@_WU?$char_traits@_W@std@@@std@@QEAAAEAV01@K@Z" />
+          <AitFeature Name="msvcp140.dll!??6?$basic_ostream@_WU?$char_traits@_W@std@@@std@@QEAAAEAV01@P6AAEAVios_base@1@AEAV21@@Z@Z" />
+          <AitFeature Name="msvcp140.dll!??6?$basic_ostream@_WU?$char_traits@_W@std@@@std@@QEAAAEAV01@_K@Z" />
+          <AitFeature Name="msvcp140.dll!??7ios_base@std@@QEBA_NXZ" />
+          <AitFeature Name="msvcp140.dll!??Bios_base@std@@QEBA_NXZ" />
+          <AitFeature Name="msvcp140.dll!?_Decref@facet@locale@std@@UEAAPEAV_Facet_base@3@XZ" />
+          <AitFeature Name="msvcp140.dll!?_Fiopen@std@@YAPEAU_iobuf@@PEB_WHH@Z" />
+          <AitFeature Name="msvcp140.dll!?_Getcat@?$codecvt@DDU_Mbstatet@@@std@@SA_KPEAPEBVfacet@locale@2@PEBV42@@Z" />
+          <AitFeature Name="msvcp140.dll!?_Getcat@?$ctype@_W@std@@SA_KPEAPEBVfacet@locale@2@PEBV42@@Z" />
+          <AitFeature Name="msvcp140.dll!?_Getcoll@_Locinfo@std@@QEBA?AU_Collvec@@XZ" />
+          <AitFeature Name="msvcp140.dll!?_Getcvt@_Locinfo@std@@QEBA?AU_Cvtvec@@XZ" />
+          <AitFeature Name="msvcp140.dll!?_Getfalse@_Locinfo@std@@QEBAPEBDXZ" />
+          <AitFeature Name="msvcp140.dll!?_Getgloballocale@locale@std@@CAPEAV_Locimp@12@XZ" />
+          <AitFeature Name="msvcp140.dll!?_Gettrue@_Locinfo@std@@QEBAPEBDXZ" />
+          <AitFeature Name="msvcp140.dll!?_Gnavail@?$basic_streambuf@DU?$char_traits@D@std@@@std@@IEBA_JXZ" />
+          <AitFeature Name="msvcp140.dll!?_Gndec@?$basic_streambuf@DU?$char_traits@D@std@@@std@@IEAAPEADXZ" />
+          <AitFeature Name="msvcp140.dll!?_Gninc@?$basic_streambuf@DU?$char_traits@D@std@@@std@@IEAAPEADXZ" />
+          <AitFeature Name="msvcp140.dll!?_Id_cnt@id@locale@std@@0HA" />
+          <AitFeature Name="msvcp140.dll!?_Incref@facet@locale@std@@UEAAXXZ" />
+          <AitFeature Name="msvcp140.dll!?_Init@?$basic_streambuf@DU?$char_traits@D@std@@@std@@IEAAXPEAPEAD0PEAH001@Z" />
+          <AitFeature Name="msvcp140.dll!?_Init@?$basic_streambuf@DU?$char_traits@D@std@@@std@@IEAAXXZ" />
+          <AitFeature Name="msvcp140.dll!?_Init@locale@std@@CAPEAV_Locimp@12@_N@Z" />
+          <AitFeature Name="msvcp140.dll!?_Lock@?$basic_streambuf@_WU?$char_traits@_W@std@@@std@@UEAAXXZ" />
+          <AitFeature Name="msvcp140.dll!?_Osfx@?$basic_ostream@_WU?$char_traits@_W@std@@@std@@QEAAXXZ" />
+          <AitFeature Name="msvcp140.dll!?_Pnavail@?$basic_streambuf@DU?$char_traits@D@std@@@std@@IEBA_JXZ" />
+          <AitFeature Name="msvcp140.dll!?_Pninc@?$basic_streambuf@DU?$char_traits@D@std@@@std@@IEAAPEADXZ" />
+          <AitFeature Name="msvcp140.dll!?_Pninc@?$basic_streambuf@_WU?$char_traits@_W@std@@@std@@IEAAPEA_WXZ" />
+          <AitFeature Name="msvcp140.dll!?_Syserror_map@std@@YAPEBDH@Z" />
+          <AitFeature Name="msvcp140.dll!?_Throw_Cpp_error@std@@YAXH@Z" />
+          <AitFeature Name="msvcp140.dll!?_Unlock@?$basic_streambuf@_WU?$char_traits@_W@std@@@std@@UEAAXXZ" />
+          <AitFeature Name="msvcp140.dll!?_Winerror_map@std@@YAHH@Z" />
+          <AitFeature Name="msvcp140.dll!?_Xbad_alloc@std@@YAXXZ" />
+          <AitFeature Name="msvcp140.dll!?_Xinvalid_argument@std@@YAXPEBD@Z" />
+          <AitFeature Name="msvcp140.dll!?_Xlength_error@std@@YAXPEBD@Z" />
+          <AitFeature Name="msvcp140.dll!?_Xout_of_range@std@@YAXPEBD@Z" />
+          <AitFeature Name="msvcp140.dll!?_Xregex_error@std@@YAXW4error_type@regex_constants@1@@Z" />
+          <AitFeature Name="msvcp140.dll!?__ExceptionPtrAssign@@YAXPEAXPEBX@Z" />
+          <AitFeature Name="msvcp140.dll!?__ExceptionPtrCopy@@YAXPEAXPEBX@Z" />
+          <AitFeature Name="msvcp140.dll!?__ExceptionPtrCopyException@@YAXPEAXPEBX1@Z" />
+          <AitFeature Name="msvcp140.dll!?__ExceptionPtrCreate@@YAXPEAX@Z" />
+          <AitFeature Name="msvcp140.dll!?__ExceptionPtrCurrentException@@YAXPEAX@Z" />
+          <AitFeature Name="msvcp140.dll!?__ExceptionPtrDestroy@@YAXPEAX@Z" />
+          <AitFeature Name="msvcp140.dll!?__ExceptionPtrRethrow@@YAXPEBX@Z" />
+          <AitFeature Name="msvcp140.dll!?always_noconv@codecvt_base@std@@QEBA_NXZ" />
+          <AitFeature Name="msvcp140.dll!?bad@ios_base@std@@QEBA_NXZ" />
+          <AitFeature Name="msvcp140.dll!?c_str@?$_Yarn@D@std@@QEBAPEBDXZ" />
+          <AitFeature Name="msvcp140.dll!?eback@?$basic_streambuf@DU?$char_traits@D@std@@@std@@IEBAPEADXZ" />
+          <AitFeature Name="msvcp140.dll!?eback@?$basic_streambuf@_WU?$char_traits@_W@std@@@std@@IEBAPEA_WXZ" />
+          <AitFeature Name="msvcp140.dll!?egptr@?$basic_streambuf@DU?$char_traits@D@std@@@std@@IEBAPEADXZ" />
+          <AitFeature Name="msvcp140.dll!?egptr@?$basic_streambuf@_WU?$char_traits@_W@std@@@std@@IEBAPEA_WXZ" />
+          <AitFeature Name="msvcp140.dll!?epptr@?$basic_streambuf@DU?$char_traits@D@std@@@std@@IEBAPEADXZ" />
+          <AitFeature Name="msvcp140.dll!?epptr@?$basic_streambuf@_WU?$char_traits@_W@std@@@std@@IEBAPEA_WXZ" />
+          <AitFeature Name="msvcp140.dll!?fill@?$basic_ios@_WU?$char_traits@_W@std@@@std@@QEAA_W_W@Z" />
+          <AitFeature Name="msvcp140.dll!?fill@?$basic_ios@_WU?$char_traits@_W@std@@@std@@QEBA_WXZ" />
+          <AitFeature Name="msvcp140.dll!?flags@ios_base@std@@QEBAHXZ" />
+          <AitFeature Name="msvcp140.dll!?flush@?$basic_ostream@_WU?$char_traits@_W@std@@@std@@QEAAAEAV12@XZ" />
+          <AitFeature Name="msvcp140.dll!?gbump@?$basic_streambuf@DU?$char_traits@D@std@@@std@@IEAAXH@Z" />
+          <AitFeature Name="msvcp140.dll!?gbump@?$basic_streambuf@_WU?$char_traits@_W@std@@@std@@IEAAXH@Z" />
+          <AitFeature Name="msvcp140.dll!?get@?$basic_istream@DU?$char_traits@D@std@@@std@@QEAAHXZ" />
+          <AitFeature Name="msvcp140.dll!?getloc@?$basic_streambuf@DU?$char_traits@D@std@@@std@@QEBA?AVlocale@2@XZ" />
+          <AitFeature Name="msvcp140.dll!?good@ios_base@std@@QEBA_NXZ" />
+          <AitFeature Name="msvcp140.dll!?gptr@?$basic_streambuf@DU?$char_traits@D@std@@@std@@IEBAPEADXZ" />
+          <AitFeature Name="msvcp140.dll!?gptr@?$basic_streambuf@_WU?$char_traits@_W@std@@@std@@IEBAPEA_WXZ" />
+          <AitFeature Name="msvcp140.dll!?id@?$codecvt@DDU_Mbstatet@@@std@@2V0locale@2@A" />
+          <AitFeature Name="msvcp140.dll!?id@?$collate@_W@std@@2V0locale@2@A" />
+          <AitFeature Name="msvcp140.dll!?id@?$ctype@_W@std@@2V0locale@2@A" />
+          <AitFeature Name="msvcp140.dll!?id@?$numpunct@_W@std@@2V0locale@2@A" />
+          <AitFeature Name="msvcp140.dll!?ignore@?$basic_istream@DU?$char_traits@D@std@@@std@@QEAAAEAV12@_JH@Z" />
+          <AitFeature Name="msvcp140.dll!?imbue@?$basic_streambuf@_WU?$char_traits@_W@std@@@std@@MEAAXAEBVlocale@2@@Z" />
+          <AitFeature Name="msvcp140.dll!?in@?$codecvt@DDU_Mbstatet@@@std@@QEBAHAEAU_Mbstatet@@PEBD1AEAPEBDPEAD3AEAPEAD@Z" />
+          <AitFeature Name="msvcp140.dll!?is@?$ctype@_W@std@@QEBA_NF_W@Z" />
+          <AitFeature Name="msvcp140.dll!?out@?$codecvt@DDU_Mbstatet@@@std@@QEBAHAEAU_Mbstatet@@PEBD1AEAPEBDPEAD3AEAPEAD@Z" />
+          <AitFeature Name="msvcp140.dll!?pbase@?$basic_streambuf@_WU?$char_traits@_W@std@@@std@@IEBAPEA_WXZ" />
+          <AitFeature Name="msvcp140.dll!?pbump@?$basic_streambuf@DU?$char_traits@D@std@@@std@@IEAAXH@Z" />
+          <AitFeature Name="msvcp140.dll!?pptr@?$basic_streambuf@DU?$char_traits@D@std@@@std@@IEBAPEADXZ" />
+          <AitFeature Name="msvcp140.dll!?pptr@?$basic_streambuf@_WU?$char_traits@_W@std@@@std@@IEBAPEA_WXZ" />
+          <AitFeature Name="msvcp140.dll!?put@?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAAAEAV12@D@Z" />
+          <AitFeature Name="msvcp140.dll!?rdbuf@?$basic_ios@DU?$char_traits@D@std@@@std@@QEBAPEAV?$basic_streambuf@DU?$char_traits@D@std@@@2@XZ" />
+          <AitFeature Name="msvcp140.dll!?rdbuf@?$basic_ios@_WU?$char_traits@_W@std@@@std@@QEBAPEAV?$basic_streambuf@_WU?$char_traits@_W@std@@@2@XZ" />
+          <AitFeature Name="msvcp140.dll!?read@?$basic_istream@DU?$char_traits@D@std@@@std@@QEAAAEAV12@PEAD_J@Z" />
+          <AitFeature Name="msvcp140.dll!?sbumpc@?$basic_streambuf@DU?$char_traits@D@std@@@std@@QEAAHXZ" />
+          <AitFeature Name="msvcp140.dll!?seekg@?$basic_istream@DU?$char_traits@D@std@@@std@@QEAAAEAV12@V?$fpos@U_Mbstatet@@@2@@Z" />
+          <AitFeature Name="msvcp140.dll!?setbuf@?$basic_streambuf@_WU?$char_traits@_W@std@@@std@@MEAAPEAV12@PEA_W_J@Z" />
+          <AitFeature Name="msvcp140.dll!?setf@ios_base@std@@QEAAHH@Z" />
+          <AitFeature Name="msvcp140.dll!?setf@ios_base@std@@QEAAHHH@Z" />
+          <AitFeature Name="msvcp140.dll!?setg@?$basic_streambuf@DU?$char_traits@D@std@@@std@@IEAAXPEAD00@Z" />
+          <AitFeature Name="msvcp140.dll!?setg@?$basic_streambuf@_WU?$char_traits@_W@std@@@std@@IEAAXPEA_W00@Z" />
+          <AitFeature Name="msvcp140.dll!?setp@?$basic_streambuf@_WU?$char_traits@_W@std@@@std@@IEAAXPEA_W00@Z" />
+          <AitFeature Name="msvcp140.dll!?setp@?$basic_streambuf@_WU?$char_traits@_W@std@@@std@@IEAAXPEA_W0@Z" />
+          <AitFeature Name="msvcp140.dll!?setstate@?$basic_ios@DU?$char_traits@D@std@@@std@@QEAAXH_N@Z" />
+          <AitFeature Name="msvcp140.dll!?setstate@?$basic_ios@_WU?$char_traits@_W@std@@@std@@QEAAXH_N@Z" />
+          <AitFeature Name="msvcp140.dll!?setw@std@@YA?AU?$_Smanip@_J@1@_J@Z" />
+          <AitFeature Name="msvcp140.dll!?sgetc@?$basic_streambuf@DU?$char_traits@D@std@@@std@@QEAAHXZ" />
+          <AitFeature Name="msvcp140.dll!?showmanyc@?$basic_streambuf@DU?$char_traits@D@std@@@std@@MEAA_JXZ" />
+          <AitFeature Name="msvcp140.dll!?showmanyc@?$basic_streambuf@_WU?$char_traits@_W@std@@@std@@MEAA_JXZ" />
+          <AitFeature Name="msvcp140.dll!?sputc@?$basic_streambuf@_WU?$char_traits@_W@std@@@std@@QEAAG_W@Z" />
+          <AitFeature Name="msvcp140.dll!?sputn@?$basic_streambuf@_WU?$char_traits@_W@std@@@std@@QEAA_JPEB_W_J@Z" />
+          <AitFeature Name="msvcp140.dll!?sync@?$basic_streambuf@_WU?$char_traits@_W@std@@@std@@MEAAHXZ" />
+          <AitFeature Name="msvcp140.dll!?tellp@?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAA?AV?$fpos@U_Mbstatet@@@2@XZ" />
+          <AitFeature Name="msvcp140.dll!?tie@?$basic_ios@_WU?$char_traits@_W@std@@@std@@QEBAPEAV?$basic_ostream@_WU?$char_traits@_W@std@@@2@XZ" />
+          <AitFeature Name="msvcp140.dll!?tolower@?$ctype@_W@std@@QEBA_W_W@Z" />
+          <AitFeature Name="msvcp140.dll!?uflow@?$basic_streambuf@_WU?$char_traits@_W@std@@@std@@MEAAGXZ" />
+          <AitFeature Name="msvcp140.dll!?uncaught_exceptions@std@@YAHXZ" />
+          <AitFeature Name="msvcp140.dll!?unshift@?$codecvt@DDU_Mbstatet@@@std@@QEBAHAEAU_Mbstatet@@PEAD1AEAPEAD@Z" />
+          <AitFeature Name="msvcp140.dll!?width@ios_base@std@@QEAA_J_J@Z" />
+          <AitFeature Name="msvcp140.dll!?width@ios_base@std@@QEBA_JXZ" />
+          <AitFeature Name="msvcp140.dll!?write@?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAAAEAV12@PEBD_J@Z" />
+          <AitFeature Name="msvcp140.dll!?xsgetn@?$basic_streambuf@DU?$char_traits@D@std@@@std@@MEAA_JPEAD_J@Z" />
+          <AitFeature Name="msvcp140.dll!?xsgetn@?$basic_streambuf@_WU?$char_traits@_W@std@@@std@@MEAA_JPEA_W_J@Z" />
+          <AitFeature Name="msvcp140.dll!?xsputn@?$basic_streambuf@DU?$char_traits@D@std@@@std@@MEAA_JPEBD_J@Z" />
+          <AitFeature Name="msvcp140.dll!?xsputn@?$basic_streambuf@_WU?$char_traits@_W@std@@@std@@MEAA_JPEB_W_J@Z" />
+          <AitFeature Name="msvcp140.dll!_Mbrtowc" />
+          <AitFeature Name="msvcp140.dll!_Mtx_lock" />
+          <AitFeature Name="msvcp140.dll!_Mtx_unlock" />
+          <AitFeature Name="msvcp140.dll!_Thrd_yield" />
+          <AitFeature Name="msvcp140.dll!_Wcscoll" />
+          <AitFeature Name="msvcp140.dll!_Wcsxfrm" />
+          <AitFeature Name="msvcp140.dll!__crtLCMapStringW" />
+          <AitFeature Name="kernel32.dll!AcquireSRWLockExclusive" />
+          <AitFeature Name="kernel32.dll!AreFileApisANSI" />
+          <AitFeature Name="kernel32.dll!CloseHandle" />
+          <AitFeature Name="kernel32.dll!CreateDirectoryW" />
+          <AitFeature Name="kernel32.dll!CreateFile2" />
+          <AitFeature Name="kernel32.dll!DisableThreadLibraryCalls" />
+          <AitFeature Name="kernel32.dll!EncodePointer" />
+          <AitFeature Name="kernel32.dll!FindClose" />
+          <AitFeature Name="kernel32.dll!FindFirstFileExW" />
+          <AitFeature Name="kernel32.dll!FindFirstFileW" />
+          <AitFeature Name="kernel32.dll!FindNextFileW" />
+          <AitFeature Name="kernel32.dll!FlushFileBuffers" />
+          <AitFeature Name="kernel32.dll!FormatMessageA" />
+          <AitFeature Name="kernel32.dll!FormatMessageW" />
+          <AitFeature Name="kernel32.dll!FreeLibrary" />
+          <AitFeature Name="kernel32.dll!GetCurrentProcessId" />
+          <AitFeature Name="kernel32.dll!GetCurrentThreadId" />
+          <AitFeature Name="kernel32.dll!GetFileAttributesExW" />
+          <AitFeature Name="kernel32.dll!GetFileAttributesW" />
+          <AitFeature Name="kernel32.dll!GetFileInformationByHandleEx" />
+          <AitFeature Name="kernel32.dll!GetFinalPathNameByHandleW" />
+          <AitFeature Name="kernel32.dll!GetLastError" />
+          <AitFeature Name="kernel32.dll!GetLocalTime" />
+          <AitFeature Name="kernel32.dll!GetLocaleInfoEx" />
+          <AitFeature Name="kernel32.dll!GetModuleHandleW" />
+          <AitFeature Name="kernel32.dll!GetProcAddress" />
+          <AitFeature Name="kernel32.dll!GetProcessHeap" />
+          <AitFeature Name="kernel32.dll!GetStartupInfoW" />
+          <AitFeature Name="kernel32.dll!GetSystemTimeAsFileTime" />
+          <AitFeature Name="kernel32.dll!GetTempPathW" />
+          <AitFeature Name="kernel32.dll!GetTickCount64" />
+          <AitFeature Name="kernel32.dll!HeapAlloc" />
+          <AitFeature Name="kernel32.dll!HeapFree" />
+          <AitFeature Name="kernel32.dll!InitializeSListHead" />
+          <AitFeature Name="kernel32.dll!InterlockedFlushSList" />
+          <AitFeature Name="kernel32.dll!InterlockedPushEntrySList" />
+          <AitFeature Name="kernel32.dll!LoadLibraryW" />
+          <AitFeature Name="kernel32.dll!LocalFree" />
+          <AitFeature Name="kernel32.dll!MoveFileExW" />
+          <AitFeature Name="kernel32.dll!MultiByteToWideChar" />
+          <AitFeature Name="kernel32.dll!OutputDebugStringW" />
+          <AitFeature Name="kernel32.dll!QueryPerformanceCounter" />
+          <AitFeature Name="kernel32.dll!ReleaseSRWLockExclusive" />
+          <AitFeature Name="kernel32.dll!SetFileInformationByHandle" />
+          <AitFeature Name="kernel32.dll!SetUnhandledExceptionFilter" />
+          <AitFeature Name="kernel32.dll!SleepConditionVariableSRW" />
+          <AitFeature Name="kernel32.dll!TrySubmitThreadpoolCallback" />
+          <AitFeature Name="kernel32.dll!WakeAllConditionVariable" />
+          <AitFeature Name="kernel32.dll!WideCharToMultiByte" />
+          <AitFeature Name="kernel32.dll!WriteFile" />
+          <AitFeature Name="oleaut32.dll!2" />
+          <AitFeature Name="oleaut32.dll!200" />
+          <AitFeature Name="oleaut32.dll!201" />
+          <AitFeature Name="oleaut32.dll!6" />
+          <AitFeature Name="oleaut32.dll!7" />
+          <AitFeature Name="oleaut32.dll!GetErrorInfo" />
+          <AitFeature Name="oleaut32.dll!SetErrorInfo" />
+          <AitFeature Name="oleaut32.dll!SysAllocString" />
+          <AitFeature Name="oleaut32.dll!SysFreeString" />
+          <AitFeature Name="oleaut32.dll!SysStringLen" />
+        </AitCategory>
+        <AitCategory Id="ApiDynamic">
+          <AitFeature Name="kernel32.dll!GetTempPath2W" />
+          <AitFeature Name="combase.dll!CoIncrementMTAUsage" />
+          <AitFeature Name="combase.dll!RoGetActivationFactory" />
+          <AitFeature Name="combase.dll!RoOriginateLanguageException" />
+          <AitFeature Name="combase.dll!RoTransformError" />
+        </AitCategory>
+        <AitCategory Id="WRTClassFromSearch">
+          <AitFeature Name="Windows.Foundation.IReference`1" />
+          <AitFeature Name="Windows.Foundation.IAsyncOperation`1" />
+          <AitFeature Name="Windows.Foundation.Collections.IIterator`1" />
+          <AitFeature Name="Windows.Foundation.Collections.IVector`1" />
+          <AitFeature Name="Windows.Foundation.Collections.IObservableVector`1" />
+          <AitFeature Name="Windows.Storage.ApplicationData" />
+          <AitFeature Name="Windows.ApplicationModel.Package" />
+          <AitFeature Name="Windows.Storage.StorageFile" />
+          <AitFeature Name="Windows.Foundation.PropertyValue" />
+          <AitFeature Name="Windows.Foundation.Uri" />
+          <AitFeature Name="Windows.System.Launcher" />
+          <AitFeature Name="Windows.Storage.Pickers.FileSavePicker" />
+          <AitFeature Name="Windows.Storage.Pickers.FileOpenPicker" />
+          <AitFeature Name="Windows.Foundation.Collections.IVectorChangedEventArgs" />
+          <AitFeature Name="Windows.System.FolderLauncherOptions" />
+          <AitFeature Name="Windows.ApplicationModel.DataTransfer.StandardDataFormats" />
+        </AitCategory>
+      </AitFile>
+    </AitStaticAnalysis>
+  </DEPENDENCY_INFORMATION>
+</REPORT>
