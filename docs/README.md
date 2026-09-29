@@ -2,6 +2,8 @@
 
 Windows Asset Creator is a native Windows utility from **404 Builds** that turns one PNG or JPEG into a complete Microsoft Store / MSIX asset package.
 
+**[Get Windows Asset Creator from the Microsoft Store](https://apps.microsoft.com/detail/9ppcx5fvpdn3?hl=en-US&gl=US)**
+
 Drop in a source image, review the generated asset board, and export a validated ZIP containing the Windows packaging assets your app needs.
 
 ## Screenshots
